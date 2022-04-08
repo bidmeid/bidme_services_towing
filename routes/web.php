@@ -27,3 +27,5 @@ Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/redirect/{provider}', 'redirectToProvider');
     Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
 });
+
+	
