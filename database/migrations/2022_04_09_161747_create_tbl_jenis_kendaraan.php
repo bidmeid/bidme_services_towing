@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tbl_jenis_kendaraan', function (Blueprint $table) {
             $table->id();
+            $table->string('jenisKendaraan');
             $table->timestamps();
         });
     }
