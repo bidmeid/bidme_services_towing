@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_merek_kendaraan', function (Blueprint $table) {
+        Schema::create('tbl_jenis_kendaraan', function (Blueprint $table) {
             $table->id();
-			$table->integer('jenisKendaraanId');
-			$table->string('merekKendaraan');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_merek_kendaraan');
+        Schema::dropIfExists('tbl_jenis_kendaraan');
     }
 };

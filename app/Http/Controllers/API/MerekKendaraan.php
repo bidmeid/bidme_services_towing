@@ -11,10 +11,10 @@ class MerekKendaraan extends Controller
 {
 
 
-	public function index(){
+	public function index(request $request){
 		
-		
-        $result['MerekKendaraan']		= Tbl_merek_kendaraan::get();
+		$jenis 		= $request->input('jenis'); if ($jenis == ''){$jenis = 'IS NOT NULL'; }else {$jenis = '= '.$jenis;};
+        $result['MerekKendaraan']		= Tbl_merek_kendaraan::whereRaw('jenisKendaraanId '. $jenis)->get();
 		
 								
 		return $this->sendResponseOk($result);
