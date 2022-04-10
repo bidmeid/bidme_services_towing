@@ -1,9 +1,10 @@
 <?php
 
+
 use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+	
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -26,3 +28,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::post('/requestCost', [Api\RequestCost::class, 'index']);
