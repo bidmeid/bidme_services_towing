@@ -27,15 +27,23 @@ class RequestCost extends Controller
 		 
         $get = Tbl_rute_pricelist::where('asalPostcode', substr($request->asalPostcode, 0, 3))
 				->where('tujuanPostcode', substr($request->tujuanPostcode, 0, 3))
-				->first()->makeHidden(['created_at', 'updated_at']);
-				
+				->first();
+		if($get != null){
+			$get->makeHidden(['created_at', 'updated_at']);
+		 		
 		$get->jenisKendaraanId = Tbl_jenis_kendaraan::select('jenisKendaraan')->find($get->jenisKendaraanId)->jenisKendaraan;
 		$get->chargeHarga = 0;
 		$get->totalHarga = $get->standarHarga + 0;
 		
 		$result['RequestCost']	= $get;
-		
 		return $this->sendResponseOk($result);
+		}else{
+		$result['RequestCost']	= 0;
+		$result['chargeHarga']	= 0;
+		$result['totalHarga']	= 0;
+		return $this->sendResponseCustom('daftar harga rute tidak ditemukan', $result);
+		}
+		
 	}
 
 	

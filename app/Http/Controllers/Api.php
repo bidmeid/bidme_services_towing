@@ -8,6 +8,19 @@ use App\Http\Controllers\Controller as Controller;
 class Api extends Controller
 {
     //
+	public function sendResponseCustom($mssg, $result)
+    {
+    	$response = [
+            'success' => true,
+            'message' => $mssg,
+        ];
+		if(!empty($result)){
+            $response['data'] = $result;
+        }
+
+        return response()->json($response, 200);
+    }	
+	
 	public function sendResponseOk($result)
     {
     	$response = [
