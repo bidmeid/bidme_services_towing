@@ -38,9 +38,10 @@ class RequestCost extends Controller
 		$result['RequestCost']	= $get;
 		return $this->sendResponseOk($result);
 		}else{
-		$result['RequestCost']	= 0;
-		$result['chargeHarga']	= 0;
-		$result['totalHarga']	= 0;
+		
+		$aa['chargeHarga']	= 0;
+		$aa['totalHarga']	= 0;
+		$result['RequestCost']	= $aa;
 		return $this->sendResponseCustom('daftar harga rute tidak ditemukan', $result);
 		}
 		
