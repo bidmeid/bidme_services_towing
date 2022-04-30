@@ -11,15 +11,13 @@ class JenisKendaraan extends Controller
 {
 
 
-	public function index(){
-		
-		
-        $result['JenisKendaraan']		= Tbl_jenis_kendaraan::get();
-		
-								
+	public function index()
+	{
+
+
+		$result['JenisKendaraan']		= Tbl_jenis_kendaraan::get();
+
+
 		return $this->sendResponseOk($result);
 	}
-
-	
-
 }

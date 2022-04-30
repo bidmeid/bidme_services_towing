@@ -17,16 +17,15 @@ use App\Http\Controllers\API;
 */
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('/register', 'register');
-    Route::post('/login', 'login');
-	
+    Route::post('/auth/signup', 'signup')->name('signup');
+    Route::post('/auth/sigin', 'sigin')->name('sigin');
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);

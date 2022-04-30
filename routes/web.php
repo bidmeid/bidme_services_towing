@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SocialiteController;
@@ -19,6 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/auth/signup', 'signup')->name('signup');
+    Route::get('/auth/sigin', 'sigin')->name('sigin');
+});
+
 Auth::routes();
 
 // Socialite 
@@ -27,5 +33,3 @@ Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/redirect/{provider}', 'redirectToProvider');
     Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
 });
-
-	
