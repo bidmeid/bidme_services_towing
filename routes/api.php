@@ -16,9 +16,11 @@ use App\Http\Controllers\API;
 |
 */
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('/auth/signup', 'signup')->name('signup');
-    Route::post('/auth/sigin', 'sigin')->name('sigin');
+Route::group(['middleware' => ['cors']], function () {
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('/auth/signup', 'signup')->name('signup');
+        Route::post('/auth/sigin', 'sigin')->name('sigin');
+    });
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
