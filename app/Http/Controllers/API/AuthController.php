@@ -17,7 +17,7 @@ class AuthController extends Controller
             'name'      => 'required|string|max:255',
             'no_telp'   => 'required|min:11',
             'email'     => 'required|string|max:255|unique:users',
-            'password'  => 'required'
+            'password'  => 'required|confirmed|min:6'
         ]);
 
         if ($validator->fails()) {
@@ -50,10 +50,11 @@ class AuthController extends Controller
         return response()->json(['message' => 'Hi ' . $user->name, 'Wellcome back', 'access_token' => $token, 'token_type' => 'Bearer']);
     }
 
-    public function logout()
+    public function destroy(Request $request)
     {
-        $user = User::findOrfail(auth()->user()->id);
-        $user->tokens()->delete();
-        return response()->json(['messgae', 'Logout success!']);
+        $request->user()->token()->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 }
