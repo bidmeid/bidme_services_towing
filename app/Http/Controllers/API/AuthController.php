@@ -21,7 +21,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return $this->sendResponseError($validator);
         }
 
         $user = User::create([
@@ -31,9 +31,8 @@ class AuthController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()
-            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+        $data = $user->createToken('auth_token')->plainTextToken;
+        return $this->sendResponseCreate($data);
     }
 
     public function sigin(Request $request)

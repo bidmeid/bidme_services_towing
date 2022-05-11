@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
@@ -8,65 +9,65 @@ use App\Http\Controllers\Controller as Controller;
 class Api extends Controller
 {
     //
-	public function sendResponseCustom($mssg, $result)
+    public function sendResponseCustom($mssg, $result)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'message' => $mssg,
         ];
-		if(!empty($result)){
+        if (!empty($result)) {
             $response['data'] = $result;
         }
 
         return response()->json($response, 200);
-    }	
-	
-	public function sendResponseOk($result)
+    }
+
+    public function sendResponseOk($result)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'message' => 'Your request has been found',
         ];
-		if(!empty($result)){
+        if (!empty($result)) {
             $response['data'] = $result;
         }
 
         return response()->json($response, 200);
-    }	
-	
-	public function sendResponseCreate($result)
+    }
+
+    public function sendResponseCreate($result)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'message' => 'Your request has been saved',
         ];
-		if(!empty($result)){
+        if (!empty($result)) {
             $response['data'] = $result;
         }
 
         return response()->json($response, 201);
     }
-	
-	public function sendResponseUpdate($result)
+
+    public function sendResponseUpdate($result)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'message' => 'Your request has been updated',
         ];
-		if(!empty($result)){
+        if (!empty($result)) {
             $response['data'] = $result;
         }
 
         return response()->json($response, 201);
     }
-	
-	public function sendResponseDelete($result)
+
+    public function sendResponseDelete($result)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'message' => 'Your request has been deleted',
         ];
-		if(!empty($result)){
+        if (!empty($result)) {
             $response['data'] = $result;
         }
 
@@ -75,11 +76,11 @@ class Api extends Controller
 
     public function sendResponseError($error, $errorMessages = [], $code = 404)
     {
-    	$response = [
+        $response = [
             'success' => false,
             'message' => $error,
         ];
-        if(!empty($errorMessages)){
+        if (!empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
 

@@ -12,7 +12,7 @@ class AuthController extends Controller
         return view('frontend.auth.signup');
     }
 
-    public function sigin()
+    public function login()
     {
         return view('frontend.auth.sigin');
     }

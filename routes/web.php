@@ -20,9 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//users
 Route::controller(AuthController::class)->group(function () {
-    Route::get('/auth/signup', 'signup')->name('signup');
-    Route::get('/auth/sigin', 'sigin')->name('sigin');
+    Route::get('/auth/signup', 'signup')->name('register');
+    Route::get('/auth/login', 'login')->name('login');
 });
 
 Auth::routes();
