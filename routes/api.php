@@ -38,3 +38,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);
 Route::post('/postOrder', [Api\PostOrder::class, 'index']);
+Route::post('/invoice', [Api\Invoice::class, 'index']);
