@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,9 +34,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+	
+	//Route::post('/postOrder', [Api\PostOrder::class, 'index']);
+	
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);
 Route::post('/postOrder', [Api\PostOrder::class, 'index']);
 Route::post('/invoice', [Api\Invoice::class, 'index']);
+Route::post('/bidding', [Api\Bidding::class, 'index']);

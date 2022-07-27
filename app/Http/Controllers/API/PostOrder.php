@@ -7,6 +7,7 @@ use App\Models\Tbl_order;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+//use Illuminate\Support\Facades\Auth;
 
 class PostOrder extends Controller
 {
