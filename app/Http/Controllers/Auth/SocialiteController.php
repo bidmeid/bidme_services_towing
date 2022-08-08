@@ -20,11 +20,12 @@ class SocialiteController extends Controller
         try {
             $user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
-            return redirect('/login');
+            return redirect('http://bidme.id/auth/login');
         }
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
-        return redirect()->intended('/home');
+        $token = $authUser->createToken('auth_token')->plainTextToken;
+        return redirect()->intended('http://127.0.0.1:8080/')->with('token', $token);
     }
 
     public function findOrCreateUser($userProvider, $provider)

@@ -31,7 +31,7 @@ class AuthController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $data = $user->createToken('auth_token')->plainTextToken;
+        $data['user'] = $user->createToken('auth_token')->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 

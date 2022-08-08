@@ -28,9 +28,12 @@ Route::controller(AuthController::class)->group(function () {
 
 Auth::routes();
 
-// Socialite 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::controller(SocialiteController::class)->group(function () {
-    Route::get('/auth/redirect/{provider}', 'redirectToProvider');
-    Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
+
+// Socialite 
+Route::controller(\App\Http\Controllers\Auth\SocialiteController::class)->group(function () {
+    Route::middleware(['cors'])->group(function () {
+        Route::get('/auth/redirect/{provider}', 'redirectToProvider');
+        Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
+    });
 });
