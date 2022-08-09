@@ -25,7 +25,8 @@ class SocialiteController extends Controller
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
         $token = $authUser->createToken('auth_token')->plainTextToken;
-        return redirect()->intended('http://127.0.0.1:8080/')->with('token', $token);
+        //dd($token);
+        return redirect()->intended('http://127.0.0.1:8080/set_cookie?token=' . $token)->with('token', $token);
     }
 
     public function findOrCreateUser($userProvider, $provider)

@@ -21,7 +21,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->sendResponseError($validator);
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
         }
 
         $user = User::create([
