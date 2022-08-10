@@ -26,8 +26,13 @@ class SocialiteController extends Controller
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
         $token = $authUser->createToken('auth_token')->plainTextToken;
+		$response = [
+            'name' => $user->name,
+            'message' => 'Your request has been saved',
+        ];
          
-        return redirect()->intended(env('CLIENT_URL').'/set_cookie?token=' . $token)->with('token', $token);
+        //return redirect()->intended(env('CLIENT_URL').'http:localhost/bidme/public/set_cookie?token=' . $token)->with('token', $token);
+        return redirect()->intended('http://localhost/bidme/public/set_cookie?token=' . $token)->with('token', $token);
     }
 
     public function findOrCreateUser($userProvider, $provider)
@@ -43,6 +48,8 @@ class SocialiteController extends Controller
                     'email' => $userProvider->email,
 
                     'name'  => $userProvider->name,
+					
+                    //'avatar'  => $userProvider->avatar,
                 ]);
             }
             $user->SosialAccount()->create([

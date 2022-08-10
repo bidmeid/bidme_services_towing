@@ -7,7 +7,7 @@ use App\Models\Tbl_order;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-//use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PostOrder extends Controller
 {
@@ -17,8 +17,6 @@ class PostOrder extends Controller
 		
 		
 		$validator = Validator::make($request->all(), [
-			'userToken' => 'required',
-			'customerId' => 'required',
 			'ruteId'  => 'required',
 			'orderType'  => 'required',
 			'asalPostcode'  => 'required',
@@ -45,7 +43,7 @@ class PostOrder extends Controller
 		
 		$input = Tbl_order::create([
 			'ticket' => $ticket,
-			'customerId' => 1,
+			'customerId' => Auth::user()->id,
 			'ruteId' => $request->ruteId,
 			'kondisiKendaraanId' => $request->kondisiKendaraanId,
 			'jenisKendaraanId'  => $request->jenisKendaraanId,
