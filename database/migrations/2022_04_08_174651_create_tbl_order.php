@@ -22,9 +22,12 @@ return new class extends Migration
 			$table->integer('JenisKendaraanId');
 			$table->integer('typeKendaraanId');
 			$table->string('orderType', 20);
+			$table->string('latLongAsal', 200);
 			$table->string('alamatAsal', 200);
+			$table->string('latLongTujuan', 200);
 			$table->string('alamatTujuan', 200);
-			$table->string('telp', 12);
+			$table->string('telp', 13);
+			$table->date('orderCost');
 			$table->date('orderDate');
 			$table->string('orderTime');
 			$table->string('orderStatus', 200);

@@ -36,11 +36,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::post('/postOrder', [Api\PostOrder::class, 'index']);
-
+	Route::post('/bidding', [Api\Bidding::class, 'index']);
+    Route::post('/myOrder', [Api\PostOrder::class, 'myOrder']);
+	Route::post('/invoice', [Api\Invoice::class, 'index']);
+   
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);
-//Route::post('/postOrder', [Api\PostOrder::class, 'index']);
-Route::post('/invoice', [Api\Invoice::class, 'index']);
-Route::post('/bidding', [Api\Bidding::class, 'index']);
+
+

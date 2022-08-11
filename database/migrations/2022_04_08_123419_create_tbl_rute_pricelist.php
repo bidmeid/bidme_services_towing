@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tbl_rute_pricelist', function (Blueprint $table) {
             $table->id();
             $table->integer('golonganKendaraanId');
+            $table->integer('jenisKendaraanId');
             $table->integer('typeKendaraanId');
             $table->string('asalPostcode');
             $table->string('tujuanPostcode');

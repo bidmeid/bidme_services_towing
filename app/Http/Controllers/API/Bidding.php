@@ -9,6 +9,7 @@ use App\Models\Tbl_user_mitra;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class Bidding extends Controller
 {
