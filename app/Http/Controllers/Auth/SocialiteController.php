@@ -31,13 +31,13 @@ class SocialiteController extends Controller
             $user = Socialite::driver($provider)->stateless()->user();
         }
 			Auth::logout();
-			dd($guest);
+			 
 			if($guest == 'customer'){
 				
 				$authUser = $this->findOrCreateUserCustomer($user, $provider);
 				 
 				Auth::login($authUser, true);
-				$token = $authUser->createToken('auth_token')->plainTextToken;
+				$token = $authUser->createToken('auth_token', ['role:customer'])->plainTextToken;
 				$response = [
 					'name' => $user->name,
 					'message' => 'Your request has been saved',
@@ -48,7 +48,7 @@ class SocialiteController extends Controller
 				$authUser = $this->findOrCreateUserMitra($user, $provider);
 				
 				Auth::login($authUser, true);
-				$token = $authUser->createToken('auth_token')->plainTextToken;
+				$token = $authUser->createToken('auth_token', ['role:mitra'])->plainTextToken;
 				$response = [
 					'name' => $user->name,
 					'message' => 'Your request has been saved',
@@ -67,7 +67,7 @@ class SocialiteController extends Controller
         } else {
             $user = UserCustomer::where('email', $userProvider->email)->first();
             if (!$user) {
-                $user = User::create([
+                $user = UserCustomer::create([
 
                     'email' => $userProvider->email,
 
@@ -93,7 +93,7 @@ class SocialiteController extends Controller
         } else {
             $user = UserMitra::where('email', $userProvider->email)->first();
             if (!$user) {
-                $user = User::create([
+                $user = UserMitra::create([
 
                     'email' => $userProvider->email,
 

@@ -6,21 +6,26 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 
 class Tbl_customer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+	protected $table = 'tbl_customer';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+	protected $guard = 'customer';
+	
     protected $fillable = [
         'name',
         'no_telp',
         'email',
+        'avatar',
         'password',
     ];
 
@@ -43,7 +48,7 @@ class Tbl_customer extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function SosialAccount()
+    public function SosialAccountCustomer()
     {
         return $this->hasMany(SosialAccountCustomer::class);
     }

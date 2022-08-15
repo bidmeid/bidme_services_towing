@@ -71,7 +71,7 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if ($request->orderStatus == ''){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus};
+		if ($request->orderStatus == ''){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus; };
 		
 		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->find();
 	

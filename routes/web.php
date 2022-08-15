@@ -34,7 +34,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::controller(\App\Http\Controllers\Auth\SocialiteController::class)->group(function () {
     Route::middleware(['cors'])->group(function () {
-        Route::get('/auth/redirect/{provider}/{guest}', 'redirectToProvider');
+        Route::get('/auth/redirects/{provider}/{guest}', 'redirectToProvider');
         Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
     });
 });

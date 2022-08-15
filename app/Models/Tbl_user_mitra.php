@@ -14,15 +14,20 @@ class Tbl_user_mitra extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 	
+	protected $guard = 'mitra';
+	
 	protected $table = 'tbl_user_mitra';
 	
 	protected $primaryKey = 'id';
+	
 	protected $fillable = [
         'name',
         'no_telp',
         'email',
+        'avatar',
         'password',
     ];
+	
 	protected $hidden = [
         'password',
         'remember_token',

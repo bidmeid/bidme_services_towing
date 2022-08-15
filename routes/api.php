@@ -41,21 +41,24 @@ Route::group(['middleware' => ['cors']], function () {
 
 Route::group(['middleware' => 'auth:sanctum',], function () {
 	Route::get('/user', function (Request $request) {
-			return $request->user();
-		});
+		$user = $request->user();
+		if ($user->tokenCan('role:customer')) {
+			$user->role = 'customer';
+		}else{
+			$user->role = 'mitra';
+		};
+			return $user;
+	});
 		
-	Route::middleware(['isCustomer'])->group(function () {
+	Route::group(['middleware' => ['auth:sanctum','role:customer']], function() {
 		Route::post('/postOrder', [Api\PostOrder::class, 'index']);
 		Route::post('/bidding', [Api\Bidding::class, 'index']);
 		Route::post('/myOrder', [Api\PostOrder::class, 'myOrder']);
 		Route::post('/invoice', [Api\Invoice::class, 'index']);
 	});
 	
-	Route::middleware(['isMitra'])->group(function () {
-		Route::post('/postOrder', [Api\PostOrder::class, 'index']);
-		Route::post('/bidding', [Api\Bidding::class, 'index']);
-		Route::post('/myOrder', [Api\PostOrder::class, 'myOrder']);
-		Route::post('/invoice', [Api\Invoice::class, 'index']);
+	Route::group(['middleware' => ['auth:sanctum','role:mitra']], function() {
+		 
 	});
 	
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');

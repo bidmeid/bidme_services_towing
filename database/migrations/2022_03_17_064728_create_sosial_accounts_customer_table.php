@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sosial_accounts_customer', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tbl_user_customer_id');
+            $table->foreignId('tbl_customer_id');
             $table->string('provider_id')->unique();
             $table->string('provider_name');
             $table->timestamps();
