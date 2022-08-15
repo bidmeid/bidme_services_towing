@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sosial_accounts', function (Blueprint $table) {
+        Schema::create('sosial_accounts_mitra', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('tbl_user_mitra_id');
             $table->string('provider_id')->unique();
             $table->string('provider_name');
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sosial_accounts');
+        Schema::dropIfExists('sosial_accounts_mitra');
     }
 };

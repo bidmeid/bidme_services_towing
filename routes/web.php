@@ -3,7 +3,7 @@
 use App\Http\Controllers\Frontend\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\SocialiteController;
+//use App\Http\Controllers\Auth\SocialiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +31,26 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Socialite 
+
 Route::controller(\App\Http\Controllers\Auth\SocialiteController::class)->group(function () {
     Route::middleware(['cors'])->group(function () {
-        Route::get('/auth/redirect/{provider}', 'redirectToProvider');
+        Route::get('/auth/redirect/{provider}/{guest}', 'redirectToProvider');
         Route::get('/auth/redirect/{provider}/callback-url', 'hadleProviderCallback');
     });
 });
+
+/* // Socialite 
+Route::controller(\App\Http\Controllers\Auth\SocialiteCustomerController::class)->group(function () {
+    Route::middleware(['cors'])->group(function () {
+        Route::get('/auth/customer/redirect/{provider}', 'redirectToProvider');
+        Route::get('/auth/customer/redirect/{provider}/callback-url', 'hadleProviderCallback');
+    });
+});
+
+// Socialite 
+Route::controller(\App\Http\Controllers\Auth\SocialiteMitraController::class)->group(function () {
+    Route::middleware(['cors'])->group(function () {
+        Route::get('/auth/mitra/redirect/{provider}', 'redirectToProvider');
+        Route::get('/auth/mitra/redirect/{provider}/callback-url', 'hadleProviderCallback');
+    });
+}); */

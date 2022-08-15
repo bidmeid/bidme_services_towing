@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+		'customer' => [
+            'driver' => 'session',
+            'provider' => 'customer',
+        ],
+		'mitra' => [
+            'driver' => 'session',
+            'provider' => 'mitra',
+        ],
     ],
 
     /*
@@ -63,6 +71,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+		'customer' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Tbl_customer::class,
+            'table' => 'tbl_customer'
+        ],
+		'mitra' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Tbl_user_mitra::class,
+            'table' => 'tbl_user_mitra'
         ],
 
         // 'users' => [
