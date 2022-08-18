@@ -18,6 +18,7 @@ class SocialiteController extends Controller
     {
         
 		Session::put('guest', $guest);
+		
 		return Socialite::driver($provider)->redirect();
     }
     public function hadleProviderCallback($provider)
@@ -37,24 +38,26 @@ class SocialiteController extends Controller
 				$authUser = $this->findOrCreateUserCustomer($user, $provider);
 				 
 				Auth::login($authUser, true);
-				$token = $authUser->createToken('auth_token', ['role:customer'])->plainTextToken;
+				$token = $authUser->createToken('auth_token', ['customer'])->plainTextToken;
 				$response = [
 					'name' => $user->name,
 					'message' => 'Your request has been saved',
 				];
 				return redirect()->intended('http://localhost/bidme/public/set_cookie?token=' . $token)->with('token', $token);
 				
-			}else{
+			}elseif($guest == 'mitra'){
 				$authUser = $this->findOrCreateUserMitra($user, $provider);
 				
 				Auth::login($authUser, true);
-				$token = $authUser->createToken('auth_token', ['role:mitra'])->plainTextToken;
+				$token = $authUser->createToken('auth_token', ['mitra'])->plainTextToken;
 				$response = [
 					'name' => $user->name,
 					'message' => 'Your request has been saved',
 				];
 				
-				return redirect()->intended('http://localhost/bidme/public/set_cookie?token=' . $token)->with('token', $token);
+				return redirect()->intended('http://localhost/mitraBidme/public/set_cookie?token=' . $token)->with('token', $token);
+			}else{
+				return response()->json(401)
 			};
     }
 

@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'mitra',
         ],
+		'driver' => [
+            'driver' => 'session',
+            'provider' => 'driver',
+        ],
     ],
 
     /*
@@ -81,6 +85,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Tbl_user_mitra::class,
             'table' => 'tbl_user_mitra'
+        ],
+		'driver' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Tbl_user_driver::class,
+            'table' => 'tbl_user_driver'
         ],
 
         // 'users' => [

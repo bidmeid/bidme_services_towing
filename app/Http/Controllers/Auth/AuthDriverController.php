@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Tbl_customer as user;
+use App\Models\Tbl_user_driver as User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api as Controller;
 
-class AuthCustomerController extends Controller
+class AuthDriverController extends Controller
 {
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'mitraId'   => 'required',
             'name'      => 'required|string|max:255',
-            'no_telp'   => 'required|min:11',
-            'email'     => 'required|string|max:255|unique:user',
+            'alamat'   	=> 'required',
+            'no_telp'   => 'required',
+            'email'     => 'required|string|max:255|unique:Users',
             'password'  => 'required|confirmed|min:6'
         ]);
 
@@ -25,13 +27,14 @@ class AuthCustomerController extends Controller
         }
 
         $user = User::create([
-            'name'      => $request->name,
-            'no_telp'   => $request->no_telp,
+            'nameDriver'      => $request->name,
+            'alamatDriver'   => $request->alamat,
+            'noTlpDriver'   => $request->no_telp,
             'email'     => $request->email,
             'password'  => Hash::make($request->password)
         ]);
 
-        $data['user'] = $user->createToken('auth_token', ['customer'])->plainTextToken;
+        $data['user'] = $user->createToken('auth_token', ['driver'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 

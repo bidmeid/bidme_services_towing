@@ -57,7 +57,7 @@ class PostOrder extends Controller
 			'orderCost'  => $request->orderCost,
 			'orderDate'  => $request->orderDate,
 			'orderTime'  => $request->orderTime,
-			'orderStatus'  => 'proccess',
+			'orderStatus'  => 'process',
 		]);
 		
 		return $this->sendResponseCreate($input);
@@ -71,13 +71,39 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if ($request->orderStatus == ''){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus; };
+		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus; };
 		
 		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->find();
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendError($message, 204);
+		}
+	   
+		
+		return $this->sendResponseOk($result);
+
+	}
+	
+	public function cancelOrder(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required',
+			'reason'  => 'nullable',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = Tbl_order::where('orderStatus', 'process')->find($request->orderId);
+	
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendError($message, 204);
+		}else{
+			$input = Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus' => 'failed', 
+			]);
 		}
 	   
 		

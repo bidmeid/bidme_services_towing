@@ -20,7 +20,6 @@ class Invoice extends Controller
 			'orderId' => 'required',
 			'biddingId' => 'required',
 			'driverId'  => 'required',
-			'noInvoice'  => 'required',
 			'noTnkbTowing'  => 'required',
 			'paymentMethod'  => 'required',
 			'billing'  => 'required',

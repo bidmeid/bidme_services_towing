@@ -16,7 +16,7 @@ class AuthMitraController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'no_telp'   => 'required|min:11',
-            'email'     => 'required|string|max:255|unique:users',
+            'email'     => 'required|string|max:255|unique:User',
             'password'  => 'required|confirmed|min:6'
         ]);
 
@@ -31,7 +31,7 @@ class AuthMitraController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $data['user'] = $user->createToken('auth_token')->plainTextToken;
+        $data['user'] = $user->createToken('auth_token', ['role:mitra'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 
