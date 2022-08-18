@@ -57,7 +57,7 @@ class SocialiteController extends Controller
 				
 				return redirect()->intended('http://localhost/mitraBidme/public/set_cookie?token=' . $token)->with('token', $token);
 			}else{
-				return response()->json(401)
+				return response()->json(401);
 			};
     }
 
