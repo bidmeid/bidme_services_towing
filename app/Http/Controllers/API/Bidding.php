@@ -19,18 +19,18 @@ class Bidding extends Controller
 		
 		
 		$validator = Validator::make($request->all(), [
-			'orderID' => 'required',
+			'orderId' => 'required',
         ]);
 		
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$order =  Tbl_order::where('id', $request->input('orderID'))->first();
+		$order =  Tbl_order::where('id', $request->input('orderId'))->first();
 		
 		//$dt = new DateTime($order->);
 		
-        $bidding		= Tbl_bidding::whereRaw('orderID ='. $request->input('orderID'))->get();
+        $bidding		= Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))->get();
 		$result = array();
 		foreach($bidding as $key=>$val){
 			$result[$key] = $val;
