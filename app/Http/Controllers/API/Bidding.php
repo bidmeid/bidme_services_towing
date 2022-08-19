@@ -31,6 +31,12 @@ class Bidding extends Controller
 		//$dt = new DateTime($order->);
 		
         $bidding		= Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))->get();
+		
+		if((is_null($bidding)) OR ($bidding->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseOk($message);
+		}
+		
 		$result = array();
 		foreach($bidding as $key=>$val){
 			$result[$key] = $val;
