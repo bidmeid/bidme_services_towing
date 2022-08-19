@@ -34,7 +34,7 @@ class Bidding extends Controller
 		
 		if((is_null($bidding)) OR ($bidding->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendResponseError($message, 204);
+			return $this->sendResponseError($message, '',204);
 		}
 		
 		$result = array();

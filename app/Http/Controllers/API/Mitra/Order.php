@@ -19,7 +19,7 @@ class PostOrder extends Controller
 		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendResponseError($message, 204);
+			return $this->sendResponseError($message, '',204);
 		}
 	   
 		
