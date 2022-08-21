@@ -73,7 +73,7 @@ class PostOrder extends Controller
         }
 		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus; };
 		
-		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->find();
+		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->get();
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -94,7 +94,7 @@ class PostOrder extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$result = Tbl_order::where('customerId', Auth::user()->id)->where('id', $request->orderId)->find();
+		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
