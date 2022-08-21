@@ -77,7 +77,28 @@ class PostOrder extends Controller
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendError($message, 204);
+			return $this->sendResponseError($message, null, 202);
+		}
+	   
+		
+		return $this->sendResponseOk($result);
+
+	}	
+	
+	public function orderById(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = Tbl_order::where('customerId', Auth::user()->id)->where('id '. $orderById)->find();
+	
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, null, 202);
 		}
 	   
 		
@@ -99,7 +120,7 @@ class PostOrder extends Controller
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendError($message, 204);
+			return $this->sendResponseError($message, null, 202);
 		}else{
 			$input = Tbl_order::where('id', $request->orderId)->update([
 			'orderStatus' => 'failed', 
