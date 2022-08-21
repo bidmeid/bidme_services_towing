@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Mitra;
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_order;
 use App\Models\Tbl_customer;
-use App\Models\Tbl_rute;
+use App\Models\Tbl_rute_pricelist;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +28,7 @@ class Order extends Controller
 		foreach($order as $key=>$val){
 			$result[$key] = $val;
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
-			$result[$key]['rute'] = Tbl_rute::find($val->ruteId);
+			$result[$key]['rute'] = Tbl_rute_pricelist::find($val->ruteId);
 		};
 		
 		return $this->sendResponseOk($result);
