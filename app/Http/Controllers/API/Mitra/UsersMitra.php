@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API\Mitra;
 use App\Http\Controllers\Api as Controller;
 use Illuminate\Http\Request;
 use \App\Models\Tbl_user_mitra as M_Users;

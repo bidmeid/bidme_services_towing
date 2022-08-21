@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Mitra;
 
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_bidding;
