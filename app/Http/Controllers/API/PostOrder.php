@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Api as Controller;
+use App\Models\Tbl_bidding;
 use App\Models\Tbl_order;
+use App\Models\Tbl_user_mitra;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -85,9 +87,10 @@ class PostOrder extends Controller
 
 	}	
 	
-	public function orderById(Request $request){
+	public function checkOut(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
+			'bidId'  => 'required',
         ]);
 		
 		if($validator->fails()){
@@ -100,7 +103,8 @@ class PostOrder extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, null, 202);
 		}
-	   
+		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($request->bidId);
+		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
 		
 		return $this->sendResponseOk($result);
 
