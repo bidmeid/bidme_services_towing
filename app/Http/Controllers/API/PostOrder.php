@@ -121,11 +121,8 @@ class PostOrder extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$result = [];
-	
-		$result->status = 'valid';
-		$result->potongan = 20000;
-		
+		$result = ['status'  => 'valid', 'potongan'  => 20000];
+	 
 		return $this->sendResponseOk($result);
 
 	}
