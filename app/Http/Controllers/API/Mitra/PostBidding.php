@@ -54,7 +54,7 @@ class PostBidding extends Controller
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendError($message, 204);
+			return $this->sendResponseError($message, '',202);
 		}
 	   
 		
@@ -75,7 +75,7 @@ class PostBidding extends Controller
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendError($message, 204);
+			return $this->sendResponseError($message, '',202);
 		}else{
 			$input = Tbl_bidding::where('orderId', $request->orderId)->update([
 			'bidStatus' => 'cancel', 

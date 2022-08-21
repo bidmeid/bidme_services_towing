@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\Tbl_user_mitra as user;
 use Illuminate\Http\Request;

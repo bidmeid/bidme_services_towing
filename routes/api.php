@@ -1,10 +1,10 @@
 <?php
 
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthCustomerController;
-use App\Http\Controllers\AuthMitraController;
-use App\Http\Controllers\AuthDriverController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\AuthCustomerController;
+use App\Http\Controllers\Auth\AuthMitraController;
+use App\Http\Controllers\Auth\AuthDriverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API;
@@ -28,8 +28,8 @@ Route::group(['middleware' => ['cors']], function () {
 
 //AUTH CUSTOMER
     Route::controller(AuthCustomerController::class)->group(function () {
-        Route::post('/auth/mitra/signup', 'signup')->name('api.signup');
-        Route::post('/auth/mitra/sigin', 'sigin')->name('sigin');
+        Route::post('/auth/customer/signup', 'signup')->name('api.signup');
+        Route::post('/auth/customer/sigin', 'sigin')->name('sigin');
     });
 
 //AUTH MITRA
