@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Mitra;
 
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_order;
+use App\Models\Tbl_customer;
+use App\Models\Tbl_rute;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,7 +23,8 @@ class Order extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-	   
+	    $result->customer = Tbl_customer::find($result->customerId)
+	    $result->rute = Tbl_rute::find($result->ruteId)
 		
 		return $this->sendResponseOk($result);
 	}
