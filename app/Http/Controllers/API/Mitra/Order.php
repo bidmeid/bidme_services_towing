@@ -23,8 +23,13 @@ class Order extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-	    $result->customer = Tbl_customer::find($result->customerId)
-	    $result->rute = Tbl_rute::find($result->ruteId)
+	     
+		$result = array();
+		foreach($result as $key=>$val){
+			$result[$key] = $val;
+			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
+			$result[$key]['rute'] = Tbl_rute::find($val->ruteId);
+		};
 		
 		return $this->sendResponseOk($result);
 	}
