@@ -111,6 +111,25 @@ class PostOrder extends Controller
 
 	}
 	
+	public function couponVoucher(Request $request){
+		$validator = Validator::make($request->all(), [
+			'kupon'  => 'required',
+			 
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = [];
+	
+		$result->status = 'valid';
+		$result->potongan = 20000;
+		
+		return $this->sendResponseOk($result);
+
+	}
+	
 	public function cancelOrder(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',

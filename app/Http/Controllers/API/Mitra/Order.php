@@ -32,12 +32,36 @@ class Order extends Controller
 			$result[$key] = $val;
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			$result[$key]['rute'] = Tbl_rute_pricelist::find($val->ruteId);
-			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->Tbl_kondisi_kendaraanId);
+			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['JenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
 		};
 		
 		return $this->sendResponseOk($result);
+	}
+	
+	public function getOrderById(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		$result = Tbl_order::where('orderStatus', 'proccess')->find($request->orderId);
+	
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+			$result->customer = Tbl_customer::find($result->customerId);
+			$result->rute = Tbl_rute_pricelist::find($result->ruteId);
+			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
+			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
+			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
+		
+		return $this->sendResponseOk($result);
+
 	}
 
 
