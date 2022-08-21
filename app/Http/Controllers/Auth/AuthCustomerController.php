@@ -41,11 +41,11 @@ class AuthCustomerController extends Controller
             'email'     => 'required',
             'password'  => 'required'
         ]);
-        if (!Auth::guard('mitra')->attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Login Faileds!'], 401);
         }
         $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token', ['customer'])->plainTextToken;
         return response()->json(['message' => 'Hi ' . $user->name, 'Wellcome back', 'access_token' => $token, 'token_type' => 'Bearer']);
     }
 
