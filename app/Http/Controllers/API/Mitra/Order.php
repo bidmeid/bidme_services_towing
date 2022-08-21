@@ -6,6 +6,9 @@ use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_order;
 use App\Models\Tbl_customer;
 use App\Models\Tbl_rute_pricelist;
+use App\Models\Tbl_kondisi_kendaraan;
+use App\Models\Tbl_jenis_kendaraan;
+use App\Models\Tbl_type_kendaraan;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -29,6 +32,9 @@ class Order extends Controller
 			$result[$key] = $val;
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			$result[$key]['rute'] = Tbl_rute_pricelist::find($val->ruteId);
+			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->Tbl_kondisi_kendaraanId);
+			$result[$key]['JenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
+			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
 		};
 		
 		return $this->sendResponseOk($result);

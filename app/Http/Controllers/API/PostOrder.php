@@ -105,6 +105,7 @@ class PostOrder extends Controller
 		}
 		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($request->bidId);
 		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
+		$result->biayaApp = 20000;
 		
 		return $this->sendResponseOk($result);
 
