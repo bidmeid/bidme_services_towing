@@ -20,7 +20,7 @@ class Order extends Controller
 
 	public function index(){
 		
-		$order = Tbl_order::where('orderStatus', 'proccess')->get();
+		$order = Tbl_order::where('orderStatus', 'process')->get();
 		
 		if((is_null($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -48,7 +48,7 @@ class Order extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		$result = Tbl_order::where('orderStatus', 'proccess')->find($request->orderId);
+		$result = Tbl_order::where('orderStatus', 'process')->find($request->orderId);
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
