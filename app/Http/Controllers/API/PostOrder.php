@@ -10,6 +10,8 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Email;
 
 class PostOrder extends Controller
 {
@@ -61,6 +63,8 @@ class PostOrder extends Controller
 			'orderTime'  => $request->orderTime,
 			'orderStatus'  => 'process',
 		]);
+		
+		$message = $this->sendEmail($input->id);
 		
 		return $this->sendResponseCreate($input);
 	}
@@ -157,5 +161,25 @@ class PostOrder extends Controller
 		$ticket = rand(100, 999).str_pad(substr($uniqid,3), 3, STR_PAD_LEFT);
 		
 		return $ticket;
+	}
+	
+	private function sendEmail($orderId)
+	{
+		$result = Tbl_user_mitra::get();
+		$order  = Tbl_order::find($orderId);
+		
+		foreach($result as $items){
+		$details = [
+			'title' => 'Order Towing',
+			'name' => $items->name,
+			'alamatAsal' => $order->alamatAsal,
+			'alamatTujuan' => $items->alamatTujuan,
+			 
+			];
+		
+		 $catch = Mail::to($items->email)->send(new Email($details));
+		}
+		return true;
+
 	}
 }

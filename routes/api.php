@@ -48,11 +48,11 @@ Route::group(['middleware' => ['cors']], function () {
 Route::group(['middleware' => 'auth:sanctum',], function () {
 	Route::get('/user', function (Request $request) {
 		$user = $request->user();
-		if ($user->tokenCan('role:customer')) {
+		if ($user->tokenCan('customer')) {
 			$user->role = 'customer';
-		}elseif($user->tokenCan('role:mitra')){
+		}elseif($user->tokenCan('mitra')){
 			$user->role = 'mitra';
-		}elseif($user->tokenCan('role:driver')){
+		}elseif($user->tokenCan('driver')){
 			$user->role = 'driver';
 		};
 			return $user;

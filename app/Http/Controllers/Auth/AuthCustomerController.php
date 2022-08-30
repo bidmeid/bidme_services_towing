@@ -16,7 +16,7 @@ class AuthCustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'no_telp'   => 'required|min:11',
-            'email'     => 'required|string|max:255|unique:user',
+            'email'     => 'required|string|max:255|unique:tbl_customer,email',
             'password'  => 'required|confirmed|min:6'
         ]);
 
