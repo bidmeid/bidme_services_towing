@@ -8,6 +8,7 @@ use App\Models\Tbl_order;
 use App\Models\Tbl_user_mitra;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_postCode;
+use App\Models\Tbl_kondisi_kendaraan;
 use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_invoice;
