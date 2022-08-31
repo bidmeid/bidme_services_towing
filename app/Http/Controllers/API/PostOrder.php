@@ -89,8 +89,8 @@ class PostOrder extends Controller
 			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			
 			$result[$key] = $val;
-			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->find();
-			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->find();
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			 
 		};
 	
