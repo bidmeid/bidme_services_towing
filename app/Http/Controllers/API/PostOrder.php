@@ -179,8 +179,9 @@ class PostOrder extends Controller
         }
 		if($result->kupon == 'bidme22'{
 		$result = ['status'  => 'valid', 'potongan'  => 20000];
-		}else
+		}else{
 		$result = ['status'  => 'notvalid', 'potongan'  => 0];
+		}
 		return $this->sendResponseOk($result);
 
 	}
