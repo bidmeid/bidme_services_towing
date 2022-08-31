@@ -177,7 +177,7 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if($result->kupon == 'bidme22'{
+		if($result->kupon == 'bidme22'){
 		$result = ['status'  => 'valid', 'potongan'  => 20000];
 		}else{
 		$result = ['status'  => 'notvalid', 'potongan'  => 0];
