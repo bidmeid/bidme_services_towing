@@ -137,7 +137,7 @@ class PostOrder extends Controller
 			$result->jenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
 			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
 			
-		if((!empty($invoice)) OR ($invoice->count() != 0)){
+		if((!empty($invoice)) OR ($invoice != null)){
 			$result->status = 'paid';
 		}
 		
