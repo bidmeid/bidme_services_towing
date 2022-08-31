@@ -116,7 +116,7 @@ class PostOrder extends Controller
 		
 		$invoice = Tbl_invoice::where('orderId', $request->orderId)->first();
 		
-		$result = Tbl_order::where('orderStatus', 'process')->find($request->orderId);
+		$result = Tbl_order::find($request->orderId);
 		
 		
 		
