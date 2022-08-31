@@ -43,7 +43,7 @@ class UsersMitra extends Controller
 			'alamat'   		=> $request->alamat,
 			'alamatUsaha'   => $request->alamatUsaha,
 			'namaUsaha'   	=> $request->namaUsaha,
-			'no_tlp'   		=> $request->noTlp,
+			'no_tlp'   		=> $request->no_tlp,
 			'password'   	=> $realPassword,
 		]);
 

@@ -31,7 +31,7 @@ class AuthMitraController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $data['user'] = $user->createToken('auth_token', ['mitra'])->plainTextToken;
+        $data['access_token'] = $user->createToken('auth_token', ['mitra'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 

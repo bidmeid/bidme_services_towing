@@ -34,7 +34,7 @@ class AuthDriverController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $data['user'] = $user->createToken('auth_token', ['driver'])->plainTextToken;
+        $data['access_token'] = $user->createToken('auth_token', ['driver'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 

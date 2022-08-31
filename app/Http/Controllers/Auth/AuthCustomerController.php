@@ -31,7 +31,7 @@ class AuthCustomerController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        $data['user'] = $user->createToken('auth_token', ['customer'])->plainTextToken;
+        $data['access_token'] = $user->createToken('auth_token', ['customer'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }
 

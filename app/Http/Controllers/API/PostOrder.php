@@ -6,6 +6,9 @@ use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_bidding;
 use App\Models\Tbl_order;
 use App\Models\Tbl_user_mitra;
+use App\Models\Tbl_rute_pricelist;
+use App\Models\Tbl_postCode;
+
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -77,9 +80,19 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = '.$request->orderStatus; };
+		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
 		
 		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->get();
+		
+		$order = array();
+		foreach($order as $key=>$val){
+			$rute = Tbl_rute_pricelist::find($val->ruteId);
+			
+			$result[$key] = $val;
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->find();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->find();
+			 
+		};
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -173,7 +186,7 @@ class PostOrder extends Controller
 			'title' => 'Order Towing',
 			'name' => $items->name,
 			'alamatAsal' => $order->alamatAsal,
-			'alamatTujuan' => $items->alamatTujuan,
+			'alamatTujuan' => $order->alamatTujuan,
 			 
 			];
 		
