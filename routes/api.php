@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/cancelOrder', [Api\PostOrder::class, 'cancelOrder']);
 		Route::post('/bidding', [Api\Bidding::class, 'index']);
 		Route::post('/myOrder', [Api\PostOrder::class, 'myOrder']);
+		Route::get('/getOrderById', [Api\PostOrder::class, 'getOrderById']); 
 		Route::post('/checkOut', [Api\PostOrder::class, 'checkOut']);
 		Route::post('/couponVoucher', [Api\PostOrder::class, 'couponVoucher']);
 		Route::post('/invoice', [Api\Invoice::class, 'index']);

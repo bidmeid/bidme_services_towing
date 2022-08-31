@@ -10,6 +10,7 @@ use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_postCode;
 use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
+use App\Models\Tbl_invoice;
 
 use Validator;
 use Illuminate\Http\Request;
@@ -103,6 +104,45 @@ class PostOrder extends Controller
 		return $this->sendResponseOk($result);
 
 	}	
+	
+	public function getOrderById(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$invoice = Tbl_invoice::where('orderId', $request->orderId)->first();
+		
+		$result = Tbl_order::where('orderStatus', 'process')->find($request->orderId);
+		
+		
+		
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+			$rute = Tbl_rute_pricelist::find($result->ruteId);
+			
+			$result->status = 'unpaid'
+			
+			$result->rute = $rute;
+			$result->regionAsal = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result->regionTujuan = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			
+			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
+			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
+			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
+			
+		if((!empty($invoice)) OR ($invoice->count() != 0)){
+			$result->status = 'paid'
+		}
+		
+		return $this->sendResponseOk($result);
+
+	}
 	
 	public function checkOut(Request $request){
 		$validator = Validator::make($request->all(), [
