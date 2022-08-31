@@ -16,9 +16,7 @@ class UsersCustomer extends Controller
 		
 		$validator = Validator::make($request->all(), [
             'name' => 'required',
-            'region' => 'required',
-            'alamat' => 'required',
-			'no_tlp' => 'required',
+			'no_telp' => 'required',
             
 		]);
 		if($validator->fails()){
@@ -39,7 +37,7 @@ class UsersCustomer extends Controller
 			'name'   		=> $request->name,
 			'region'   		=> $request->region,
 			'alamat'   		=> $request->alamat,
-			'no_tlp'   		=> $request->noTlp,
+			'no_telp'   	=> $request->no_telp,
 			'password'   	=> $realPassword,
 		]);
 
