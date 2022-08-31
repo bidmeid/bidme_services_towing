@@ -114,7 +114,7 @@ class PostOrder extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$invoice = Tbl_invoice::where('orderId', $request->orderId)->first();
+		$invoice = Tbl_invoice::where('customerId', Auth::user()->id)->where('orderId', $request->orderId)->first();
 		
 		$result = Tbl_order::find($request->orderId);
 		
@@ -133,7 +133,7 @@ class PostOrder extends Controller
 			$result->regionTujuan = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			
 			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
-			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
+			$result->jenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
 			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
 			
 		if((!empty($invoice)) OR ($invoice->count() != 0)){
