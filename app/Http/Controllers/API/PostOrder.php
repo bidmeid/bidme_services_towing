@@ -126,7 +126,7 @@ class PostOrder extends Controller
 		}
 			$rute = Tbl_rute_pricelist::find($result->ruteId);
 			
-			$result->status = 'unpaid'
+			$result->status = 'unpaid';
 			
 			$result->rute = $rute;
 			$result->regionAsal = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
@@ -137,7 +137,7 @@ class PostOrder extends Controller
 			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
 			
 		if((!empty($invoice)) OR ($invoice->count() != 0)){
-			$result->status = 'paid'
+			$result->status = 'paid';
 		}
 		
 		return $this->sendResponseOk($result);
