@@ -8,6 +8,8 @@ use App\Models\Tbl_order;
 use App\Models\Tbl_user_mitra;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_postCode;
+use App\Models\Tbl_jenis_kendaraan;
+use App\Models\Tbl_type_kendaraan;
 
 use Validator;
 use Illuminate\Http\Request;
@@ -91,13 +93,11 @@ class PostOrder extends Controller
 			$result[$key] = $val;
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
-			 
+			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
+			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);			 
 		};
 	
-		if((is_null($result)) OR ($result->count() == 0)){
-			$message 	= 'Your request couldn`t be found';
-			return $this->sendResponseError($message, null, 202);
-		}
+		
 	   
 		
 		return $this->sendResponseOk($result);

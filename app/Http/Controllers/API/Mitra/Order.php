@@ -22,7 +22,7 @@ class Order extends Controller
 		
 		$order = Tbl_order::where('orderStatus', 'process')->get();
 		
-		if((is_null($order)) OR ($order->count() == 0)){
+		if((empty($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
@@ -33,7 +33,7 @@ class Order extends Controller
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			$result[$key]['rute'] = Tbl_rute_pricelist::find($val->ruteId);
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
-			$result[$key]['JenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
+			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
 		};
 		
