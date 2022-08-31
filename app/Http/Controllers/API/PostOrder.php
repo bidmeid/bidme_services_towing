@@ -82,9 +82,9 @@ class PostOrder extends Controller
         }
 		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
 		
-		$result = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->get();
+		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->get();
 		
-		$order = array();
+		$result = array();
 		foreach($order as $key=>$val){
 			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			
