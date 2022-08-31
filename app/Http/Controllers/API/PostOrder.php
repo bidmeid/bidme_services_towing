@@ -114,9 +114,9 @@ class PostOrder extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$invoice = Tbl_invoice::where('customerId', Auth::user()->id)->where('orderId', $request->orderId)->first();
+		$invoice = Tbl_invoice::where('orderId', $request->orderId)->first();
 		
-		$result = Tbl_order::find($request->orderId);
+		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
 		
 		
 		
