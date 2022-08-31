@@ -148,7 +148,6 @@ class PostOrder extends Controller
 	public function checkOut(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
-			'bidId'  => 'required',
         ]);
 		
 		if($validator->fails()){
@@ -161,7 +160,7 @@ class PostOrder extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, null, 202);
 		}
-		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($request->bidId);
+		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($result->bidId);
 		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
 		$result->biayaApp = 20000;
 		
@@ -178,9 +177,10 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		
+		if($result->kupon == 'bidme22'{
 		$result = ['status'  => 'valid', 'potongan'  => 20000];
-	 
+		}else
+		$result = ['status'  => 'notvalid', 'potongan'  => 0];
 		return $this->sendResponseOk($result);
 
 	}

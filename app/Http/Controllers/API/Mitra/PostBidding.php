@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Mitra;
 
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_bidding;
+use App\Models\Tbl_order;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,6 +36,11 @@ class PostBidding extends Controller
 			'pickupTime'  => $request->pickupTime,
 			'bidStatus'  => 'open',
 			
+		]);
+		
+		$order = Tbl_order::where('orderId', $request->orderId)->update([
+			'bidId' => $input->id,
+
 		]);
 		
 		return $this->sendResponseCreate($input);
