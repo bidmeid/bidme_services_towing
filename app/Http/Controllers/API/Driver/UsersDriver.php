@@ -17,7 +17,7 @@ class UsersDriver extends Controller
 		$validator = Validator::make($request->all(), [
             'name' => 'required',
             'alamat' => 'required',
-			'no_tlp' => 'required',
+			'no_telp' => 'required',
             
 		]);
 		if($validator->fails()){
@@ -37,7 +37,7 @@ class UsersDriver extends Controller
 		$input = M_Users::where('id', Auth::user()->id)->update([
 			'nameDriver'   		=> $request->name,
 			'alamatDriver'   		=> $request->alamat,
-			'noTelpDriver'   		=> $request->noTlp,
+			'noTelpDriver'   		=> $request->no_telp,
 			'password'   			=> $realPassword,
 		]);
 

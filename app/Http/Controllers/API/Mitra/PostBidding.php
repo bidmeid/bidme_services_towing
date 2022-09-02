@@ -28,6 +28,12 @@ class PostBidding extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
+		$check = Tbl_bidding::where('mitraId', Auth::user()->id)->where('orderId '. $request->orderId)->first();
+		
+		if(!empty($check)){
+			$message 	= 'Anda telah melakukan biding untuk order ini';
+			return $this->sendResponseError($message, null, 202);
+		}
 		
 		$input = Tbl_bidding::create([
 			'orderId' => $request->orderId,
