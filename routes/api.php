@@ -80,13 +80,13 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		
 		//DRIVER		
 		Route::post('/mitra/registrationDriver', [AuthDriverController::class, 'signup']);		
-		Route::post('/mitra/updateDriver', [Api\Mitra\Driver::class, 'update']);		
-		Route::delete('/mitra/deleteDriver', [Api\Mitra\Driver::class, 'delete']);		
+		Route::post('/mitra/updateDriver', [Api\Driver\UsersDrive::class, 'updateAccount']);		
+		Route::delete('/mitra/deleteDriver', [Api\Driver\UsersDrive::class, 'deleteDriver']);		
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:driver']], function() {
 		Route::post('/mitra/tracking', [Api\Mitra\tracking::class, 'cancelOrder']); 
-		Route::post('/driver/updateAccount', [Api\Driver\UsersDriver::class, 'update_account']);	
+		Route::post('/driver/updateAccount', [Api\Driver\UsersDriver::class, 'updateAccount']);	
 	});
 	
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');

@@ -12,7 +12,7 @@ class UsersDriver extends Controller
 {
 
 
-	public function update_account(request $request){
+	public function updateAccount(request $request){
 		
 		$validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -44,6 +44,23 @@ class UsersDriver extends Controller
 		if($input){
 			return $this->sendResponseCreate($input);
 		}
+	}
+	
+	public function deleteDriver($id){	
+		$validator = Validator::make($request->all(), [
+            'driverId' => 'required',            
+		]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+		}
+		
+		$result = M_Users::find($id);
+		
+       
+		$result->delete();
+		return $this->sendResponseDelete(null);
+		
 	}
 
 	
