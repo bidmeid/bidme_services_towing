@@ -45,7 +45,7 @@ class AuthDriverController extends Controller
             'email'     => 'required',
             'password'  => 'required'
         ]);
-        if (!Auth::guard('mitra')->attempt($credentials)) {
+        if (!Auth::guard('driver')->attempt($credentials)) {
             return response()->json(['message' => 'Login Faileds!'], 401);
         }
         $user = User::where('email', $request->email)->first();
