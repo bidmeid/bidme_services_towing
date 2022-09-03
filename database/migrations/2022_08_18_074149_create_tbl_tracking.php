@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('tbl_tracking', function (Blueprint $table) {
             $table->id();
             $table->integer('orderId');
-            $table->string('gps');
-            $table->string('latitude');
-            $table->string('longtitude');
-            $table->string('speed');
-            $table->string('timestamp');
-            $table->string('status');
+            $table->string('gps')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longtitude')->nullable();
+            $table->string('speed')->nullable();
+            $table->string('timestamp')->nullable();
+            $table->string('status')->nullable();
+            $table->string('msg')->nullable();
             $table->timestamps();
         });
     }
