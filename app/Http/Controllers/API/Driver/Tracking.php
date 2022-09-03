@@ -17,13 +17,13 @@ class Tracking extends Controller
 	public function index(){
 		
 		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('status', 'open')->first();
-		$result->order = Tbl_order::find($result->orderId);
 		
-		if((is_null($result)) OR ($result->count() == 0)){
+		if(empty($result){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message,null, 202);
 		}
-	   
+		
+		$result->order = Tbl_order::find($result->orderId);
 		
 		return $this->sendResponseOk($result);
 	}
