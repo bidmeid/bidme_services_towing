@@ -18,7 +18,7 @@ class AuthDriverController extends Controller
             'name'      => 'required|string|max:255',
             'alamat'   	=> 'required',
             'no_telp'   => 'required',
-            'email'     => 'required|string|max:255|unique:Users',
+            'email'     => 'required|string|max:255|unique:tbl_user_driver,email',
             'password'  => 'required|confirmed|min:6'
         ]);
 
@@ -27,6 +27,7 @@ class AuthDriverController extends Controller
         }
 
         $user = User::create([
+            'mitraId'      => $request->mitraId,
             'nameDriver'      => $request->name,
             'alamatDriver'   => $request->alamat,
             'noTlpDriver'   => $request->no_telp,

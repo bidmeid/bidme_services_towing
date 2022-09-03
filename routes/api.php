@@ -79,9 +79,16 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/mitra/updateAccount', [Api\Mitra\UsersMitra::class, 'update_account']);
 		
 		//DRIVER		
+		Route::post('/mitra/listDriver', [Api\Mitra\Drive::class, 'index']);		
 		Route::post('/mitra/registrationDriver', [AuthDriverController::class, 'signup']);		
-		Route::post('/mitra/updateDriver', [Api\Driver\UsersDrive::class, 'updateAccount']);		
-		Route::delete('/mitra/deleteDriver', [Api\Driver\UsersDrive::class, 'deleteDriver']);		
+		Route::post('/mitra/updateDriver', [Api\Mitra\Drive::class, 'updateDriver']);		
+		Route::delete('/mitra/deleteDriver', [Api\Mitra\Drive::class, 'deleteDriver']);	
+
+		//UNIT
+		Route::post('/mitra/listTowing', [Api\Mitra\UnitTowing::class, 'index']);		
+		Route::post('/mitra/createTowing', [Api\Mitra\UnitTowing::class, 'createTowing']);		
+		Route::post('/mitra/updateTowing', [Api\Mitra\UnitTowing::class, 'updateTowing']);		
+		Route::delete('/mitra/deleteTowing', [Api\Mitra\UnitTowing::class, 'deleteTowing']);	
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:driver']], function() {

@@ -11,7 +11,6 @@ use Validator;
 class UsersDriver extends Controller
 {
 
-
 	public function updateAccount(request $request){
 		
 		$validator = Validator::make($request->all(), [
@@ -46,22 +45,6 @@ class UsersDriver extends Controller
 		}
 	}
 	
-	public function deleteDriver($id){	
-		$validator = Validator::make($request->all(), [
-            'driverId' => 'required',            
-		]);
-		
-		if($validator->fails()){
-            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
-		}
-		
-		$result = M_Users::find($id);
-		
-       
-		$result->delete();
-		return $this->sendResponseDelete(null);
-		
-	}
-
+	
 	
 }
