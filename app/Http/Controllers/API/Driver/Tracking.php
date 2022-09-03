@@ -18,7 +18,7 @@ class Tracking extends Controller
 		
 		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('status', 'open')->first();
 		
-		if(empty($result){
+		if(empty($result)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message,null, 202);
 		}
