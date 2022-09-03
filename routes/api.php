@@ -92,7 +92,9 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:driver']], function() {
-		Route::post('/mitra/tracking', [Api\Mitra\tracking::class, 'cancelOrder']); 
+		Route::post('/driver/getOrder', [Api\Mitra\tracking::class, 'index']); 
+		Route::post('/driver/postLatLng', [Api\Mitra\tracking::class, 'postLatLng']); 
+		Route::post('/driver/lastLatLng', [Api\Mitra\tracking::class, 'lastLatLng']); 
 		Route::post('/driver/updateAccount', [Api\Driver\UsersDriver::class, 'updateAccount']);	
 	});
 	

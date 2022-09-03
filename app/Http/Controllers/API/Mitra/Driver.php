@@ -25,7 +25,7 @@ class Driver extends Controller
 					->paginate($limit);
 
 		if((!empty($data)) AND ($data->count() != 0)){
-			$data->data = colection_pages::collection($data);
+			
 			$result = $data;
 		}else{
 			$message 	= 'Your request couldn`t be found';

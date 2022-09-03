@@ -4,27 +4,68 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_order;
+use App\Models\Tbl_tracking;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-class PostOrder extends Controller
+class Tracking extends Controller
 {
 
 
 	public function index(){
 		
-		$result = Tbl_order::where('orderStatus', 'proccess')->get();
+		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('status', 'open')->first();
+		$result->order = Tbl_order::find($result->orderId);
 		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
-			return $this->sendError($message, 204);
+			return $this->sendResponseError($message,null, 202);
 		}
 	   
 		
 		return $this->sendResponseOk($result);
 	}
 
+	public function updateLatLng(request $request){
+		
+		$validator = Validator::make($request->all(), [
+            'orderId' => 'required',
+            'latitude' => 'required',
+            'longtitude' => 'required',
+            
+		]);
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+		}
+
+		$input = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->update([
+			'latitude'   		=> $request->latitude,
+			'longtitude'   		=> $request->longtitude,
+			'status'   			=> 'running',
+		]);
+
+		if($input){
+			return $this->sendResponseCreate($input);
+		}
+	}
+	
+	public function lastLatLng(request $request){
+		
+		$validator = Validator::make($request->all(), [
+            'orderId' => 'required',
+            
+		]);
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+		}
+
+		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->first();
+
+		if($result){
+			return  $this->sendResponseOk($result);
+		}
+	}
 
 }
