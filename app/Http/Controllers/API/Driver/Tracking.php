@@ -43,7 +43,7 @@ class Tracking extends Controller
 		$input = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->update([
 			'latitude'   		=> $request->latitude,
 			'longtitude'   		=> $request->longtitude,
-			'status'   			=> 'running',
+			//'status'   			=> 'running',
 		]);
 
 		if($input){
