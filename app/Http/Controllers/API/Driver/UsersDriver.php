@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Driver;
 use App\Http\Controllers\Api as Controller;
 use Illuminate\Http\Request;
 use \App\Models\Tbl_user_driver as M_Users;
