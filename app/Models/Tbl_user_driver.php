@@ -20,7 +20,14 @@ class Tbl_user_driver extends Authenticatable
 	
 	protected $primaryKey = 'id';
 	
-	
+	protected $fillable = [
+        'mitraId',
+        'nameDriver',
+        'noTlpDriver',
+        'email',
+        'avatar',
+        'alamatDriver',
+    ];
 	
 	protected $hidden = [
         'password',
