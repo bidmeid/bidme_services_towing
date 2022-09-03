@@ -19,7 +19,7 @@ class AuthDriverController extends Controller
             'alamat'   	=> 'required',
             'no_telp'   => 'required',
             'email'     => 'required|string|max:255|unique:tbl_user_driver,email',
-            'password'  => 'required|confirmed|min:6'
+            'password'  => 'required|min:6'
         ]);
 
         if ($validator->fails()) {
