@@ -28,7 +28,7 @@ class Tracking extends Controller
 		return $this->sendResponseOk($result);
 	}
 
-	public function updateLatLng(request $request){
+	public function postLatLng(request $request){
 		
 		$validator = Validator::make($request->all(), [
             'orderId' => 'required',
