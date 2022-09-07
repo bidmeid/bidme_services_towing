@@ -44,7 +44,7 @@ class PostBidding extends Controller
 			
 		]);
 		
-		$order = Tbl_order::where('orderId', $request->orderId)->update([
+		$order = Tbl_order::where('id', $request->orderId)->update([
 			'bidId' => $input->id,
 
 		]);
