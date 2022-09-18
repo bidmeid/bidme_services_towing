@@ -62,7 +62,7 @@ class PostBidding extends Controller
         }
 		if ($request->bidStatus == ''){$bidStatus = 'IS NOT NULL'; }else{ $bidStatus = ' = '.$request->bidStatus; };
 		
-		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->whereRaw('bidStatus '. $bidStatus)->find();
+		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->whereRaw('bidStatus '. $bidStatus)->first();
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
