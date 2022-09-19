@@ -41,7 +41,7 @@ class Order extends Controller
 			}else{
 				$result[$key]['rute'] = 'Tidak Ditemukan';
 				$result[$key]['regionAsal'] = ['distric' => substr($order->alamatAsal, 10).'..'];
-				$result[$key]['regionTujuan']['distric' => substr($order->alamatTujuan, 10).'..'];
+				$result[$key]['regionTujuan']= ['distric' => substr($order->alamatTujuan, 10).'..'];
 			}
 			
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
