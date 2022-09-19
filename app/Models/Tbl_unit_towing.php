@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tbl_unit_towing extends Model
 {
-    protected $table = 'Tbl_unit_towing';
+    protected $table = 'tbl_unit_towing';
 	
 	protected $primaryKey = 'id';
 	
