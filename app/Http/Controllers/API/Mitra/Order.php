@@ -40,8 +40,8 @@ class Order extends Controller
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			}else{
 				$result[$key]['rute'] = 'Tidak Ditemukan';
-				$result[$key]['regionAsal'] = ['distric' => substr($order->alamatAsal, 10).'..'];
-				$result[$key]['regionTujuan']= ['distric' => substr($order->alamatTujuan, 10).'..'];
+				$result[$key]['regionAsal'] = ['distric' => substr($order->alamatAsal, 20).'..'];
+				$result[$key]['regionTujuan']= ['distric' => substr($order->alamatTujuan, 20).'..'];
 			}
 			
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
