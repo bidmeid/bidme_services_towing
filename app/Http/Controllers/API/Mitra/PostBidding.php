@@ -70,7 +70,7 @@ class PostBidding extends Controller
 			
 		};
 		
-		if((is_null($result)) OR ($result->count() == 0)){
+		if(empty($result)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
