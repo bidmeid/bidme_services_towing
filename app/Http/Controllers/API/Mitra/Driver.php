@@ -14,7 +14,7 @@ class Driver extends Controller
 
 	public function index(Request $request){
 		
-		$render		= $request->input('render'); if ($render){$limit = 6; } else {$limit = 20;};	
+		$render		= $request->input('render'); if ($render){$limit = 6; } else {$limit = 5;};	
 		$order		= $request->input('order'); 
 		$sort 		= $request->input('sort'); if ($sort == ''){$sort = 'ASC'; };
 		$columns	= "id";
