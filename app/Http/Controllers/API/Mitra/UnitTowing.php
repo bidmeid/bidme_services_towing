@@ -48,7 +48,7 @@ class UnitTowing extends Controller
 		
 	
 			$input = Tbl_unit_towing::create([
-			'mitraId'   			=> $request->mitraId,
+			'mitra_id'   			=> $request->mitraId,
 			'jenisTowing'   			=> $request->jenisTowing,
 			'noTnkbTowing'   		=> $request->noTnkbTowing,
 			'lokasiUnit'   		=> $request->lokasiUnit,

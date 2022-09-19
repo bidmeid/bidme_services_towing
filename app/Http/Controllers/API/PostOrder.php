@@ -86,7 +86,7 @@ class PostOrder extends Controller
         }
 		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
 		
-		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->get();
+		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->orderBy('id', 'DESC')->get();
 		
 		$result = array();
 		foreach($order as $key=>$val){
@@ -101,8 +101,8 @@ class PostOrder extends Controller
 				$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			}else{
 				$result[$key]['rute'] = 'Tidak Ditemukan';
-				$result[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 10).'..'];
-				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 10).'..'];
+				$result[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 0, 16).'..'];
+				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
 			}		
 		};
 	
