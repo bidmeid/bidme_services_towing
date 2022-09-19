@@ -93,10 +93,17 @@ class PostOrder extends Controller
 			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			
 			$result[$key] = $val;
-			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
-			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
-			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);			 
+			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);	
+			if($rute){		
+				$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+				$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			}else{
+				$result[$key]['rute'] = 'Tidak Ditemukan';
+				$result[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 10).'..'];
+				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 10).'..'];
+			}		
 		};
 	
 		
