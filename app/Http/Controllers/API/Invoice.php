@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_invoice;
+use App\Models\Tbl_order;
+use App\Models\Tbl_bidding;
+
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,18 +21,23 @@ class Invoice extends Controller
 		
 		$validator = Validator::make($request->all(), [
 			'orderId' => 'required',
-			'biddingId' => 'required',
-			'driverId'  => 'required',
-			'noTnkbTowing'  => 'required',
 			'paymentMethod'  => 'required',
-			'billing'  => 'required',
-			 
-			
+
         ]);
 		
 		if($validator->fails()){
-            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
         }
+		
+		$order = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+		if(empty($order)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+		$bid = Tbl_bidding::where('orderId', $order->id)->find($order->bidId);
+		
+		$billing = $bid->bidding - $this->couponVoucher($request->kupon);
+		
 		$ticketGen = $this->created(uniqid());
 		
 		if(!Tbl_invoice::where('noInvoice', '=', $invoiceGen)->exists()) {
@@ -38,19 +46,16 @@ class Invoice extends Controller
 			$invoice = $this->created();
 		}
 		
-		$input = Tbl_invoice::create([
+		$input['invoice'] = Tbl_invoice::create([
 			'orderId' => $request->orderId,
-			'biddingId' => $request->biddingId,
-			'driverId' => $request->driverId,
+			'biddingId' => $order->bidId,
 			'noInvoice' => $invoice,
-			'noTnkbTowing'  => $request->noTnkbTowing,
 			'paymentMethod'  => $request->paymentMethod,
-			'bankName' => $request->bankName, //BCA
-			'accName' => $request->accName,  //Atas Nama
-			'accNumber' => $request->accNumber, //Nomor Rekening
-			'orderStatus'  => 'pending',
+			'paymentStatus'  => 'pending',
+			 
+			'billing'  	=> $billing,
 		]);
-		
+		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
 	}
 	
@@ -92,5 +97,16 @@ class Invoice extends Controller
 		$ticket = rand(100, 999).str_pad(substr($uniqid,2), 2, STR_PAD_LEFT);
 		
 		return $ticket;
+	}
+	
+	private function couponVoucher($kupon){
+		 
+		if($kupon == 'bidme22'){
+		$result = 20000;
+		}else{
+		$result = 0;
+		}
+		return $result;
+
 	}
 }
