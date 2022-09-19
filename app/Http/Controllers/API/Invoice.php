@@ -59,6 +59,11 @@ class Invoice extends Controller
 		}else{
 			$input['invoice'] = $invoice;
 		}
+		
+		Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'close'
+		]);
+		
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
 	}
