@@ -20,7 +20,7 @@ class Driver extends Controller
 		$columns	= "id";
 
 		$data 	= M_Users::
-					->where('mitraId', Auth::user()->id)
+					where('mitraId', Auth::user()->id)
 					->orderBy($columns, $sort)
 					->paginate($limit);
 
