@@ -56,6 +56,8 @@ class Invoice extends Controller
 			'paymentStatus'  => 'pending',
 			'billing'  	=> $billing,
 		]);
+		}else{
+			$input['invoice'] = $invoice;
 		}
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
