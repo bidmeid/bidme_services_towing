@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Mitra;
 use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_bidding;
 use App\Models\Tbl_order;
+use App\Models\Tbl_rute_pricelist;
+use App\Models\Tbl_postCode;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -65,6 +67,10 @@ class PostBidding extends Controller
 	    $result = array();
 		foreach($biding as $key=>$val){
 			$order			= Tbl_order::with('Tbl_customer')->find($val->orderId);
+			
+			$rute = Tbl_rute_pricelist::find($order->ruteId);
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			$result[$key] 	= $val;
 			$result[$key]['order'] = $order;
 			
