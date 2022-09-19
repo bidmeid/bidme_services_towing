@@ -32,10 +32,13 @@ class Order extends Controller
 		foreach($order as $key=>$val){
 			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			$result[$key] = $val;
+			
+			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
+			if($rute){
+			$result[$key]['rute'] = $rute;
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
-			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
-			$result[$key]['rute'] = $rute;
+			}
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);

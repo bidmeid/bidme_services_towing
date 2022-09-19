@@ -69,10 +69,13 @@ class PostBidding extends Controller
 			$order			= Tbl_order::with('Tbl_customer')->find($val->orderId);
 			
 			$rute = Tbl_rute_pricelist::find($order->ruteId);
-			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
-			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			
 			$result[$key] 	= $val;
 			$result[$key]['order'] = $order;
+			if($rute){
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			}
 			
 		};
 		
