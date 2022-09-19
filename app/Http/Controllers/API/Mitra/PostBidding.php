@@ -75,6 +75,10 @@ class PostBidding extends Controller
 			if($rute){
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			}else{
+				$result[$key]['rute'] = 'Tidak Ditemukan';
+				$result[$key]['regionAsal'] = substr($order->alamatAsal, 20).'..';
+				$result[$key]['regionTujuan'] = substr($order->alamatTujuan, 20).'..';
 			}
 			
 		};
