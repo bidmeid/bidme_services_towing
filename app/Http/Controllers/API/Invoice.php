@@ -46,15 +46,17 @@ class Invoice extends Controller
 			$invoice = $this->created();
 		}
 		
+		$invoice = Tbl_invoice::where('orderId', $request->orderId)->first();
+		if(!$invoice){
 		$input['invoice'] = Tbl_invoice::create([
 			'orderId' => $request->orderId,
 			'biddingId' => $order->bidId,
 			'noInvoice' => $invoice,
 			'paymentMethod'  => $request->paymentMethod,
 			'paymentStatus'  => 'pending',
-			 
 			'billing'  	=> $billing,
 		]);
+		}
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
 	}
