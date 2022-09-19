@@ -61,8 +61,15 @@ class PostBidding extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		 
-		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', $request->bidStatus)->get();
-	
+		$biding = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', $request->bidStatus)->get();
+	    $result = array();
+		foreach($biding as $key=>$val){
+			$order			= Tbl_order::with('Tbl_customer')->find($val->customerId)
+			$result[$key] 	= $val;
+			$result[$key]['order'] = $order;
+			
+		};
+		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);

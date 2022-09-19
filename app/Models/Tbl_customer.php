@@ -52,4 +52,9 @@ class Tbl_customer extends Authenticatable
     {
         return $this->hasMany(SosialAccountCustomer::class);
     }
+	
+	public function Tbl_order()
+    {
+        return $this->hasMany(Tbl_order::class);
+    }
 }

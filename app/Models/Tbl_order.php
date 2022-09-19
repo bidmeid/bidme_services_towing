@@ -12,5 +12,7 @@ class Tbl_order extends Model
 	
 	protected $guarded = [];
 	
-	
+	public function Tbl_customer(){
+		return $this->belongsTo(Tbl_customer::class, 'id');
+	}
 }
