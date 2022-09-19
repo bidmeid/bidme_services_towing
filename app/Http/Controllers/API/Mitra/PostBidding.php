@@ -64,7 +64,7 @@ class PostBidding extends Controller
 		$biding = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', $request->bidStatus)->get();
 	    $result = array();
 		foreach($biding as $key=>$val){
-			$order			= Tbl_order::with('Tbl_customer')->find($val->customerId);
+			$order			= Tbl_order::with('Tbl_customer')->find($val->orderId);
 			$result[$key] 	= $val;
 			$result[$key]['order'] = $order;
 			
