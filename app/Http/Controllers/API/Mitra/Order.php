@@ -21,7 +21,7 @@ class Order extends Controller
 
 	public function index(){
 		
-		$order = Tbl_order::where('orderStatus', 'process')->get();
+		$order = Tbl_order::where('orderStatus', 'process')->orderBy('id', 'DESC')->get();
 		
 		if((empty($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -40,9 +40,10 @@ class Order extends Controller
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			}else{
 				$result[$key]['rute'] = 'Tidak Ditemukan';
-				$result[$key]['regionAsal'] = substr($val->alamatAsal, 20).'..';
-				$result[$key]['regionTujuan'] = substr($val->alamatTujuan, 20).'..';
+				$result[$key]['regionAsal']['distric'] = substr($order->alamatAsal, 10).'..';
+				$result[$key]['regionTujuan']['distric'] = substr($order->alamatTujuan, 10).'..';
 			}
+			
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
