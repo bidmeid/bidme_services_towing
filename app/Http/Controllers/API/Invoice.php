@@ -38,7 +38,7 @@ class Invoice extends Controller
 		
 		$billing = $bid->bidding - $this->couponVoucher($request->kupon);
 		
-		$ticketGen = $this->created(uniqid());
+		$invoiceGen = $this->created(uniqid());
 		
 		if(!Tbl_invoice::where('noInvoice', '=', $invoiceGen)->exists()) {
 			$invoice = $invoiceGen;
@@ -82,7 +82,7 @@ class Invoice extends Controller
 		}
 		
 		$input = Tbl_invoice::where('id', $request->id)->update([
-			'orderStatus'  => 'success',
+			'orderStatus'  => 'success'
 		]);
 		
 		return $this->sendResponseCreate($input);
