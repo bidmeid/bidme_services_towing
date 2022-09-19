@@ -47,7 +47,7 @@ class Invoice extends Controller
 		}
 		
 		$invoices = Tbl_invoice::where('orderId', $request->orderId)->first();
-		if(!$invoice){
+		if(!$invoices){
 		$input['invoice'] = Tbl_invoice::create([
 			'orderId' => $request->orderId,
 			'biddingId' => $order->bidId,
