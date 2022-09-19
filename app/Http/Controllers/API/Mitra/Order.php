@@ -9,6 +9,7 @@ use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_kondisi_kendaraan;
 use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
+use App\Models\Tbl_postCode;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -29,9 +30,12 @@ class Order extends Controller
 	     
 		$result = array();
 		foreach($order as $key=>$val){
+			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			$result[$key] = $val;
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
-			$result[$key]['rute'] = Tbl_rute_pricelist::find($val->ruteId);
+			$result[$key]['rute'] = $rute;
 			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
