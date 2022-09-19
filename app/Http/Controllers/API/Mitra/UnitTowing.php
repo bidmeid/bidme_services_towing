@@ -46,9 +46,7 @@ class UnitTowing extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
 		}
 		
-		$result = Tbl_unit_towing::find($request->towingId);
-
-		if((!empty($result)) AND ($result->count() != 0)){
+	
 			$input = Tbl_unit_towing::create([
 			'mitraId'   			=> $request->mitraId,
 			'jenisTowing'   			=> $request->jenisTowing,
@@ -58,12 +56,7 @@ class UnitTowing extends Controller
 
 			 
 			return $this->sendResponseCreate($input);
-			 
-		}else{
-			$message 	= 'Your request couldn`t be found';
-			return $this->sendResponseError($message, null, 202);
-		}
-
+		
 		
 	}
 	

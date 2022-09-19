@@ -60,9 +60,8 @@ class PostBidding extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if ($request->bidStatus == ''){$bidStatus = 'IS NOT NULL'; }else{ $bidStatus = ' = '.$request->bidStatus; };
-		
-		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->whereRaw('bidStatus '. $bidStatus)->first();
+		 
+		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus ', $request->bidStatus)->get();
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
