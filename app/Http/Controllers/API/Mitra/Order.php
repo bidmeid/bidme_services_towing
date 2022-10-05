@@ -24,7 +24,7 @@ class Order extends Controller
 	public function index(){
 		
 		$now = date("Y-m-d");
-		$order = Tbl_order::where('orderDate >=', $now)->where('orderStatus', 'process')->orderBy('id', 'DESC')->get();
+		$order = Tbl_order::whereRaw('orderDate >= '. $now)->where('orderStatus', 'process')->orderBy('id', 'DESC')->get();
 		
 		if((empty($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
