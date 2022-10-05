@@ -6,11 +6,15 @@ use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_order;
 use App\Models\Tbl_bidding;
+use App\Models\Tbl_user_mitra;
+use App\Models\Tbl_customer;
 
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailMitra;
 
 class Invoice extends Controller
 {
@@ -51,6 +55,7 @@ class Invoice extends Controller
 		$input['invoice'] = Tbl_invoice::create([
 			'orderId' => $request->orderId,
 			'biddingId' => $order->bidId,
+			'mitraId' => $bid->mitraId,
 			'noInvoice' => $invoice,
 			'paymentMethod'  => $request->paymentMethod,
 			'paymentStatus'  => 'pending',
@@ -60,9 +65,19 @@ class Invoice extends Controller
 			$input['invoice'] = $invoices;
 		}
 		
-		Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'close'
+		$orders = Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'payment'
 		]);
+		
+		Tbl_bidding::where('orderId', $request->orderId)->update([
+			'bidStatus'  => 1
+		]);
+		
+		Tbl_bidding::where('id', $request->biddingId)->update([
+			'bidStatus'  => 2
+		]);
+		
+		$message = $this->sendEmail($orders->id);
 		
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
@@ -79,27 +94,7 @@ class Invoice extends Controller
 		return $this->sendResponseOk($result);
 	}
 	
-	public function PaymentSuccess(request $request){
-		
-		$validator = Validator::make($request->all(), [
-			'id' => 'required',
-			
-        ]);
-
-        if($validator->fails()){
-            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
-		}
-		
-		$input = Tbl_invoice::where('id', $request->id)->update([
-			'orderStatus'  => 'success'
-		]);
-		
-		return $this->sendResponseCreate($input);
-	}
 	
-	public function PaymentFailed(){
-		 //
-	}
 
 	
 	private function created($uniqid) {
@@ -116,6 +111,31 @@ class Invoice extends Controller
 		$result = 0;
 		}
 		return $result;
+
+	}
+	
+	private function sendEmail($orderId)
+	{
+		$order  = Tbl_order::find($orderId);
+		$invoice  = Tbl_invoice::where("orderId", $orderId);
+		$mitra = Tbl_user_mitra::find($invoice->mitraId);
+		$customer = Tbl_customer::find($order->customerId);
+		
+		 
+		$details = [
+			'title' => 'Order masuk towing untuk '.$customer->name,
+			'name' => $customer->name,
+			'alamatAsal' => $order->alamatAsal,
+			'alamatTujuan' => $order->alamatTujuan,
+			'invoice' => $invoice->noinvoice,
+			'payment' => "Sudah dibayar",
+			'paymentDate' => $invoice->updated_at,
+			 
+			];
+		
+		$catch = Mail::to($mitra->email)->send(new EmailMitra($details));
+		 
+		return true;
 
 	}
 }

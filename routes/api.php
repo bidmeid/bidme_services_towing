@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/couponVoucher', [Api\PostOrder::class, 'couponVoucher']);
 		Route::post('/invoice', [Api\Invoice::class, 'index']);
 		Route::post('/updateAccount', [Api\UsersCustomer::class, 'update_account']);
+		Route::get('/customerNotif', [Api\CustomerNotif::class, 'index']);
+		Route::post('/payment-handler', [\App\Http\Controllers\Midtrans\MidtransController::class, 'payment_handler']);
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:mitra']], function() {
@@ -77,6 +79,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::get('/mitra/getOrderById', [Api\Mitra\Order::class, 'getOrderById']); 
 		Route::get('/mitra/myBidding', [Api\Mitra\PostBidding::class, 'myBidding']);
 		Route::post('/mitra/updateAccount', [Api\Mitra\UsersMitra::class, 'update_account']);
+		Route::get('/mitra/mitraNotif', [Api\Mitra\MitraNotif::class, 'index']);
 		
 		//DRIVER		
 		Route::post('/mitra/listDriver', [Api\Mitra\Driver::class, 'index']);		
@@ -88,7 +91,10 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/mitra/listTowing', [Api\Mitra\UnitTowing::class, 'index']);		
 		Route::post('/mitra/createTowing', [Api\Mitra\UnitTowing::class, 'createTowing']);		
 		Route::post('/mitra/updateTowing', [Api\Mitra\UnitTowing::class, 'updateTowing']);		
-		Route::delete('/mitra/deleteTowing', [Api\Mitra\UnitTowing::class, 'deleteTowing']);	
+		Route::delete('/mitra/deleteTowing', [Api\Mitra\UnitTowing::class, 'deleteTowing']);
+		
+		Route::get('/mitra/myOrder', [Api\Mitra\Order::class, 'myOrder']);
+		Route::post('/mitra/postDriver', [Api\Mitra\Order::class, 'postDriver']);
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:driver']], function() {
@@ -102,5 +108,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 });
 
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);
+
+
 
 

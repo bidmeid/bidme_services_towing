@@ -33,6 +33,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
 // Socialite 
 
 Route::controller(\App\Http\Controllers\Auth\SocialiteController::class)->group(function () {
@@ -57,3 +58,5 @@ Route::controller(\App\Http\Controllers\Auth\SocialiteMitraController::class)->g
         Route::get('/auth/mitra/redirect/{provider}/callback-url', 'hadleProviderCallback');
     });
 }); */
+
+

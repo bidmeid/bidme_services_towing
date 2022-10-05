@@ -19,12 +19,12 @@ class UnitTowing extends Controller
 		$sort 		= $request->input('sort'); if ($sort == ''){$sort = 'ASC'; };
 		$columns	= "id";
 
-		$data 	= Tbl_unit_towing::where('mitraId', Auth::user()->id)
+		$data 	= Tbl_unit_towing::where('mitra_id', Auth::user()->id)
 					->orderBy($columns, $sort)
 					->paginate($limit);
 
 		if((!empty($data)) AND ($data->count() != 0)){
-			$data->data = colection_pages::collection($data);
+// 			$data->data = colection_pages::collection($data);
 			$result = $data;
 		}else{
 			$message 	= 'Your request couldn`t be found';
@@ -93,7 +93,7 @@ class UnitTowing extends Controller
 		
 	}
 	
-	public function deleteTowing(){	
+	public function deleteTowing(Request $request){	
 		$validator = Validator::make($request->all(), [
             'towingId' => 'required',            
 		]);
@@ -102,7 +102,7 @@ class UnitTowing extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
 		}
 		
-		$result = Tbl_unit_towing::where('mitraId', Auth::user()->id)->find($request->towingId);
+		$result = Tbl_unit_towing::where('mitra_id', Auth::user()->id)->find($request->towingId);
 		
        
 		$result->delete();

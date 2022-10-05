@@ -46,6 +46,11 @@ class RequestCost extends Controller
 		}
 		
 	}
+	
+	public function notifikasi (Request $request)
+	{
+	    return redirect('https://services.bidme.id/notif');
+	}
 
 	
 

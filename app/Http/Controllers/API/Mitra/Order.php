@@ -10,6 +10,8 @@ use App\Models\Tbl_kondisi_kendaraan;
 use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_postCode;
+use App\Models\Tbl_invoice;
+use App\Models\Tbl_tracking;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,7 +23,8 @@ class Order extends Controller
 
 	public function index(){
 		
-		$order = Tbl_order::where('orderStatus', 'process')->orderBy('id', 'DESC')->get();
+		$now = date("Y-m-d");
+		$order = Tbl_order::where('orderDate >=', $now)->where('orderStatus', 'process')->orderBy('id', 'DESC')->get();
 		
 		if((empty($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -52,6 +55,40 @@ class Order extends Controller
 		return $this->sendResponseOk($result);
 	}
 	
+	public function myOrder(){
+		
+		$order = Tbl_invoice::where('mitraId', Auth::user()->id)->where('paymentStatus', 'settlement')->orderBy('id', 'DESC')->get();
+		
+		if((empty($order)) OR ($order->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+	     
+		$result = array();
+		foreach($order as $key=>$val){
+			
+			$order = Tbl_order::find($val->orderId);
+			$rute = Tbl_rute_pricelist::find($order->ruteId);
+			$result[$key] = $val;
+			
+			$result[$key]['order'] = $order;
+			if($rute){
+			$result[$key]['rute'] = $rute;
+			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			}else{
+				$result[$key]['rute'] = 'Tidak Ditemukan';
+				$result[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 0, 16).'..'];
+				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
+			}
+			
+			 
+		};
+		
+		return $this->sendResponseOk($result);
+
+	}
+	
 	public function getOrderById(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
@@ -74,6 +111,42 @@ class Order extends Controller
 		
 		return $this->sendResponseOk($result);
 
+	}
+	
+	public function postDriver(request $request){
+		
+		
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required',
+			'driverId'  => 'required',
+			
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$check = Tbl_tracking::where('orderId', $request->orderId)->where('driverId', $request->required)->first();
+		
+		if(!empty($check)){
+			$message 	= 'Anda telah memilih driver untuk order ini';
+			return $this->sendResponseError($message, null, 202);
+		}
+		
+		$input = Tbl_tracking::create([
+			'orderId' => $request->orderId,
+			'driverId' => $request->driverId,
+			'status'  => 'open',
+			'msg'  => 'driver akan melakukan penjemputan',
+			
+		]);
+		
+		Tbl_invoice::where('orderId', $request->orderId)->update([
+			'driverId' => $input->driverId,
+
+		]);
+		
+		return $this->sendResponseCreate($input);
 	}
 
 

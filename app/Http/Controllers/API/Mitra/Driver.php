@@ -69,7 +69,7 @@ class Driver extends Controller
 		}
 	}
 	
-	public function deleteDriver(){	
+	public function deleteDriver(Request $request){	
 		$validator = Validator::make($request->all(), [
             'driverId' => 'required',            
 		]);
