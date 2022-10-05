@@ -69,7 +69,7 @@ class Invoice extends Controller
 			'orderStatus'  => 'payment'
 		]);
 		
-		Tbl_bidding::where('orderId', $request->orderId)->update([
+		Tbl_bidding::where('orderId', $request->bidId)->update([
 			'bidStatus'  => 1
 		]);
 		
