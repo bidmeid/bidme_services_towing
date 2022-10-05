@@ -119,6 +119,7 @@ class Order extends Controller
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
 			'driverId'  => 'required',
+			'noTnkbTowing'  => 'noTnkbTowing',
 			
         ]);
 		
@@ -136,6 +137,7 @@ class Order extends Controller
 		$input = Tbl_tracking::create([
 			'orderId' => $request->orderId,
 			'driverId' => $request->driverId,
+			'noTnkbTowing' => $request->noTnkbTowing,
 			'status'  => 'open',
 			'msg'  => 'driver akan melakukan penjemputan',
 			
