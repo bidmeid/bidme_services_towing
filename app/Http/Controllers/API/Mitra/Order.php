@@ -137,7 +137,7 @@ class Order extends Controller
 		$input = Tbl_tracking::create([
 			'orderId' => $request->orderId,
 			'driverId' => $request->driverId,
-			'noTnkbTowing' => $request->noTnkbTowing,
+			 
 			'status'  => 'open',
 			'msg'  => 'driver akan melakukan penjemputan',
 			
@@ -145,6 +145,7 @@ class Order extends Controller
 		
 		Tbl_invoice::where('orderId', $request->orderId)->update([
 			'driverId' => $input->driverId,
+			'noTnkbTowing' => $request->noTnkbTowing,
 
 		]);
 		
