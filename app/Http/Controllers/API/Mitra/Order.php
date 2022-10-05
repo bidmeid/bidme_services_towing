@@ -119,7 +119,7 @@ class Order extends Controller
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
 			'driverId'  => 'required',
-			'noTnkbTowing'  => 'noTnkbTowing',
+			'noTnkbTowing'  => 'required',
 			
         ]);
 		
