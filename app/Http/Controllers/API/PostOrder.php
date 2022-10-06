@@ -86,7 +86,7 @@ class PostOrder extends Controller
         }
 		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
 		
-		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->orderBy('id', 'DESC')->get();
+		$order = Tbl_order::where('customerId', Auth::user()->id)->where('orderStatus', 'payment')->whereRaw('orderStatus '. $orderStatus)->orderBy('id', 'DESC')->get();
 		
 		$result = array();
 		foreach($order as $key=>$val){
@@ -135,6 +135,7 @@ class PostOrder extends Controller
 			$rute = Tbl_rute_pricelist::find($result->ruteId);
 			
 			$result->status = 'unpaid';
+			
 			if($rute){
 			$result->rute = $rute;
 			$result->regionAsal = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();

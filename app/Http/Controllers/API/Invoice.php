@@ -73,11 +73,11 @@ class Invoice extends Controller
 			'bidStatus'  => 1
 		]);
 		
-		Tbl_bidding::where('id', $request->bidId)->update([
+		Tbl_bidding::where('id', $request->orderId)->update([
 			'bidStatus'  => 2
 		]);
 		
-		$message = $this->sendEmail($orders->id);
+		$message = $this->sendEmail($request->orderId);
 		
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
@@ -117,7 +117,7 @@ class Invoice extends Controller
 	private function sendEmail($orderId)
 	{
 		$order  = Tbl_order::find($orderId);
-		$invoice  = Tbl_invoice::where("orderId", $orderId);
+		$invoice  = Tbl_invoice::where("orderId", $orderId)->first();
 		$mitra = Tbl_user_mitra::find($invoice->mitraId);
 		$customer = Tbl_customer::find($order->customerId);
 		
