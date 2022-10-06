@@ -8,6 +8,7 @@ use App\Models\Tbl_invoice;
 use App\Models\Tbl_bidding;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MitraNotif extends Controller
 {
@@ -17,7 +18,7 @@ class MitraNotif extends Controller
 		
 		$now = date("Y-m-d");
 		$result['total_order_today']		= Tbl_order::whereRaw('orderDate >= '. $now)->count();
-		$result['total_bidding_aktif']		= Tbl_bidding::where('customerId', Auth::user()->id)->where('bidStatus', 'open')->count();
+		$result['total_bidding_aktif']		= Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', 'open')->count();
 		$result['total_order_berlangsung']	=  Tbl_invoice::where('mitraId', Auth::user()->id)->where('paymentStatus', 'settlement')->count();
 		
 								

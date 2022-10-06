@@ -6,6 +6,7 @@ use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_order;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerNotif extends Controller
 {
