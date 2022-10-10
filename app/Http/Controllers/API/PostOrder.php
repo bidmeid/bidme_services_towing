@@ -230,6 +230,31 @@ class PostOrder extends Controller
 
 	}
 	
+	public function finishOrder(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required'
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+		
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be done';
+			return $this->sendResponseError($message, null, 202);
+		}else{
+			$orders = Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'close'
+			]);
+		}
+	   
+		
+		return $this->sendResponseCreate(null);
+
+	}
+	
 	private function created($uniqid) {
 		$ticket = rand(100, 999).str_pad(substr($uniqid,3), 3, STR_PAD_LEFT);
 		
