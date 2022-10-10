@@ -135,6 +135,7 @@ class PostOrder extends Controller
 			$rute = Tbl_rute_pricelist::find($result->ruteId);
 			
 			$result->status = 'unpaid';
+			$result->invoice = null;
 			
 			if($rute){
 			$result->rute = $rute;
@@ -151,6 +152,7 @@ class PostOrder extends Controller
 			
 		if((!empty($invoice)) OR ($invoice != null)){
 			$result->status = 'paid';
+			$result->invoice = $invoice;
 		}
 		
 		return $this->sendResponseOk($result);
