@@ -41,7 +41,7 @@ class Bidding extends Controller
 		foreach($bidding as $key=>$val){
 			$result[$key] = $val;
 			$result[$key]['url_img'] = url('rontend/img/towing-3.jpg');
-			$result[$key]['mitra'] = Tbl_user_mitra::select('namaUsaha', 'alamatUsaha')->first($val->mitraID);
+			$result[$key]['mitra'] = Tbl_user_mitra::select('namaUsaha', 'alamatUsaha')->find($val->mitraID);
 		};
 								
 		return $this->sendResponseOk($result);

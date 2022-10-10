@@ -97,7 +97,7 @@ class Order extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		$result = Tbl_order::where('orderStatus', 'process')->find($request->orderId);
+		$result = Tbl_order::whereRaw('"orderStatus" <> "close"')->find($request->orderId);
 	
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -127,7 +127,7 @@ class Order extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$check = Tbl_tracking::where('orderId', $request->orderId)->where('driverId', $request->required)->first();
+		$check = Tbl_tracking::where('orderId', $request->orderId)->where('driverId', $request->driverId)->first();
 		
 		if(!empty($check)){
 			$message 	= 'Anda telah memilih driver untuk order ini';
