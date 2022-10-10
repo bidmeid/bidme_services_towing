@@ -12,6 +12,7 @@ use App\Models\Tbl_kondisi_kendaraan;
 use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_invoice;
+use App\Models\Tbl_tracking;
 
 use Validator;
 use Illuminate\Http\Request;
@@ -246,7 +247,11 @@ class PostOrder extends Controller
 			return $this->sendResponseError($message, null, 202);
 		}else{
 			$orders = Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'close'
+			'orderStatus'  => 'done'
+			]);
+			
+			Tbl_tracking::where('orderId', $request->orderId)->update([
+			'status'  => 'close'
 			]);
 		}
 	   

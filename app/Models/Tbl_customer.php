@@ -27,6 +27,8 @@ class Tbl_customer extends Authenticatable
         'email',
         'avatar',
         'password',
+        'region',
+        'alamat',
     ];
 
     /**
