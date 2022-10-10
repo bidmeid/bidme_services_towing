@@ -6,11 +6,8 @@ use App\Http\Controllers\Api as Controller;
 use App\Models\Tbl_user_driver;
 use App\Models\Tbl_order;
 use App\Models\Tbl_user_mitra;
-use App\Models\Tbl_rute_pricelist;
-use App\Models\Tbl_postCode;
-use App\Models\Tbl_kondisi_kendaraan;
-use App\Models\Tbl_jenis_kendaraan;
-use App\Models\Tbl_type_kendaraan;
+
+use App\Models\Tbl_tracking;
 use App\Models\Tbl_invoice;
 
 use Validator;
@@ -37,6 +34,7 @@ class Tracking extends Controller
 		
 		
 		$order = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+		$tracking = Tbl_tracking::where('orderId', $order->id)->first();
 		
 		$result = Tbl_invoice::where('orderId', $order->id)->first();
 		
@@ -50,6 +48,8 @@ class Tracking extends Controller
 			 
 			$result->latLongAsal = $order->latLongAsal;
 			$result->latLongTujuan = $order->latLongTujuan;
+			$result->latLongDriver = $tracking->latitude.','.$tracking->longtitude;
+			
 			$result->driver = Tbl_user_driver::find($result->driverId);
 			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($result->mitraId);
 			

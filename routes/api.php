@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/updateAccount', [Api\UsersCustomer::class, 'update_account']);
 		Route::get('/customerNotif', [Api\CustomerNotif::class, 'index']);
 		Route::get('/tracking', [Api\Tracking::class, 'index']);
+		Route::get('/driverInfo', [Api\Tracking::class, 'driverInfo']);
 		Route::post('/payment-handler', [\App\Http\Controllers\Midtrans\MidtransController::class, 'payment_handler']);
 	});
 	
