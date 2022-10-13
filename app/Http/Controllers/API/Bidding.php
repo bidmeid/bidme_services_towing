@@ -29,7 +29,16 @@ class Bidding extends Controller
 		
 		$order =  Tbl_order::where('id', $request->input('orderId'))->first();
 		
-		//$dt = new DateTime($order->);
+		 
+		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+			
+			Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'failed'
+			]);
+		
+			$message 	= 'Kami tidak dapat menemukan mitra towing untuk anda, silahkan lakukan order kembali';
+			return $this->sendResponseError($message, '',203);
+		}
 		
         $bidding		= Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))->get();
 		 
@@ -48,17 +57,26 @@ class Bidding extends Controller
 		return $this->sendResponseOk($result);
 	}
 	
-	/* private function checkingBid($orderDate, $orderTime){
-		$dateNow = date('Y-m-d');
-		$timeExpire = $orderTime;
-		if($orderDate < $dateNow){
+	private function checkingBid($orderDate, $orderTime){
+		
+		$dateOrder = $orderDate;
+        $timeOrder = $orderTime;
+		
+		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
+		$now =  Carbon::now();
+		
+		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(5);
+		
+		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
+		
+		$diffInMinutes = $now->diffInMinutes($orderTime);
+		
+		if($diffInMinutes > 5){
 			return false;
-		}elseif($orderDate == $dateNow){
-			if($orderTime < $timeExpire){
-			
-			}
+		}else{
+			return true;
 		}
 		
-	} */
+	} 
 
 }
