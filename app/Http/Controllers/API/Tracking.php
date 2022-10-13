@@ -33,10 +33,11 @@ class Tracking extends Controller
 		
 		
 		
-		$order = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
-		$tracking = Tbl_tracking::where('orderId', $order->id)->first();
+		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus <> "done"')->find($request->orderId);
+		if($order){
+		$result = Tbl_tracking::where('orderId', $order->id)->first();
 		
-		$result = Tbl_invoice::where('orderId', $order->id)->first();
+		$invoice = Tbl_invoice::where('orderId', $order->id)->first();
 		
 		
 		
@@ -48,14 +49,17 @@ class Tracking extends Controller
 			 
 			$result->latLongAsal = $order->latLongAsal;
 			$result->latLongTujuan = $order->latLongTujuan;
-			$result->latLongDriver = $tracking->latitude.','.$tracking->longtitude;
+			$result->latLongDriver = $result->latitude.','.$result->longtitude;
 			
 			$result->driver = Tbl_user_driver::find($result->driverId);
-			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($result->mitraId);
+			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($invoice->mitraId);
 			
 		
 		return $this->sendResponseOk($result);
-
+		}else{
+			$message 	= 'Order tidak ditemukan';
+			return $this->sendResponseError($message, '',202);
+		}
 	}
 	
 }
