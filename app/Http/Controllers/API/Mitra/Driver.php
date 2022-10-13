@@ -69,6 +69,27 @@ class Driver extends Controller
 		}
 	}
 	
+	
+	public function getDriverById(Request $request){	
+		$validator = Validator::make($request->all(), [
+            'driverId' => 'required',            
+		]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+		}
+		
+		$result = M_Users::where('mitraId', Auth::user()->id)->find($request->driverId);
+		
+		if(empty($result)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+       
+		return $this->sendResponseOk($result);
+		
+	}
+	
 	public function deleteDriver(Request $request){	
 		$validator = Validator::make($request->all(), [
             'driverId' => 'required',            

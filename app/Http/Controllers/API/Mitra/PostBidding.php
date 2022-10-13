@@ -94,25 +94,39 @@ class PostBidding extends Controller
 
 	}
 	
+	public function getBidById(Request $request){
+		$validator = Validator::make($request->all(), [
+			'bidId'  => 'required',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		$result = Tbl_bidding::where('mitraId', Auth::user()->id)->find($request->bidId);
+	
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+			$result->order = Tbl_order::find($result->orderId);
+			
+		
+		return $this->sendResponseOk($result);
+
+	}
+	
 	public function cancelBidding(Request $request){
 		$validator = Validator::make($request->all(), [
-			'orderId'  => 'required',
+			'bidId'  => 'required',
         ]);
 		
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$result = Tbl_bidding::where('orderId', $request->orderId)->find();
-	
-		if((is_null($result)) OR ($result->count() == 0)){
-			$message 	= 'Your request couldn`t be found';
-			return $this->sendResponseError($message, '',202);
-		}else{
-			$input = Tbl_bidding::where('orderId', $request->orderId)->update([
-			'bidStatus' => 'cancel', 
+		Tbl_bidding::where('id', $request->bidId)->update([
+			'bidStatus' => 1, 
 			]);
-		}
 	   
 		
 		return $this->sendResponseOk($result);

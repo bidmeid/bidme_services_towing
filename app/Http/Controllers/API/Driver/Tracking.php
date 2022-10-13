@@ -67,5 +67,31 @@ class Tracking extends Controller
 			return  $this->sendResponseOk($result);
 		}
 	}
+	
+	public function finishOrder(Request $request){
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required'
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+		
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be done';
+			return $this->sendResponseError($message, null, 202);
+		}else{
+			 
+			Tbl_tracking::where('orderId', $request->orderId)->update([
+			'status'  => 'close'
+			]);
+		}
+	   
+		
+		return $this->sendResponseCreate(null);
+
+	}
 
 }

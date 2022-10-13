@@ -10,6 +10,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Bidding extends Controller
 {
@@ -31,7 +32,7 @@ class Bidding extends Controller
 		//$dt = new DateTime($order->);
 		
         $bidding		= Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))->get();
-		
+		 
 		if((is_null($bidding)) OR ($bidding->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
@@ -46,5 +47,18 @@ class Bidding extends Controller
 								
 		return $this->sendResponseOk($result);
 	}
+	
+	/* private function checkingBid($orderDate, $orderTime){
+		$dateNow = date('Y-m-d');
+		$timeExpire = $orderTime;
+		if($orderDate < $dateNow){
+			return false;
+		}elseif($orderDate == $dateNow){
+			if($orderTime < $timeExpire){
+			
+			}
+		}
+		
+	} */
 
 }

@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/checkOut', [Api\PostOrder::class, 'checkOut']);
 		Route::post('/couponVoucher', [Api\PostOrder::class, 'couponVoucher']);
 		Route::post('/invoice', [Api\Invoice::class, 'index']);
+		Route::post('/paymentStatus', [Api\Invoice::class, 'paymentStatus']);
 		Route::post('/updateAccount', [Api\UsersCustomer::class, 'update_account']);
 		Route::get('/customerNotif', [Api\CustomerNotif::class, 'index']);
 		Route::get('/tracking', [Api\Tracking::class, 'index']);
@@ -77,6 +78,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 	
 	Route::group(['middleware' => ['auth:sanctum','role:mitra']], function() {
 		Route::post('/mitra/postBidding', [Api\Mitra\PostBidding::class, 'index']); 
+		Route::post('/mitra/getBidById', [Api\Mitra\PostBidding::class, 'getBidById']); 
 		Route::post('/mitra/cancelBidding', [Api\Mitra\PostBidding::class, 'cancelBidding']); 
 		Route::get('/mitra/getOrder', [Api\Mitra\Order::class, 'index']); 
 		Route::get('/mitra/getOrderById', [Api\Mitra\Order::class, 'getOrderById']); 
@@ -86,13 +88,15 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		
 		//DRIVER		
 		Route::post('/mitra/listDriver', [Api\Mitra\Driver::class, 'index']);		
-		Route::post('/mitra/registrationDriver', [AuthDriverController::class, 'signup']);		
+		Route::post('/mitra/registrationDriver', [AuthDriverController::class, 'signup']);
+		Route::post('/mitra/getDriverById', [Api\Mitra\Driver::class, 'getDriverById']);		
 		Route::post('/mitra/updateDriver', [Api\Mitra\Driver::class, 'updateDriver']);		
 		Route::delete('/mitra/deleteDriver', [Api\Mitra\Driver::class, 'deleteDriver']);	
 
 		//UNIT
 		Route::post('/mitra/listTowing', [Api\Mitra\UnitTowing::class, 'index']);		
 		Route::post('/mitra/createTowing', [Api\Mitra\UnitTowing::class, 'createTowing']);		
+		Route::post('/mitra/getTowingById', [Api\Mitra\UnitTowing::class, 'getTowingById']);		
 		Route::post('/mitra/updateTowing', [Api\Mitra\UnitTowing::class, 'updateTowing']);		
 		Route::delete('/mitra/deleteTowing', [Api\Mitra\UnitTowing::class, 'deleteTowing']);
 		
@@ -104,7 +108,8 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::get('/driver/getOrder', [Api\Driver\Tracking::class, 'index']); 
 		Route::post('/driver/postLatLng', [Api\Driver\Tracking::class, 'postLatLng']); 
 		Route::post('/driver/lastLatLng', [Api\Driver\Tracking::class, 'lastLatLng']); 
-		Route::post('/driver/updateAccount', [Api\Driver\UsersDriver::class, 'updateAccount']);	
+		Route::post('/driver/updateAccount', [Api\Driver\UsersDriver::class, 'updateAccount']);
+		Route::post('/driver/finishOrder', [Api\Driver\Tracking::class, 'finishOrder']);
 	});
 	
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');

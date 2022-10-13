@@ -94,6 +94,28 @@ class Invoice extends Controller
 		return $this->sendResponseOk($result);
 	}
 	
+	public function paymentStatus(request $request) {
+		$validator = Validator::make($request->all(), [
+			'orderId' => 'required',
+			'paymentStatus'  => 'required',
+
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
+        }
+		
+		$result = Tbl_invoice::where('orderId', $request->orderId)->update([
+			'paymentStatus'  => $request->paymentStatus
+		]);
+		 
+		if(empty($result)){
+			return $this->sendResponseError(null);
+		}
+		 
+		return $this->sendResponseCreate();
+	}
+	
 	
 
 	

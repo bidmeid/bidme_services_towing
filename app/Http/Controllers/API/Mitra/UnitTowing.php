@@ -93,6 +93,26 @@ class UnitTowing extends Controller
 		
 	}
 	
+	public function getTowingById(Request $request){	
+		$validator = Validator::make($request->all(), [
+            'towingId' => 'required',            
+		]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+		}
+		
+		$result = Tbl_unit_towing::where('mitra_id', Auth::user()->id)->find($request->towingId);
+		
+       if(empty($result)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+		
+		return $this->sendResponseOk($result);
+		
+	}
+	
 	public function deleteTowing(Request $request){	
 		$validator = Validator::make($request->all(), [
             'towingId' => 'required',            
