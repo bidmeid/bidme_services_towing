@@ -42,7 +42,7 @@ class Tracking extends Controller
 		
 		
 		if(empty($result)){
-			$message 	= 'Your request couldn`t be found';
+			$message 	= 'Tracking kendaraan anda belum tersedia';
 			return $this->sendResponseError($message, '',202);
 		}
 		

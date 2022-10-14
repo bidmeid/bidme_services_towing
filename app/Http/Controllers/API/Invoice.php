@@ -113,7 +113,7 @@ class Invoice extends Controller
 			return $this->sendResponseError(null);
 		}
 		 
-		return $this->sendResponseCreate();
+		return $this->sendResponseCreate(null);
 	}
 	
 	

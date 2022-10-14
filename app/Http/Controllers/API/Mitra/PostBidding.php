@@ -11,6 +11,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PostBidding extends Controller
 {
@@ -31,6 +32,17 @@ class PostBidding extends Controller
         }
 		
 		$check = Tbl_bidding::where('mitraId', Auth::user()->id)->where('orderId', $request->orderId)->first();
+		$order =  Tbl_order::where('id', $request->input('orderId'))->first();
+		
+		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+			
+			Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'failed'
+			]);
+		
+			$message 	= 'Kami tidak dapat menemukan mitra towing untuk anda, silahkan lakukan order kembali';
+			return $this->sendResponseError($message, '',203);
+		}
 		
 		if(!empty($check)){
 			$message 	= 'Anda telah melakukan biding untuk order ini';
@@ -46,7 +58,7 @@ class PostBidding extends Controller
 			
 		]);
 		
-		$order = Tbl_order::where('id', $request->orderId)->update([
+		Tbl_order::where('id', $request->orderId)->update([
 			'bidId' => $input->id,
 
 		]);
@@ -132,4 +144,26 @@ class PostBidding extends Controller
 		return $this->sendResponseOk($result);
 
 	}
+	
+	private function checkingBid($orderDate, $orderTime){
+		
+		$dateOrder = $orderDate;
+        $timeOrder = $orderTime;
+		
+		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
+		$now =  Carbon::now();
+		
+		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(5);
+		
+		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
+		
+		$diffInMinutes = $now->diffInMinutes($orderTime);
+		
+		if($diffInMinutes > 5){
+			return false;
+		}else{
+			return true;
+		}
+		
+	} 
 }

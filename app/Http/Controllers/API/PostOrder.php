@@ -107,7 +107,10 @@ class PostOrder extends Controller
 			}		
 		};
 	
-		
+		if(empty($result)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
 	   
 		
 		return $this->sendResponseOk($result);
