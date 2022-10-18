@@ -22,7 +22,14 @@ class Tbl_user_mitra extends Authenticatable
 	
 	protected $fillable = [
         'name',
-        'no_telp',
+        'no_tlp',
+        'no_tlp_2',
+        'alamat',
+        'region',
+        'bank_acc',
+        'no_acc',
+        'namaUsaha',
+        'alamatUsaha',
         'email',
         'avatar',
         'password',

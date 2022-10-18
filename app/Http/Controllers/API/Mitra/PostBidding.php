@@ -7,6 +7,7 @@ use App\Models\Tbl_bidding;
 use App\Models\Tbl_order;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_postCode;
+use App\Models\Tbl_customer;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -120,7 +121,7 @@ class PostBidding extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-			$result->order = Tbl_order::find($result->orderId);
+			$result->order = Tbl_order::with('Tbl_customer')->find($result->orderId);
 			
 		
 		return $this->sendResponseOk($result);
@@ -145,25 +146,5 @@ class PostBidding extends Controller
 
 	}
 	
-	private function checkingBid($orderDate, $orderTime){
-		
-		$dateOrder = $orderDate;
-        $timeOrder = $orderTime;
-		
-		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
-		$now =  Carbon::now();
-		
-		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(5);
-		
-		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
-		
-		$diffInMinutes = $now->diffInMinutes($orderTime);
-		
-		if($diffInMinutes > 5){
-			return false;
-		}else{
-			return true;
-		}
-		
-	} 
+	
 }

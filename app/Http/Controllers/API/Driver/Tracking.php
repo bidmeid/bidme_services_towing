@@ -39,11 +39,20 @@ class Tracking extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
 		}
-
+		$check = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->first();
+		if($check->trackPoint == 1){
+			$msg = 'Unit kendaraan sedang dalam pengiriman ke lokasi tujuan';
+			 
+		}else if($check->trackPoint == 2){
+			$msg = 'Unit kendaraan anda telah sampai di lokasi tujuan';
+		}else{
+			$msg = 'Driver towing akan melakukan penjemputan ke lokasi anda'
+		}
+		
 		$input = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->update([
 			'latitude'   		=> $request->latitude,
 			'longtitude'   		=> $request->longtitude,
-			//'status'   			=> 'running',
+			'msg'   			=> $msg,
 		]);
 
 		if($input){
@@ -62,7 +71,16 @@ class Tracking extends Controller
 		}
 
 		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->first();
-
+		$order 	= Tbl_order::find($result->orderId);
+		
+		if($result->trackPoint == 0){
+			$result->latLongTujuan = $order->latLongAsal;
+			$result->latLongDriver = $result->latitude.','.$result->longtitude;
+		}else{
+			$result->latLongTujuan = $order->latLongTujuan;
+			$result->latLongDriver = $result->latitude.','.$result->longtitude;	
+		}
+		
 		if($result){
 			return  $this->sendResponseOk($result);
 		}
@@ -71,6 +89,7 @@ class Tracking extends Controller
 	public function finishOrder(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required'
+			'trackPoint'  => 'required'
         ]);
 		
 		if($validator->fails()){
@@ -85,7 +104,9 @@ class Tracking extends Controller
 		}else{
 			 
 			Tbl_tracking::where('orderId', $request->orderId)->update([
-			'status'  => 'close'
+			'status'  => 'close',
+			'trackPoint'  => $request->trackPoint,
+			'msg'  => $msg
 			]);
 		}
 	   

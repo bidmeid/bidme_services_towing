@@ -20,7 +20,7 @@ class UsersMitra extends Controller
             'namaUsaha' => 'required',
             'alamatUsaha' => 'required',
             'alamat' => 'required',
-			'no_tlp' => 'required',
+			'no_telp' => 'required',
             
 		]);
 		if($validator->fails()){
@@ -43,7 +43,10 @@ class UsersMitra extends Controller
 			'alamat'   		=> $request->alamat,
 			'alamatUsaha'   => $request->alamatUsaha,
 			'namaUsaha'   	=> $request->namaUsaha,
-			'no_tlp'   		=> $request->no_tlp,
+			'no_telp'   	=> $request->no_telp,
+			'no_telp_2'   	=> $request->no_telp_2,
+			'bank_acc'   	=> $request->bank_acc,
+			'no_acc'   		=> $request->no_acc,
 			'password'   	=> $realPassword,
 		]);
 

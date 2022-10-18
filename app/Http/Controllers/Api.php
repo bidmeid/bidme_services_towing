@@ -86,4 +86,26 @@ class Api extends Controller
 
         return response()->json($response, $code);
     }
+	
+	public function checkingBid($orderDate, $orderTime){
+		
+		$dateOrder = $orderDate;
+        $timeOrder = $orderTime;
+		
+		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
+		$now =  Carbon::now();
+		
+		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(25);
+		
+		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
+		
+		$diffInMinutes = $now->diffInMinutes($orderTime);
+		
+		if($diffInMinutes > 25){
+			return false;
+		}else{
+			return true;
+		}
+		
+	} 
 }

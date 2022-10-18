@@ -47,9 +47,14 @@ class Tracking extends Controller
 		}
 		
 			 
-			$result->latLongAsal = $order->latLongAsal;
-			$result->latLongTujuan = $order->latLongTujuan;
+			 
+			if($result->trackPoint == 0){
+			$result->latLongTujuan = $order->latLongAsal;
 			$result->latLongDriver = $result->latitude.','.$result->longtitude;
+			}else{
+				$result->latLongTujuan = $order->latLongTujuan;
+				$result->latLongDriver = $result->latitude.','.$result->longtitude;	
+			}
 			
 			$result->driver = Tbl_user_driver::find($result->driverId);
 			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($invoice->mitraId);

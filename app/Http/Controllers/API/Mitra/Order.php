@@ -99,6 +99,16 @@ class Order extends Controller
         }
 		$result = Tbl_order::whereRaw('"orderStatus" <> "close"')->find($request->orderId);
 	
+		if($this->checkingBid($result->orderDate, $result->orderTime) == false){
+			
+			Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'failed'
+			]);
+		
+			$message 	= 'mohon maaf, order tersebut telah kadaluarsa';
+			return $this->sendResponseError($message, '',203);
+		}
+		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
@@ -137,9 +147,9 @@ class Order extends Controller
 		$input = Tbl_tracking::create([
 			'orderId' => $request->orderId,
 			'driverId' => $request->driverId,
-			 
+			'trackPoint' => 0,
 			'status'  => 'open',
-			'msg'  => 'driver akan melakukan penjemputan',
+			'msg'  => 'Driver sedang bersiap-siap untuk ke lokasi anda',
 			
 		]);
 		
