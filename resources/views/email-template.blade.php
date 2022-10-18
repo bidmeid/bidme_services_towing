@@ -395,7 +395,7 @@
                                                                 cellspacing="0">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td> <a href="http://mitra.bidme.id/sigin"
+                                                                        <td> <a href="http://mitra.bidme.id"
                                                                                 target="_blank">Masuk website mitra</a>
                                                                         </td>
                                                                     </tr>

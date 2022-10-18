@@ -21,7 +21,7 @@
                 <p> Nomor Invoice  : {{ $details['invoice'] }}</a> </p>
                 <p> Status Pembayaran  : {{ $details['payment'] }}</a> </p>
                 <p> Tanggal Pembayaran  : {{ $details['paymentDate'] }}</a> </p><br>
-                <p> Silahkan segera untuk pilih Driver dan masukan informasi Unit Towing anda, dengan login ke akun anda melalui website <a href="http://mitra.bidme.id/sigin"> http://mitra.bidme.id </a> </p>
+                <p> Silahkan segera untuk pilih Driver dan masukan informasi Unit Towing anda, dengan login ke akun anda melalui website <a href="http://mitra.bidme.id"> http://mitra.bidme.id </a> </p>
                 <p> Sebelumnya kami sangat mengapresiasi atas waktu dan partisipasi anda, serta tak lupa kami ucapkan Terimakasih.</p>
                 <br/>
                 <br/>
