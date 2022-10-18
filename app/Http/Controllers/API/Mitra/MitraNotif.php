@@ -7,7 +7,7 @@ use App\Models\Tbl_order;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_bidding;
 use \App\Models\Tbl_unit_towing;
-use \App\Models\Tbl_user_driver
+use \App\Models\Tbl_user_driver;
 use App\Models\Tbl_bidding;
 
 use Illuminate\Http\Request;
