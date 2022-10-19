@@ -60,7 +60,7 @@ class Driver extends Controller
 		$input = M_Users::where('id', $request->userId)->update([
 			'nameDriver'   		=> $request->name,
 			'alamatDriver'   		=> $request->alamat,
-			'noTelpDriver'   		=> $request->no_telp,
+			'noTlpDriver'   		=> $request->no_telp,
 			'password'   			=> $realPassword,
 		]);
 
