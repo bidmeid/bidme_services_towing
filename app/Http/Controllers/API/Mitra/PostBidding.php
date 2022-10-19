@@ -121,7 +121,9 @@ class PostBidding extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-			$result->order = Tbl_order::with('Tbl_customer')->find($result->orderId);
+			$order = Tbl_order::with('Tbl_customer')->find($result->orderId);
+			$result->order = $order;
+			$result->customer = Tbl_customer::find($order->customerId);
 			
 		
 		return $this->sendResponseOk($result);
