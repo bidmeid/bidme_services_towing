@@ -108,9 +108,9 @@ class Tracking extends Controller
 		}else{
 			 
 			Tbl_tracking::where('orderId', $request->orderId)->update([
-			'status'  => 'close',
+			//'status'  => 'close',
 			'trackPoint'  => $request->trackPoint,
-			'msg'  => $msg
+			//'msg'  => $msg
 			]);
 		}
 	   
