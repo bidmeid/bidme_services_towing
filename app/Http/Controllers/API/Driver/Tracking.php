@@ -88,7 +88,7 @@ class Tracking extends Controller
 	
 	public function finishOrder(Request $request){
 		$validator = Validator::make($request->all(), [
-			'orderId'  => 'required'
+			'orderId'  => 'required',
 			'trackPoint'  => 'required'
         ]);
 		
