@@ -46,7 +46,7 @@ class Tracking extends Controller
 		}else if($check->trackPoint == 2){
 			$msg = 'Unit kendaraan anda telah sampai di lokasi tujuan';
 		}else{
-			$msg = 'Driver towing akan melakukan penjemputan ke lokasi anda'
+			$msg = 'Driver towing akan melakukan penjemputan ke lokasi anda';
 		}
 		
 		$input = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->update([

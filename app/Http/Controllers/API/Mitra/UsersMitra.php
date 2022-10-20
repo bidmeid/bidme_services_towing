@@ -24,7 +24,7 @@ class UsersMitra extends Controller
             
 		]);
 		if($validator->fails()){
-            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
 		}
 		
 		$result = M_Users::where([
