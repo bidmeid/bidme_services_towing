@@ -43,7 +43,7 @@ class Tracking extends Controller
 		if(empty($check)){
 			$message 	= 'Your request couldn`t be done';
 			return $this->sendResponseError($message, null, 202);
-		}
+		};
 		if($check->trackPoint == 1){
 			$msg = 'Unit kendaraan sedang dalam pengiriman ke lokasi tujuan';
 			 
