@@ -100,7 +100,7 @@ class Tracking extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+		$result = Tbl_order::find($request->orderId);
 		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be done';
