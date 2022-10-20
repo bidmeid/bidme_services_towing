@@ -40,6 +40,10 @@ class Tracking extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
 		}
 		$check = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->first();
+		if(empty($check)){
+			$message 	= 'Your request couldn`t be done';
+			return $this->sendResponseError($message, null, 202);
+		}
 		if($check->trackPoint == 1){
 			$msg = 'Unit kendaraan sedang dalam pengiriman ke lokasi tujuan';
 			 
@@ -67,7 +71,7 @@ class Tracking extends Controller
             
 		]);
 		if($validator->fails()){
-            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 200);       
 		}
 
 		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->first();
