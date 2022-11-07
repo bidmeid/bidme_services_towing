@@ -48,7 +48,7 @@ class UsersMitra extends Controller
 	public function update_password(request $request){
 		
 		$validator = Validator::make($request->all(), [
-            'old_password' => 'required',
+             
             'password' => 'required|confirmed',
            
             
@@ -57,21 +57,15 @@ class UsersMitra extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
 		}
 		
-		$result = M_Users::where([['id', Auth::user()->id],['password', Hash::make($request->old_password)]])->first();
+		$result = M_Users::where([['id', Auth::user()->id]])->first();
 		if(empty($result)){
 			$message 	= 'Your password is wrong';
 			return $this->sendResponseError($message, '',202);
 		}
-		
-		if ($request->password == "") {
-			$realPassword = $result->old_password;
-		} else {
-			$realPassword = Hash::make($request->password);
-		}
 
 		$input = M_Users::where('id', Auth::user()->id)->update([
 			
-			'password'   	=> $realPassword,
+			'password'   	=> $request->password,
 		]);
 
 		if($input){
