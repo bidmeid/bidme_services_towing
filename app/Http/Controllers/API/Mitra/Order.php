@@ -50,7 +50,12 @@ class Order extends Controller
 			/* $result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId); */
-			$result[$key]['expired'] = $this->checkingExpired($val->orderDate, $val->orderTime). ' menit'; 
+			if($this->checkingExpired($val->orderDate, $val->orderTime) > = 25)
+				$exp = 0;
+			}else{
+				$exp = 25 - $this->checkingExpired($val->orderDate, $val->orderTime);
+			}
+			$result[$key]['expired'] = ($exp. ' menit'; 
 			
 		};
 		
