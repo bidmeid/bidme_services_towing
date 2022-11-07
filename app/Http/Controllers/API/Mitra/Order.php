@@ -36,7 +36,7 @@ class Order extends Controller
 			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			$result[$key] = $val;
 			
-			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
+			//$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			if($rute){
 			$result[$key]['rute'] = $rute;
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
@@ -47,9 +47,11 @@ class Order extends Controller
 				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
 			}
 			
-			$result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
+			/* $result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
-			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);
+			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId); */
+			$result[$key]['expired'] = 25 - $this->checkingBid($order->val, $val->orderTime); 
+			
 		};
 		
 		return $this->sendResponseOk($result);
@@ -161,6 +163,24 @@ class Order extends Controller
 		
 		return $this->sendResponseCreate($input);
 	}
+	
+	public function checkingExpired($orderDate, $orderTime){
+		
+		$dateOrder = $orderDate;
+        $timeOrder = $orderTime;
+		
+		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
+		$now =  Carbon::now();
+		
+		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(25);
+		
+		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
+		
+		$diffInMinutes = $now->diffInMinutes($orderTime);
+		
+		return $diffInMinutes;
+		
+	} 
 
 
 }
