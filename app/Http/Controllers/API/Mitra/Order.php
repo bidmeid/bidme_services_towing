@@ -55,7 +55,7 @@ class Order extends Controller
 			}else{
 				$exp = 25 - $this->checkingExpired($val->orderDate, $val->orderTime);
 			}
-			$result[$key]['expired'] = ($exp. ' menit'; 
+			$result[$key]['expired'] = $exp. ' menit'; 
 			
 		};
 		
