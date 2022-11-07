@@ -26,16 +26,7 @@ class UsersMitra extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
 		}
-		
-		$result = M_Users::where([
-			['id', Auth::user()->id]
-		])->first();
-
-		if ($request->password == "") {
-			$realPassword = $result->password;
-		} else {
-			$realPassword = Hash::make($request->password);
-		}
+ 
 
 		$input = M_Users::where('id', Auth::user()->id)->update([
 			'name'   		=> $request->name,
@@ -46,12 +37,68 @@ class UsersMitra extends Controller
 			'no_telp'   	=> $request->no_telp,
 			'no_telp_2'   	=> $request->no_telp_2,
 			'bank_acc'   	=> $request->bank_acc,
-			'no_acc'   		=> $request->no_acc,
-			'password'   	=> $realPassword,
+			'no_acc'   		=> $request->no_acc, 
 		]);
 
 		if($input){
 			return $this->sendResponseCreate($input);
+		}
+	}
+	
+	public function update_password(request $request){
+		
+		$validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'password' => 'required|confirmed',
+           
+            
+		]);
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
+		}
+		
+		$result = M_Users::where([['id', Auth::user()->id],['password', Hash::make($request->old_password)]])->first();
+		if(empty($result)){
+			$message 	= 'Your password is wrong';
+			return $this->sendResponseError($message, '',202);
+		}
+		
+		if ($request->password == "") {
+			$realPassword = $result->old_password;
+		} else {
+			$realPassword = Hash::make($request->password);
+		}
+
+		$input = M_Users::where('id', Auth::user()->id)->update([
+			
+			'password'   	=> $realPassword,
+		]);
+
+		if($input){
+			return $this->sendResponseCreate(null);
+		}
+	}
+	
+	public function setting_notifikasi(request $request){
+		
+		$validator = Validator::make($request->all(), [
+             
+            'region' => 'required',
+            
+		]);
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
+		}
+		
+		$result = M_Users::where([['id', Auth::user()->id]])->first();
+		if(empty($result)){
+			$message 	= 'Your password is wrong';
+			return $this->sendResponseError($message, '',202);
+		}
+		
+		 
+		if($result){
+			return $this->sendResponseCreate(null);
 		}
 	}
 	

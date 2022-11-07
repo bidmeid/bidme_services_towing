@@ -9,4 +9,5 @@ Route::prefix('/api/app')->group(function () {
     Route::get('/merekKendaraan', [Api\MerekKendaraan::class, 'index']);
     Route::get('/typeKendaraan', [Api\TypeKendaraan::class, 'index']);
     Route::get('/kondisiKendaraan', [Api\KondisiKendaraan::class, 'index']);
+    Route::get('/bankList', [Api\MetaData::class, 'bank']);
 });

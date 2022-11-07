@@ -43,7 +43,7 @@ class SocialiteController extends Controller
 					'name' => $user->name,
 					'message' => 'Your request has been saved',
 				];
-				return redirect()->intended('http://localhost/bidme/public/set_cookie?token=' . $token)->with('token', $token);
+				return redirect()->intended('http://bidme.id/set_cookie?token=' . $token)->with('token', $token);
 				
 			}elseif($guest == 'mitra'){
 				$authUser = $this->findOrCreateUserMitra($user, $provider);
@@ -55,7 +55,8 @@ class SocialiteController extends Controller
 					'message' => 'Your request has been saved',
 				];
 				
-				return redirect()->intended('http://localhost/mitraBidme/public/set_cookie?token=' . $token)->with('token', $token);
+				return redirect()->intended('http://mitra.bidme.id/set_cookie?token=' . $token)->with('token', $token);
+				//return redirect()->intended('http://localhost/mitraBidme/public/set_cookie?token=' . $token)->with('token', $token);
 			}else{
 				return response()->json(401);
 			};

@@ -178,11 +178,14 @@ class PostOrder extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, null, 202);
 		}
-		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($result->bidId);
+		$result->bid = Tbl_bidding::where('orderId', $request->orderId)->find($request->bidId);
 		if(empty($result->bid)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, null, 202);
 		}
+		$input = Tbl_order::where('id', $request->orderId)->update([
+			'bidId' => $request->bidId, 
+			]);
 		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
 		$result->biayaApp = 20000;
 		
