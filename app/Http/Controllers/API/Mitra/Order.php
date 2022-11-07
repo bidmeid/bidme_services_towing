@@ -50,7 +50,7 @@ class Order extends Controller
 			/* $result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId); */
-			$result[$key]['expired'] = 25 - $this->checkingBid($order->val, $val->orderTime); 
+			$result[$key]['expired'] = 25 - $this->checkingBid($val->orderDate, $val->orderTime); 
 			
 		};
 		
