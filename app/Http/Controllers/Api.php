@@ -108,4 +108,22 @@ class Api extends Controller
 		}
 		
 	} 
+	
+	public function checkingExpired($orderDate, $orderTime){
+		
+		$dateOrder = $orderDate;
+        $timeOrder = $orderTime;
+		
+		$orderTime =  Carbon::parse($dateOrder.' '.$timeOrder);
+		$now =  Carbon::now();
+		
+		$orderExpired = Carbon::parse($dateOrder.' '.$timeOrder)->addMinutes(25);
+		
+		$expireMin = $orderExpired->diff($orderTime)->format('%H:%I:%S');
+		
+		$diffInMinutes = $now->diffInMinutes($orderTime);
+		
+		return $diffInMinutes;
+		
+	} 
 }
