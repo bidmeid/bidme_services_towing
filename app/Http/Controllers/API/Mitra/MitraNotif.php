@@ -19,7 +19,7 @@ class MitraNotif extends Controller
 	public function index(){
 		
 		$now = date("Y-m-d");
-		$result['total_order_today']		= Tbl_order::whereRaw('orderDate >= '. $now)->count();
+		$result['total_order_today']		= Tbl_order::whereRaw('orderDate >= "'. $now.'"')->count();
 		$result['total_bidding_aktif']		= Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', 'open')->count();
 		$result['total_order_berlangsung']	=  Tbl_invoice::where('mitraId', Auth::user()->id)->where('paymentStatus', 'settlement')->count();
 		$result['total_driver']				=  Tbl_user_driver::where('mitraId', Auth::user()->id)->count();
