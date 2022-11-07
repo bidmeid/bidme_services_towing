@@ -36,6 +36,7 @@ class UsersMitra extends Controller
 			'namaUsaha'   	=> $request->namaUsaha,
 			'no_telp'   	=> $request->no_telp,
 			'no_telp_2'   	=> $request->no_telp_2,
+			'name_acc'   	=> $request->name_acc,
 			'bank_acc'   	=> $request->bank_acc,
 			'no_acc'   		=> $request->no_acc, 
 		]);
