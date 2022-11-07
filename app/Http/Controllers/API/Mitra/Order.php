@@ -50,7 +50,7 @@ class Order extends Controller
 			/* $result[$key]['kondisiKendaraan'] = Tbl_kondisi_kendaraan::find($val->kondisiKendaraanId);
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId); */
-			$result[$key]['expired'] = $this->checkingBid($val->orderDate, $val->orderTime). ' menit'; 
+			$result[$key]['expired'] = $this->checkingExpired($val->orderDate, $val->orderTime). ' menit'; 
 			
 		};
 		
@@ -178,7 +178,7 @@ class Order extends Controller
 		
 		$diffInMinutes = $now->diffInMinutes($orderTime);
 		
-		return $expireMin;
+		return $diffInMinutes;
 		
 	} 
 
