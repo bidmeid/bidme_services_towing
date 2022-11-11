@@ -26,7 +26,7 @@ class MetaData extends Controller
 	
 	public function bank(){
 		
-		$result['bank']		= Tbl_bank::get();
+		$result['bank']		= Tbl_bank::orderBy('name','ASC')->get();
 		
 								
 		return $this->sendResponseOk($result);
