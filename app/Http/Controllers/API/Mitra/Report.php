@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api\Mitra;
 use App\Http\Controllers\Api as Controller;
 use Illuminate\Http\Request;
 use App\Models\Tbl_invoice;
+use App\Models\Tbl_rute_pricelist;
+use App\Models\Tbl_customer;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -35,6 +38,7 @@ class Report extends Controller
 
 		$datas 	= Tbl_invoice::select(
 					'tbl_invoice.id as invoice_id',
+					'tbl_invoice.noInvoice',
 					'tbl_invoice.orderId',
 					'tbl_invoice.mitraId',
 					'tbl_invoice.biddingId',
@@ -58,12 +62,32 @@ class Report extends Controller
 					->limit($limit)
 					->get();
 					
+		$dataCollect = array();
+		foreach($data as $key=>$val){
+			$rute = Tbl_rute_pricelist::find($val->ruteId);
+			
+			$dataCollect[$key] = $val;
+			
+			$dataCollect[$key]['customer'] = Tbl_customer::find($val->customerId);
+			$dataCollect[$key]['driver'] = Tbl_user_driver::find($val->driverId);
+			
+			if($rute){		
+				$dataCollect[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
+				$dataCollect[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			}else{
+				 
+				$dataCollect[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 0, 16).'..'];
+				$dataCollect[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
+			}	
+			
+		}
+					
 		$total  = $datas->count();
 		
 		$result['draw']           = $draw ;
 		$result['recordsTotal']   = $total;
 		$result['recordsFiltered']= $total;
-		$result['data'] 		  = $data;
+		$result['data'] 		  = $dataCollect;
 		
 		if((empty($data)) AND ($total == 0)){
 			
