@@ -38,7 +38,7 @@ class Invoice extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-		$bid = Tbl_bidding::where('orderId', $order->id)->find($order->bidId);
+		$bid = Tbl_bidding::find($order->bidId);
 		
 		$billing = $bid->bidding - $this->couponVoucher($request->kupon);
 		
