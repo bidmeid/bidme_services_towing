@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/mitra/updatePassword', [Api\Mitra\UsersMitra::class, 'update_password']);
 		Route::post('/mitra/setNotifikasi', [Api\Mitra\UsersMitra::class, 'setting_notifikasi']);
 		Route::get('/mitra/mitraNotif', [Api\Mitra\MitraNotif::class, 'index']);
-		Route::get('/mitra/report', [Api\Mitra\Report::class, 'index']);
+		Route::post('/mitra/report', [Api\Mitra\Report::class, 'index']);
 		
 		//DRIVER		
 		Route::post('/mitra/listDriver', [Api\Mitra\Driver::class, 'index']);		
