@@ -33,7 +33,7 @@ class Report extends Controller
 		$sort 		= $request->input('order')[0]['dir']; if ($sort == ''){$sort = 'DESC'; };
 		$columns	= $request->input('columns')[$order]['data'];  if ($columns == ''){$columns = 'id'; };
 
-		$data 	= Tbl_invoice::select(
+		$datas 	= Tbl_invoice::select(
 					'tbl_invoice.id as invoice_id',
 					'tbl_invoice.orderId',
 					'tbl_invoice.mitraId',
@@ -53,12 +53,12 @@ class Report extends Controller
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
 					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra);
 					
-		$data	= orderBy($columns, $sort)
+		$data	= $datas->orderBy($columns, $sort)
 					->offset($offset)
 					->limit($limit)
 					->get();
 					
-		$total  = $data->count();
+		$total  = $datas->count();
 		
 		$result['draw']           = $draw ;
 		$result['recordsTotal']   = $total;
