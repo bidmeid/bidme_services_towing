@@ -15,7 +15,9 @@ class Report extends Controller
 	public function index(Request $request){
 		
 		$dateStart	= $request->input('dateStart');	
-		$dateEnd	= $request->input('dateEnd');	
+		if ($dateStart == ''){$dateStart = "2020-01-01"; };
+		$dateEnd	= $request->input('dateEnd');
+		if ($dateEnd == ''){$dateEnd = date("Y-m-d"); };		
 		$paymentToMitra	= $request->input('paymentToMitra');
 		if ($paymentToMitra == ''){$paymentToMitra = 'IS NOT NULL'; }else {$paymentToMitra = '= "'.$paymentToMitra.'"';};
 		$orderStatus	= $request->input('orderStatus');
