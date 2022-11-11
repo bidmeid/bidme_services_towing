@@ -105,17 +105,17 @@ class Order extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		$result = Tbl_order::whereRaw('"orderStatus" <> "close"')->find($request->orderId);
-	
-		if($this->checkingBid($result->orderDate, $result->orderTime) == false){
+		if($result->orderStatus != 'complete'){
+			if($this->checkingBid($result->orderDate, $result->orderTime) == false){
+				
+				Tbl_order::where('id', $request->orderId)->update([
+				'orderStatus'  => 'failed'
+				]);
 			
-			Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'failed'
-			]);
-		
-			$message 	= 'mohon maaf, order tersebut telah kadaluarsa';
-			return $this->sendResponseError($message, '',203);
+				$message 	= 'mohon maaf, order tersebut telah kadaluarsa';
+				return $this->sendResponseError($message, '',203);
+			}
 		}
-		
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);

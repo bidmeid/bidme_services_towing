@@ -85,7 +85,7 @@ class PostOrder extends Controller
 		if($validator->fails()){
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
-		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }elseif ($request->orderStatus == 'process'){$orderStatus = '<> "failed" AND orderStatus <> "done"'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
+		if ($request->orderStatus == 'recent'){$orderStatus = 'IS NOT NULL'; }elseif ($request->orderStatus == 'process'){$orderStatus = '<> "failed" AND orderStatus <> "complete"'; }else{ $orderStatus = ' = "'.$request->orderStatus.'"'; };
 		
 		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus '. $orderStatus)->orderBy('id', 'DESC')->get();
 		
@@ -253,7 +253,7 @@ class PostOrder extends Controller
 			return $this->sendResponseError($message, null, 202);
 		}else{
 			$orders = Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'done'
+			'orderStatus'  => 'complete'
 			]);
 			
 			Tbl_tracking::where('orderId', $request->orderId)->update([

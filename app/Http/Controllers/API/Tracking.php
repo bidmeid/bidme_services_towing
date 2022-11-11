@@ -33,7 +33,7 @@ class Tracking extends Controller
 		
 		
 		
-		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus <> "done"')->find($request->orderId);
+		$order = Tbl_order::where('customerId', Auth::user()->id)->whereRaw('orderStatus <> "complete"')->find($request->orderId);
 		if($order){
 		$result = Tbl_tracking::where('orderId', $order->id)->first();
 		
