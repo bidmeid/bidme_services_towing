@@ -7,6 +7,7 @@ use App\Models\Tbl_invoice;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_customer;
 use App\Models\Tbl_user_driver;
+use App\Models\Tbl_postCode;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
