@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_customer;
+use App\Models\Tbl_user_driver;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
