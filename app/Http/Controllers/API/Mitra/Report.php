@@ -33,7 +33,19 @@ class Report extends Controller
 		$sort 		= $request->input('order')[0]['dir']; if ($sort == ''){$sort = 'DESC'; };
 		$columns	= $request->input('columns')[$order]['data'];  if ($columns == ''){$columns = 'id'; };
 
-		$data 	= Tbl_invoice::join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
+		$data 	= Tbl_invoice::select(
+					'tbl_invoice.id as invoice_id',
+					'tbl_invoice.orderId',
+					'tbl_invoice.mitraId',
+					'tbl_invoice.biddingId',
+					'tbl_invoice.driverId',
+					'tbl_invoice.paymentToMitra',
+
+					'tbl_order.id',
+					'tbl_order.orderDate',
+					'tbl_order.orderStatus',
+					'penjualan.orderCost')	
+					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
@@ -41,7 +53,19 @@ class Report extends Controller
 					->orderBy($columns, $sort)
 					->paginate($limit);
 					
-		$total  = Tbl_invoice::join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
+		$total  = Tbl_invoice::select(
+					'tbl_invoice.id as invoice_id',
+					'tbl_invoice.orderId',
+					'tbl_invoice.mitraId',
+					'tbl_invoice.biddingId',
+					'tbl_invoice.driverId',
+					'tbl_invoice.paymentToMitra',
+
+					'tbl_order.id',
+					'tbl_order.orderDate',
+					'tbl_order.orderStatus',
+					'penjualan.orderCost')
+					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
