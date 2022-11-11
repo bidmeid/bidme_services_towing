@@ -44,7 +44,7 @@ class Report extends Controller
 					'tbl_order.id',
 					'tbl_order.orderDate',
 					'tbl_order.orderStatus',
-					'penjualan.orderCost')	
+					'tbl_order.orderCost')	
 					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
@@ -64,7 +64,7 @@ class Report extends Controller
 					'tbl_order.id',
 					'tbl_order.orderDate',
 					'tbl_order.orderStatus',
-					'penjualan.orderCost')
+					'tbl_order.orderCost')
 					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
