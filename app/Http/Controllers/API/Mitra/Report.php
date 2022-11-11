@@ -42,6 +42,8 @@ class Report extends Controller
 					'tbl_invoice.paymentToMitra',
 
 					'tbl_order.id',
+					'tbl_order.ruteId',
+					'tbl_order.customerId',
 					'tbl_order.orderDate',
 					'tbl_order.orderStatus',
 					'tbl_order.orderCost')	
@@ -49,30 +51,14 @@ class Report extends Controller
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
-					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra)
-					->orderBy($columns, $sort)
+					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra);
+					
+		$data	= orderBy($columns, $sort)
 					->offset($offset)
 					->limit($limit)
 					->get();
 					
-		$total  = Tbl_invoice::select(
-					'tbl_invoice.id as invoice_id',
-					'tbl_invoice.orderId',
-					'tbl_invoice.mitraId',
-					'tbl_invoice.biddingId',
-					'tbl_invoice.driverId',
-					'tbl_invoice.paymentToMitra',
-
-					'tbl_order.id',
-					'tbl_order.orderDate',
-					'tbl_order.orderStatus',
-					'tbl_order.orderCost')
-					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
-					->where('tbl_invoice.mitraId', Auth::user()->id)
-					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
-					->whereRaw('tbl_order.orderStatus '.$orderStatus)
-					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra)
-					->count();
+		$total  = $data->count();
 		
 		$result['draw']           = $draw ;
 		$result['recordsTotal']   = $total;
