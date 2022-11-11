@@ -51,7 +51,9 @@ class Report extends Controller
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
 					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra)
 					->orderBy($columns, $sort)
-					->paginate($limit);
+					->offset($offset)
+					->limit($limit)
+					->get();
 					
 		$total  = Tbl_invoice::select(
 					'tbl_invoice.id as invoice_id',
