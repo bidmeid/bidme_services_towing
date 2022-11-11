@@ -50,6 +50,8 @@ class Report extends Controller
 					'tbl_order.id',
 					'tbl_order.ruteId',
 					'tbl_order.customerId',
+					'tbl_order.alamatAsal',
+					'tbl_order.alamatTujuan',
 					'tbl_order.orderDate',
 					'tbl_order.orderStatus',
 					'tbl_order.orderCost')	
@@ -74,10 +76,11 @@ class Report extends Controller
 			$dataCollect[$key]['driver'] = Tbl_user_driver::find($val->driverId);
 			
 			if($rute){		
+				$dataCollect[$key]['rute'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first()->distric.' --> '.Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first()->distric
 				$dataCollect[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 				$dataCollect[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			}else{
-				 
+				$dataCollect[$key]['rute'] =  substr($val->alamatAsal, 0, 16).' --> '.substr($val->alamatTujuan, 0, 16)
 				$dataCollect[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 0, 16).'..'];
 				$dataCollect[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
 			}	
