@@ -150,7 +150,7 @@ class PostBidding extends Controller
 		$order = Tbl_order::find($bid->orderId);
 		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
 			
-			$message 	= 'Anda sudah tidak dapat membatalkan pesanan ini !';
+			$message 	= 'Anda tidak dapat membatalkan penawaran untuk pesanan ini !';
 			return $this->sendResponseError($message, '',203);
 		}
 		$bid->update([
