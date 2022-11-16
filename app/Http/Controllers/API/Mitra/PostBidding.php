@@ -8,6 +8,10 @@ use App\Models\Tbl_order;
 use App\Models\Tbl_rute_pricelist;
 use App\Models\Tbl_postCode;
 use App\Models\Tbl_customer;
+use App\Models\Tbl_kondisi_kendaraan;
+use App\Models\Tbl_jenis_kendaraan;
+use App\Models\typeKendaraan;
+
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
