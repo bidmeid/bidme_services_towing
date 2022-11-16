@@ -12,6 +12,8 @@ use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_postCode;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_tracking;
+use App\Models\Tbl_bidding;
+
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -125,6 +127,7 @@ class Order extends Controller
 			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
 			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
 			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
+			$result->bidTotal = Tbl_bidding::where('orderId', $request->orderId)->count();
 		
 		return $this->sendResponseOk($result);
 

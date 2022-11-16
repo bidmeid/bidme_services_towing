@@ -36,7 +36,7 @@ class PostOrder extends Controller
 			'kondisiKendaraanId'  => 'required',
 			'jenisKendaraanId'  => 'required',
 			'typeKendaraanId'  => 'required',
-			'orderCost'  => 'required',
+			//'orderCost'  => 'required',
 			'noTelp'  => 'required',
 			'orderDate'  => 'required',
 			'orderTime'  => 'required',
@@ -53,6 +53,13 @@ class PostOrder extends Controller
 			$ticket = $this->created();
 		}
 		
+		$rute = Tbl_rute_pricelist::find($request->ruteId);
+		if(!empty($rute)){
+			$orderCost = $rute->standarHarga;
+		}else{
+			$orderCost = 0;
+		};
+		
 		$input = Tbl_order::create([
 			'ticket' => $ticket,
 			'customerId' => Auth::user()->id,
@@ -66,7 +73,7 @@ class PostOrder extends Controller
 			'latLongTujuan'  => $request->latLongTujuan,
 			'alamatTujuan'  => $request->alamatTujuan,
 			'telp'  => $request->noTelp,
-			'orderCost'  => $request->orderCost,
+			'orderCost'  => $orderCost,
 			'orderDate'  => $request->orderDate,
 			'orderTime'  => $request->orderTime,
 			'orderStatus'  => 'process',
@@ -166,6 +173,7 @@ class PostOrder extends Controller
 	public function checkOut(Request $request){
 		$validator = Validator::make($request->all(), [
 			'orderId'  => 'required',
+			'bidId'  => 'required',
         ]);
 		
 		if($validator->fails()){
@@ -183,9 +191,9 @@ class PostOrder extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, null, 202);
 		}
-		$input = Tbl_order::where('id', $request->orderId)->update([
+		/* $input = Tbl_order::where('id', $request->orderId)->update([
 			'bidId' => $request->bidId, 
-			]);
+			]); */
 		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
 		$result->biayaApp = 20000;
 		

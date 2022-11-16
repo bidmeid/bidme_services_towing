@@ -25,6 +25,7 @@ class Invoice extends Controller
 		
 		$validator = Validator::make($request->all(), [
 			'orderId' => 'required',
+			'bidId' => 'required',
 			'paymentMethod'  => 'required',
 
         ]);
@@ -38,7 +39,7 @@ class Invoice extends Controller
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
 		}
-		$bid = Tbl_bidding::find($order->bidId);
+		$bid = Tbl_bidding::find($request->bidId);
 		
 		$billing = $bid->bidding - $this->couponVoucher($request->kupon);
 		
@@ -54,7 +55,7 @@ class Invoice extends Controller
 		if(!$invoices){
 		$input['invoice'] = Tbl_invoice::create([
 			'orderId' => $request->orderId,
-			'biddingId' => $order->bidId,
+			'biddingId' => $request->bidId,
 			'mitraId' => $bid->mitraId,
 			'noInvoice' => $invoice,
 			'paymentMethod'  => $request->paymentMethod,
