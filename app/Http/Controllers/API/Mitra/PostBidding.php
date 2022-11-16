@@ -146,7 +146,7 @@ class PostBidding extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$bid = Tbl_bidding::where('id', $request->bidId)->first()
+		$bid = Tbl_bidding::where('id', $request->bidId)->first();
 		$order = Tbl_order::find($bid->orderId);
 		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
 			
