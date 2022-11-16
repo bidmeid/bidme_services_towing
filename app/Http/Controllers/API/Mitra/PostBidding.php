@@ -147,11 +147,11 @@ class PostBidding extends Controller
         }
 		
 		Tbl_bidding::where('id', $request->bidId)->update([
-			'bidStatus' => 1, 
+			'bidStatus' => 2, //cancel 
 			]);
 	   
 		
-		return $this->sendResponseOk($result);
+		return $this->sendResponseOk(null);
 
 	}
 	
