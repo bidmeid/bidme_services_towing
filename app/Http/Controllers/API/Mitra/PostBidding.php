@@ -146,12 +146,19 @@ class PostBidding extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		Tbl_bidding::where('id', $request->bidId)->update([
+		$bid = Tbl_bidding::where('id', $request->bidId)->first()
+		$order = Tbl_order::find($bid->orderId);
+		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+			
+			$message 	= 'Anda sudah tidak dapat membatalkan pesanan ini !';
+			return $this->sendResponseError($message, '',203);
+		}
+		$bid->update([
 			'bidStatus' => 2, //cancel 
 			]);
 	   
 		
-		return $this->sendResponseOk(null);
+		return $this->sendResponseCreate(null);
 
 	}
 	
