@@ -10,7 +10,7 @@ use App\Models\Tbl_postCode;
 use App\Models\Tbl_customer;
 use App\Models\Tbl_kondisi_kendaraan;
 use App\Models\Tbl_jenis_kendaraan;
-use App\Models\typeKendaraan;
+use App\Models\Tbl_type_kendaraan;
 
 use Validator;
 use Illuminate\Http\Request;
