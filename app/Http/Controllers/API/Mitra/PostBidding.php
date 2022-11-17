@@ -80,7 +80,7 @@ class PostBidding extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		 
-		$biding = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', $request->bidStatus)->orderBy('id', 'DESC')->get();
+		$biding = Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', 0)->orderBy('id', 'DESC')->get();
 	    $result = array();
 		foreach($biding as $key=>$val){
 			$order			= Tbl_order::with('Tbl_customer')->find($val->orderId);
