@@ -99,7 +99,7 @@ class Order extends Controller
 		foreach($order as $key=>$val){
 			
 			//$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
-			$rute = Tbl_rute_pricelist::findOrFail($order->ruteId);
+			$rute = Tbl_rute_pricelist::findOrFail($val->ruteId);
 			$result[$key] = $val;
 			
 			//$result[$key]['order'] = $order;
