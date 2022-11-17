@@ -174,6 +174,7 @@ class Order extends Controller
 					'tbl_invoice.biddingId',
 					'tbl_invoice.driverId',
 					'tbl_invoice.billing',
+					'tbl_invoice.paymentMethod',
 					'tbl_invoice.paymentStatus',
 					//'tbl_invoice.paymentToMitra',
 
@@ -213,11 +214,19 @@ class Order extends Controller
 			return $this->sendResponseError($message, '',202);
 		}
 			$result->customer = Tbl_customer::find($result->customerId);
-			$result->rute = Tbl_rute_pricelist::find($result->ruteId);
-			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
+			$rute = Tbl_rute_pricelist::find($result->ruteId);
+			
 			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
 			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
 			$result->bidTotal = Tbl_bidding::where('orderId', $request->orderId)->count();
+			
+			if($rute){		
+				$result->rute = Tbl_postCode::where('postcode', $rute->asalPostcode)->first()->distric.' --> '.Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first()->distric;
+				 
+			}else{
+				$result->rute =  substr($result->alamatAsal, 0, 16).' --> '.substr($result->alamatTujuan, 0, 16);
+				
+			}	
 		
 		return $this->sendResponseOk($result);
 
