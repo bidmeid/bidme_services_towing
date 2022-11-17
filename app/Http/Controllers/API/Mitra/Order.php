@@ -83,6 +83,7 @@ class Order extends Controller
 					'tbl_order.alamatAsal',
 					'tbl_order.alamatTujuan',
 					'tbl_order.orderDate',
+					'tbl_order.orderTime',
 					'tbl_order.orderStatus',
 					'tbl_order.orderCost')	
 					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
@@ -141,6 +142,72 @@ class Order extends Controller
 				return $this->sendResponseError($message, '',203);
 			}
 		}
+		if((is_null($result)) OR ($result->count() == 0)){
+			$message 	= 'Your request couldn`t be found';
+			return $this->sendResponseError($message, '',202);
+		}
+			$result->customer = Tbl_customer::find($result->customerId);
+			$result->rute = Tbl_rute_pricelist::find($result->ruteId);
+			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($result->kondisiKendaraanId);
+			$result->JenisKendaraan = Tbl_jenis_kendaraan::find($result->JenisKendaraanId);
+			$result->typeKendaraan = Tbl_type_kendaraan::find($result->typeKendaraanId);
+			$result->bidTotal = Tbl_bidding::where('orderId', $request->orderId)->count();
+		
+		return $this->sendResponseOk($result);
+
+	}
+	
+	public function getInvoiceById(Request $request){
+		$validator = Validator::make($request->all(), [
+			'invoice_id'  => 'required',
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		$result = Tbl_invoice::select(
+					'tbl_invoice.id as invoice_id',
+					'tbl_invoice.noInvoice',
+					'tbl_invoice.orderId',
+					'tbl_invoice.mitraId',
+					'tbl_invoice.biddingId',
+					'tbl_invoice.driverId',
+					'tbl_invoice.billing',
+					'tbl_invoice.paymentStatus',
+					//'tbl_invoice.paymentToMitra',
+
+					'tbl_order.id',
+					'tbl_order.ruteId',
+					'tbl_order.customerId',
+					'tbl_order.alamatAsal',
+					'tbl_order.alamatTujuan',
+					'tbl_order.kondisiKendaraanId',
+					'tbl_order.JenisKendaraanId',
+					'tbl_order.typeKendaraanId',
+					'tbl_order.orderDate',
+					'tbl_order.orderTime',
+					'tbl_order.orderStatus',
+					'tbl_order.orderCost')	
+					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
+					->where('tbl_invoice.mitraId', Auth::user()->id)
+					->whereRaw('"tbl_order.orderStatus" <> "process"')
+					//->where('tbl_invoice.paymentStatus', 'settlement')
+					//->where('tbl_order.orderStatus', 'settlement')
+					->find($request->invoice_id);
+					
+		//$result = Tbl_order::whereRaw('"orderStatus" <> "process"')->find($request->orderId);
+		/* if($result->orderStatus != 'complete'){
+			if($this->checkingBid($result->orderDate, $result->orderTime) == false){
+				
+				Tbl_order::where('id', $request->orderId)->update([
+				'orderStatus'  => 'failed'
+				]);
+			
+				$message 	= 'mohon maaf, order tersebut telah kadaluarsa';
+				return $this->sendResponseError($message, '',203);
+			}
+		} */
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
