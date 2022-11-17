@@ -127,7 +127,7 @@ class PostBidding extends Controller
 		}
 			$order = Tbl_order::with('Tbl_customer')->find($result->orderId);
 			$result->order = $order;
-			$result->bidtime = getDateFormat($result->created_at);
+			$result->bidtime = $this->getDateFormat($result->created_at);
 			$result->customer = Tbl_customer::find($order->customerId);
 			$result->kondisiKendaraan = Tbl_kondisi_kendaraan::find($order->kondisiKendaraanId);
 			$result->jenisKendaraan = Tbl_jenis_kendaraan::find($order->JenisKendaraanId);
