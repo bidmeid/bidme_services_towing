@@ -66,7 +66,29 @@ class Order extends Controller
 	
 	public function myOrder(){
 		
-		$order = Tbl_invoice::where('mitraId', Auth::user()->id)->where('paymentStatus', 'settlement')->orderBy('id', 'DESC')->get();
+		$order = Tbl_invoice::select(
+					'tbl_invoice.id as invoice_id',
+					'tbl_invoice.noInvoice',
+					'tbl_invoice.orderId',
+					'tbl_invoice.mitraId',
+					'tbl_invoice.biddingId',
+					'tbl_invoice.driverId',
+					'tbl_invoice.paymentStatus',
+					//'tbl_invoice.paymentToMitra',
+
+					'tbl_order.id',
+					'tbl_order.ruteId',
+					'tbl_order.customerId',
+					'tbl_order.alamatAsal',
+					'tbl_order.alamatTujuan',
+					'tbl_order.orderDate',
+					'tbl_order.orderStatus',
+					'tbl_order.orderCost')	
+					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
+					->where('tbl_invoice.mitraId', Auth::user()->id)
+					->where('tbl_invoice.paymentStatus', 'settlement')
+					->where('tbl_order.orderStatus', 'settlement')
+					->orderBy('id', 'DESC')->get();
 		
 		if((empty($order)) OR ($order->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
@@ -76,11 +98,11 @@ class Order extends Controller
 		$result = array();
 		foreach($order as $key=>$val){
 			
-			$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
+			//$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
 			$rute = Tbl_rute_pricelist::find($order->ruteId);
 			$result[$key] = $val;
 			
-			$result[$key]['order'] = $order;
+			//$result[$key]['order'] = $order;
 			if($rute){
 			$result[$key]['rute'] = $rute;
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
