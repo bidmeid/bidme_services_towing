@@ -73,6 +73,7 @@ class Order extends Controller
 					'tbl_invoice.mitraId',
 					'tbl_invoice.biddingId',
 					'tbl_invoice.driverId',
+					'tbl_invoice.billing',
 					'tbl_invoice.paymentStatus',
 					//'tbl_invoice.paymentToMitra',
 
@@ -102,7 +103,7 @@ class Order extends Controller
 			$rute = Tbl_rute_pricelist::findOrFail($val->ruteId);
 			$result[$key] = $val;
 			
-			//$result[$key]['order'] = $order;
+			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			if($rute){
 			$result[$key]['rute'] = $rute;
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
