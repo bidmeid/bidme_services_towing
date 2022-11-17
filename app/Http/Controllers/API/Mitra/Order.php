@@ -76,7 +76,7 @@ class Order extends Controller
 		$result = array();
 		foreach($order as $key=>$val){
 			
-			$order = Tbl_order::find($val->orderId);
+			$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
 			$rute = Tbl_rute_pricelist::find($order->ruteId);
 			$result[$key] = $val;
 			
