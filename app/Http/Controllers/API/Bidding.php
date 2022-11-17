@@ -31,15 +31,16 @@ class Bidding extends Controller
 		 
 		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
 			
-			Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'failed'
-			]);
+			Tbl_order::where('id', $request->orderId)
+					->update(['orderStatus'  => 'failed']);
 		
 			$message 	= 'Kami tidak dapat menemukan mitra towing untuk anda, silahkan lakukan order kembali';
 			return $this->sendResponseError($message, '',203);
 		}
 		
-        $bidding		= Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))->get();
+        $bidding = Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))
+					->whereRaw('bidStatus <> 2')
+					->get();
 		 
 		if((is_null($bidding)) OR ($bidding->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
