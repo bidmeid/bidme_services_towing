@@ -148,17 +148,19 @@ class PostBidding extends Controller
 		
 		$bid = Tbl_bidding::where('id', $request->bidId)->first();
 		$order = Tbl_order::find($bid->orderId);
-		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+		
+		if($order->orderStatus == 'process'){
+			$bid->update([
+			'bidStatus' => 2, //cancel 
+			]);
+		
+			return $this->sendResponseCreate(null);
 			
+		}else{
 			$message 	= 'Anda tidak dapat membatalkan penawaran untuk pesanan ini !';
 			return $this->sendResponseError($message, '',203);
 		}
-		$bid->update([
-			'bidStatus' => 2, //cancel 
-			]);
-	   
 		
-		return $this->sendResponseCreate(null);
 
 	}
 	

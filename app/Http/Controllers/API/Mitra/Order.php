@@ -246,7 +246,7 @@ class Order extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$check = Tbl_tracking::where('orderId', $request->orderId)->where('driverId', $request->driverId)->first();
+		$check = Tbl_tracking::where('orderId', $request->orderId)->first();
 		
 		if(!empty($check)){
 			$message 	= 'Anda telah memilih driver untuk order ini';
@@ -256,8 +256,9 @@ class Order extends Controller
 		$input = Tbl_tracking::create([
 			'orderId' => $request->orderId,
 			'driverId' => $request->driverId,
+			'note' => $request->note,
 			'trackPoint' => 0,
-			'status'  => 'open',
+			'status'  => 0,
 			'msg'  => 'Driver sedang bersiap-siap untuk ke lokasi anda',
 			
 		]);
