@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::post('/mitra/cancelBidding', [Api\Mitra\PostBidding::class, 'cancelBidding']); 
 		Route::get('/mitra/getOrder', [Api\Mitra\Order::class, 'index']); 
 		Route::get('/mitra/getOrderById', [Api\Mitra\Order::class, 'getOrderById']); 
+		Route::get('/mitra/getOrderForBidById', [Api\Mitra\Order::class, 'getOrderForBidById']); 
 		Route::get('/mitra/getInvoiceById', [Api\Mitra\Order::class, 'getInvoiceById']); 
 		Route::get('/mitra/myBidding', [Api\Mitra\PostBidding::class, 'myBidding']);
 		Route::post('/mitra/updateAccount', [Api\Mitra\UsersMitra::class, 'update_account']);
