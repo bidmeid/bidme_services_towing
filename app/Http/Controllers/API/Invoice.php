@@ -105,7 +105,7 @@ class Invoice extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
         }
 		
-		$result = Tbl_invoice::where('orderId', $request->order_id)->update([
+		$result = Tbl_invoice::where('noInvoice', $request->order_id)->update([
 			'paymentStatus'  => $request->transaction_status
 		]);
 		Tbl_order::where('id', $result->orderId)->update(['orderStatus'  => $request->transaction_status]);
