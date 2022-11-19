@@ -166,8 +166,17 @@ class Order extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		$result = Tbl_order::whereRaw('"orderStatus" <> "close"')->find($request->orderId);
-		 
+		//$result = Tbl_order::where('tbl_invoice.mitraId', Auth::user()->id)whereRaw('"orderStatus" <> "close"')->find($request->orderId);
+		$result = Tbl_invoice::select(
+						'tbl_invoice.id as invoice_id',
+						'tbl_invoice.orderId',
+						'tbl_invoice.mitraId',
+						'tbl_order.*')	
+					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
+					->where('tbl_invoice.mitraId', Auth::user()->id)
+					->where('tbl_order.id', $request->orderId)
+					->firstOrFail();
+					
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
