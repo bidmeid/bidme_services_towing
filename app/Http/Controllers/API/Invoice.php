@@ -97,8 +97,8 @@ class Invoice extends Controller
 	
 	public function paymentStatus(request $request) {
 		$validator = Validator::make($request->all(), [
-			'orderId' => 'required',
-			'paymentStatus'  => 'required',
+			'order_id' => 'required',
+			'transaction_status'  => 'required',
 
         ]);
 		
@@ -106,9 +106,10 @@ class Invoice extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
         }
 		
-		$result = Tbl_invoice::where('orderId', $request->orderId)->update([
-			'paymentStatus'  => $request->paymentStatus
+		$result = Tbl_invoice::where('orderId', $request->order_id)->update([
+			'paymentStatus'  => $request->transaction_status
 		]);
+		Tbl_order::where('id', $result->orderId)->update(['orderStatus'  => $request->transaction_status]);
 		 
 		if(empty($result)){
 			return $this->sendResponseError(null);
