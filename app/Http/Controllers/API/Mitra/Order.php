@@ -166,8 +166,8 @@ class Order extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
         }
 		
-		//$result = Tbl_order::where('tbl_invoice.mitraId', Auth::user()->id)whereRaw('"orderStatus" <> "close"')->find($request->orderId);
-		$result = Tbl_invoice::select(
+		$result = Tbl_order::where('tbl_invoice.mitraId', Auth::user()->id)whereRaw('"orderStatus" <> "close"')->find($request->orderId);
+		//$result = Tbl_invoice::select(
 						'tbl_invoice.id as invoice_id',
 						'tbl_invoice.orderId',
 						'tbl_invoice.mitraId',
