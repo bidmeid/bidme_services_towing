@@ -175,7 +175,7 @@ class Order extends Controller
 					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->where('tbl_order.id', $request->orderId)
-					->firstOrFail();
+					->first();
 					
 		if((is_null($result)) OR ($result->count() == 0)){
 			$message 	= 'Your request couldn`t be found';
