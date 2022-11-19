@@ -58,6 +58,7 @@ class Report extends Controller
 					->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 					->where('tbl_invoice.mitraId', Auth::user()->id)
 					->whereBetween('tbl_order.orderDate', [$dateStart, $dateEnd])
+					//->where('tbl_order.orderStatus','complete')
 					->whereRaw('tbl_order.orderStatus '.$orderStatus)
 					->whereRaw('tbl_invoice.paymentToMitra '.$paymentToMitra);
 					

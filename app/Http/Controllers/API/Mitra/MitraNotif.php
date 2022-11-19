@@ -21,7 +21,16 @@ class MitraNotif extends Controller
 		$now = date("Y-m-d");
 		$result['total_order_today']		= Tbl_order::whereRaw('orderDate >= "'. $now.'"')->count();
 		$result['total_bidding_aktif']		= Tbl_bidding::where('mitraId', Auth::user()->id)->where('bidStatus', 'open')->count();
-		$result['total_order_berlangsung']	=  Tbl_invoice::where('mitraId', Auth::user()->id)->where('paymentStatus', 'settlement')->count();
+		$result['total_order_berlangsung']	=  Tbl_invoice::select(
+													'tbl_invoice.id as invoice_id',
+													'tbl_invoice.mitraId',
+													'tbl_invoice.paymentStatus',
+													'tbl_order.*',
+													)
+												->where('mitraId', Auth::user()->id)
+												->where('tbl_order.orderStatus', 'settlement')
+												->where('tbl_invoice.paymentStatus', 'settlement')->count();
+												
 		$result['total_driver']				=  Tbl_user_driver::where('mitraId', Auth::user()->id)->count();
 		$result['total_towing']				=  Tbl_unit_towing::where('mitra_id', Auth::user()->id)->count();
 		

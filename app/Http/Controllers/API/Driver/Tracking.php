@@ -50,7 +50,7 @@ class Tracking extends Controller
 		}else if($check->trackPoint == 2){
 			$msg = 'Unit kendaraan anda telah sampai di lokasi tujuan';
 		}else{
-			$msg = 'Driver towing akan melakukan penjemputan ke lokasi anda';
+			$msg = 'Driver towing sedang melakukan penjemputan ke lokasi anda';
 		}
 		
 		$input = Tbl_tracking::where('driverId', Auth::user()->id)->where('orderId', $request->orderId)->update([
@@ -106,11 +106,21 @@ class Tracking extends Controller
 			$message 	= 'Your request couldn`t be done';
 			return $this->sendResponseError($message, null, 202);
 		}else{
+			
+		if($request->trackPoint == 1){
+			$msg = 'Unit kendaraan sedang dalam pengiriman ke lokasi tujuan';
 			 
+		}else if($request->trackPoint == 2){
+			$msg = 'Unit kendaraan anda telah sampai di lokasi tujuan';
+			/* Tbl_order::where('id', $request->orderId)->update([
+			'orderStatus'  => 'complete'
+			]); */
+		}
+		
 			Tbl_tracking::where('orderId', $request->orderId)->update([
 			//'status'  => 'close',
 			'trackPoint'  => $request->trackPoint,
-			//'msg'  => $msg
+			'msg'  => $msg
 			]);
 		}
 	   
