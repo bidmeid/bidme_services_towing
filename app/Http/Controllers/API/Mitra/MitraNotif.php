@@ -27,6 +27,7 @@ class MitraNotif extends Controller
 													'tbl_invoice.paymentStatus',
 													'tbl_order.*',
 													)
+												->join('tbl_order', 'tbl_invoice.orderId', '=', 'tbl_order.id')
 												->where('mitraId', Auth::user()->id)
 												->where('tbl_order.orderStatus', 'settlement')
 												->where('tbl_invoice.paymentStatus', 'settlement')->count();
