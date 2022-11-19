@@ -41,7 +41,7 @@ class Invoice extends Controller
 		}
 		$bid = Tbl_bidding::find($request->bidId);
 		
-		$billing = $bid->bidding - $this->couponVoucher($request->kupon);
+		$billing = $bid->bidding;
 		
 		$invoiceGen = $this->created(uniqid());
 		
@@ -66,10 +66,10 @@ class Invoice extends Controller
 			$input['invoice'] = $invoices;
 		}
 		
-		$orders = Tbl_order::where('id', $request->orderId)->update([
+		/* $orders = Tbl_order::where('id', $request->orderId)->update([
 			'orderStatus'  => 'payment'
 		]);
-		
+		 */
 	/* 	Tbl_bidding::where('orderId', $request->orderId)->update([
 			'bidStatus'  => 1 
 		]); */
@@ -78,7 +78,7 @@ class Invoice extends Controller
 			'bidStatus'  => 1 //terpilih
 		]);
 		
-		$message = $this->sendEmail($request->orderId);
+		//$message = $this->sendEmail($request->orderId);
 		
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);
