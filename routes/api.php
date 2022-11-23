@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\AuthCustomerController;
 use App\Http\Controllers\Auth\AuthMitraController;
@@ -50,17 +51,20 @@ Route::group(['middleware' => ['cors']], function () {
 
 
 Route::group(['middleware' => 'auth:sanctum',], function () {
-	Route::get('/user', function (Request $request) {
+	
+	Route::get('/user', [SocialiteController::class, 'User']) {
+	/* Route::get('/user', function (Request $request) {
 		$user = $request->user();
 		if ($user->tokenCan('customer')) {
 			$user->role = 'customer';
+			
 		}elseif($user->tokenCan('mitra')){
 			$user->role = 'mitra';
 		}elseif($user->tokenCan('driver')){
 			$user->role = 'driver';
 		};
 			return $user;
-	});
+	}); */
 		
 	Route::group(['middleware' => ['auth:sanctum','role:customer']], function() {
 		Route::post('/postOrder', [Api\PostOrder::class, 'index']);

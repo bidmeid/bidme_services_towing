@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\SosialAccountMitra as SosialAccountMitra;
 use App\Models\SosialAccountCustomer as SosialAccountCustomer;
 use App\Models\Tbl_user_mitra as UserMitra;
 use App\Models\Tbl_customer as UserCustomer;
+use \App\Models\Tbl_unit_towing;
+use \App\Models\Tbl_user_driver
+
 use Session;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +25,7 @@ class SocialiteController extends Controller
 		
 		return Socialite::driver($provider)->redirect();
     }
+	
     public function hadleProviderCallback($provider)
     {
         $guest = Session::pull('guest');
@@ -112,5 +117,40 @@ class SocialiteController extends Controller
             ]);
             return $user;
         }
+    }
+	
+	public function User(Request $request)
+    {
+        
+		$user = $request->user();
+		
+		if ($user->tokenCan('customer')) {
+			$user->role = 'customer';
+			 
+		}elseif($user->tokenCan('mitra')){
+			$primary = ['alamat', 'namaUsaha', 'alamatUsaha', 'no_telp', 'region'];
+			 
+			$check = UserMitra::where('email', $user->email)->first();
+			
+			$point = 0;
+			foreach($primary as $val){
+				if($check->$val != null){ $point +=10; };
+			}
+			
+			$secondaryUnit = Tbl_unit_towing::where('mitra_id', $user->id)->first();
+			if(!isset($secondaryUnit) || count($secondaryUnit) < 1){
+				$point +=10;
+			}
+			
+			$secondaryDriver = Tbl_user_driver::where('mitraId', $user->id)->first();
+			if(!isset($secondaryDriver) || count($secondaryDriver) < 1){
+				$point +=10;
+			}
+			
+			$user->role = 'mitra';
+			$user->point = $point;
+		}
+		
+		return $user;
     }
 }
