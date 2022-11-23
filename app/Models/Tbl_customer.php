@@ -29,6 +29,7 @@ class Tbl_customer extends Authenticatable
         'password',
         'region',
         'alamat',
+        'token_reset',
     ];
 
     /**

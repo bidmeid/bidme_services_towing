@@ -28,6 +28,7 @@ class Tbl_user_driver extends Authenticatable
         'avatar',
         'alamatDriver',
         'password',
+        'token_reset',
     ];
 	
 	protected $hidden = [

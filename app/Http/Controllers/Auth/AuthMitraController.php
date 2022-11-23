@@ -64,12 +64,10 @@ class AuthMitraController extends Controller
 
         if (!empty($user)) {
             
-            $user->update([
-                'remember_token'    => $token
-            ]);
-            //return $this->sendResponseCustom($mail, null);
 			if(Mail::to($user->email)->send(new ResetPasswordMail($data))){
-				
+			$user->update([
+                'token_reset'    => $token
+            ]);	
             return $this->sendResponseCustom('Kami telah mengirimkan link untuk reset password ke email Anda. Cek folder inbox atau spam untuk menemukannya.', false);
 			
 			}
@@ -93,12 +91,12 @@ class AuthMitraController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            if ($user->remember_token !== $request->token) {
+            if ($user->token_reset !== $request->token) {
                 return $this->sendResponseError('Upps token reset password salah!');
             } else {
                 $user->update([
                     'password'  => Hash::make($request->password),
-                    'remember_token'    => sha1(rand()),
+                    'token_reset'    => sha1(rand()),
                 ]);
                 return $this->sendResponseCustom('Password berhasil di ubah', true);
             }

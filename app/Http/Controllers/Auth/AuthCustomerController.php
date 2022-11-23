@@ -63,12 +63,15 @@ class AuthCustomerController extends Controller
         ];
 
         if (!empty($user)) {
-            Mail::to($user->email)->send(new ResetPasswordMail($data));
-            $user->update([
-                'remember_token'    => $token
-            ]);
+			
+            if(Mail::to($user->email)->send(new ResetPasswordMail($data))){
+			$user->update([
+                'token_reset'    => $token
+            ]);	
             return $this->sendResponseCustom('Kami telah mengirimkan link untuk reset password ke email Anda. Cek folder inbox atau spam untuk menemukannya.', false);
-        }
+			
+			}
+		   }
         return $this->sendResponseError('Upps. Email tidak di temukan!', null);
     }
 
@@ -88,12 +91,12 @@ class AuthCustomerController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            if ($user->remember_token !== $request->token) {
+            if ($user->token_reset !== $request->token) {
                 return $this->sendResponseError('Upps token reset password salah!');
             } else {
                 $user->update([
                     'password'  => Hash::make($request->password),
-                    'remember_token'    => sha1(rand()),
+                    'token_reset'    => sha1(rand()),
                 ]);
                 return $this->sendResponseCustom('Password berhasil di ubah', true);
             }
