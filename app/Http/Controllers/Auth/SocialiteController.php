@@ -128,7 +128,7 @@ class SocialiteController extends Controller
 			$user->role = 'customer';
 			 
 		}elseif($user->tokenCan('mitra')){
-			$primary = ['alamat', 'namaUsaha', 'alamatUsaha', 'no_telp', 'region'];
+			$primary = ['name', 'alamat', 'namaUsaha', 'alamatUsaha', 'no_telp', 'region'];
 			 
 			$check = UserMitra::where('email', $user->email)->first();
 			
