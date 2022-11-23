@@ -13,6 +13,7 @@ use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_tracking;
+use App\Jobs\BroadcastOrder;
 
 use Validator;
 use Illuminate\Http\Request;
@@ -293,8 +294,10 @@ class PostOrder extends Controller
 			'alamatTujuan' => $order->alamatTujuan,
 			 
 			];
-		
-		 $catch = Mail::to($items->email)->send(new Email($details));
+			
+		 dispatch(new BroadcastOrder($details));	
+		 //BroadcastOrder::dispatch($details);
+		 //$catch = Mail::to($items->email)->queue(new Email($details));
 		}
 		return true;
 
