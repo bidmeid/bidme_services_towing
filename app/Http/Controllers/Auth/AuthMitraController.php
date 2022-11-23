@@ -59,7 +59,7 @@ class AuthMitraController extends Controller
         $data = [
             'email' => $user->email,
             'token' => $token,
-			'to_url' => 'http://mitra.bidme.id',
+			'to_url' => 'http://mitra.bidme.id/password-reset',
         ];
 
         if (!empty($user)) {
