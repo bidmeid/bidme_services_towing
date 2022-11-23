@@ -6,7 +6,9 @@ use App\Models\Tbl_user_mitra as User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\ResetPasswordMail;
 use App\Http\Controllers\Api as Controller;
 
 class AuthMitraController extends Controller
@@ -47,6 +49,56 @@ class AuthMitraController extends Controller
         $user = User::where('email', $request->email)->first();
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+    }
+	
+	public function forgot_password(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $token = sha1(rand());
+
+        $data = [
+            'email' => $user->email,
+            'token' => $token,
+			'to_url' => 'http://mitra.bidme.id',
+        ];
+
+        if (!empty($user)) {
+            Mail::to($user->email)->send(new ResetPasswordMail($data));
+            $user->update([
+                'remember_token'    => $token
+            ]);
+            return $this->sendResponseCustom('Kami telah mengirimkan link untuk reset password ke email Anda. Cek folder inbox atau spam untuk menemukannya.', false);
+        }
+        return $this->sendResponseError('Upps. Email tidak di temukan!', null);
+    }
+
+    public function reset_password(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'email'     => 'required',
+            'password'  => 'required|confirmed|min:6',
+            'token'     => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            if ($user->remember_token !== $request->token) {
+                return $this->sendResponseError('Upps token reset password salah!');
+            } else {
+                $user->update([
+                    'password'  => Hash::make($request->password),
+                    'remember_token'    => sha1(rand()),
+                ]);
+                return $this->sendResponseCustom('Password berhasil di ubah', true);
+            }
+        }
+        return $this->sendResponseError('Upps. Email tidak di temukan!');
     }
 
     public function destroy(Request $request)

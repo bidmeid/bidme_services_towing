@@ -30,12 +30,16 @@ Route::group(['middleware' => ['cors']], function () {
     Route::controller(AuthCustomerController::class)->group(function () {
         Route::post('/auth/customer/signup', 'signup')->name('api.signup');
         Route::post('/auth/customer/sigin', 'sigin')->name('sigin');
+		Route::post('/auth/customer/forgot-password', 'forgot_password');
+		Route::post('/auth/customer/reset-password', 'reset_password');
     });
 
 //AUTH MITRA
     Route::controller(AuthMitraController::class)->group(function () {
         Route::post('/auth/mitra/signup', 'signup')->name('api.signup');
         Route::post('/auth/mitra/sigin', 'sigin')->name('sigin');
+		Route::post('/auth/mitra/forgot-password', 'forgot_password');
+		Route::post('/auth/mitra/reset-password', 'reset_password');
     });
 
 //AUTH DRIVER

@@ -28,6 +28,6 @@ class EmailMitra extends Mailable
      */
     public function build()
     {
-        return $this->from(env("MAIL_USERNAME"))->view('email-template-2');
+        return $this->from(env("MAIL_USERNAME"))->view('mail.email-template-2');
     }
 }

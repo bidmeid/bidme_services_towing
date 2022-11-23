@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{{ $details['title'] }} - Bidme.id</title>
+    <title>Email Pemebritahuan Keanggotaan</title>
     <style>
         /* -------------------------------------
           GLOBAL RESETS
@@ -357,7 +357,7 @@
 </head>
 
 <body>
-    <span class="preheader">Pemberitahuan Order Towing</span>
+    <span class="preheader">Pengaturan Ulang Kata Sandi/Password</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
         <tr>
             <td>&nbsp;</td>
@@ -373,19 +373,13 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td>
-                                            <h3>#Pemberitahuan Order Towing Tersedia</h3>
                                             <p>
-                                                Hy, {{ $details['name'] }}
+                                                Kami telah menerima permintaan Anda untuk reset password. Silakan klik link di bawah ini untuk melakukan reset password Anda.
                                             </p>
-                                            <p> Ada pesanan towing masuk dengan rincian sebagai berikut : </p>
-                                            <p>
-                                                <b>Penjemputan:</b> {{ $details['alamatAsal'] }}</b>
-                                            </p>
-                                            <p>
-                                                <b>Tujuan:</b> {{ $details['alamatTujuan'] }}</b>
-                                            </p>
-                                            <p>Untuk informasi selengkapnya silahkan login dengan klik tombol dibawah
-                                                ini</p>
+											<p>
+                                                <a href="{{ $data['to_url']}}/reset?email={{ $data['email'] }}&token={{ $data['token'] }}">http://127.0.0.1:8000/reset?email={{ $data['email'] }}&token={{ $data['token'] }}</a>
+											</p>
+                                            <p>Atau klik tombol di bawah ini.</p>
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                                 class="btn btn-primary">
                                                 <tbody>
@@ -395,9 +389,8 @@
                                                                 cellspacing="0">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td> <a href="http://mitra.bidme.id"
-                                                                                target="_blank">Masuk website mitra</a>
-                                                                        </td>
+                                                                        <td> <a href="http://127.0.0.1:8000/reset?email={{ $data['email'] }}&token={{ $data['token'] }}"
+                                                                                target="_blank">Reset Password</a> </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -405,9 +398,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <p>Sebelumnya kami sangat mengapresiasi atas waktu dan partisipasi anda,
-                                                serta tak lupa kami ucapkan Terimakasih.</p>
-                                            <p>Salam hormat <br>Team Support</p>
+                                            <p>Salam hormat <br>Team support</p>
                                         </td>
                                     </tr>
                                 </table>
@@ -422,13 +413,14 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span class="apple-link">Copyright © 2022 Bidme Indonesia. All rights
+                                    <span class="apple-link">Copyright © {{ date('Y') }} Bidme Indonesia. All rights
                                         reserved</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <!-- END FOOTER -->
+
                 </div>
             </td>
             <td>&nbsp;</td>
