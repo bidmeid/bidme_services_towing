@@ -138,12 +138,12 @@ class SocialiteController extends Controller
 			}
 			
 			$secondaryUnit = Tbl_unit_towing::where('mitra_id', $user->id)->first();
-			if(!isset($secondaryUnit) || count($secondaryUnit) < 1){
+			if(!empty($secondaryUnit)){
 				$point +=10;
 			}
 			
 			$secondaryDriver = Tbl_user_driver::where('mitraId', $user->id)->first();
-			if(!isset($secondaryDriver) || count($secondaryDriver) < 1){
+			if(!empty($secondaryDriver)){
 				$point +=10;
 			}
 			
