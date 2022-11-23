@@ -9,7 +9,7 @@ use App\Models\SosialAccountCustomer as SosialAccountCustomer;
 use App\Models\Tbl_user_mitra as UserMitra;
 use App\Models\Tbl_customer as UserCustomer;
 use \App\Models\Tbl_unit_towing;
-use \App\Models\Tbl_user_driver
+use \App\Models\Tbl_user_driver;
 
 use Session;
 use Exception;
