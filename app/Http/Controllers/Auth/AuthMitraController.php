@@ -63,12 +63,16 @@ class AuthMitraController extends Controller
         ];
 
         if (!empty($user)) {
-            $mail = Mail::to($user->email)->send(new ResetPasswordMail($data));
+            
             $user->update([
                 'remember_token'    => $token
             ]);
-            return $this->sendResponseCustom($mail, null);
-            //return $this->sendResponseCustom('Kami telah mengirimkan link untuk reset password ke email Anda. Cek folder inbox atau spam untuk menemukannya.', false);
+            //return $this->sendResponseCustom($mail, null);
+			if(Mail::to($user->email)->send(new ResetPasswordMail($data))){
+				
+            return $this->sendResponseCustom('Kami telah mengirimkan link untuk reset password ke email Anda. Cek folder inbox atau spam untuk menemukannya.', false);
+			
+			}
         }
         return $this->sendResponseError('Upps. Email tidak di temukan!', null);
     }
