@@ -74,7 +74,12 @@ class Report extends Controller
 			$dataCollect[$key] = $val;
 			
 			$dataCollect[$key]['customer'] = Tbl_customer::find($val->customerId);
-			$dataCollect[$key]['driver'] = Tbl_user_driver::find($val->driverId);
+			//$dataCollect[$key]['driver'] = Tbl_user_driver::find($val->driverId);
+			if($driver = Tbl_user_driver::find($val->driverId)){
+				$dataCollect[$key]['driver'] = $driver->nameDriver;
+			}else{
+				$dataCollect[$key]['driver'] = null;
+			}
 			
 			if($rute){		
 				$dataCollect[$key]['rute'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first()->distric.' --> '.Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first()->distric;

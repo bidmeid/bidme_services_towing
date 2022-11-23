@@ -35,6 +35,6 @@ class BroadcastOrder implements ShouldQueue
     public function handle()
     {
        
-        Mail::to($this->details['email'])->send(new Email($details));
+        Mail::to($this->details->email)->send(new Email($details));
     }
 }
