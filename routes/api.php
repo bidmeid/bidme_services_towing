@@ -52,7 +52,7 @@ Route::group(['middleware' => ['cors']], function () {
 
 Route::group(['middleware' => 'auth:sanctum',], function () {
 	
-	Route::get('/user', [SocialiteController::class, 'User']) {
+	Route::get('/user', [SocialiteController::class, 'User']);
 	/* Route::get('/user', function (Request $request) {
 		$user = $request->user();
 		if ($user->tokenCan('customer')) {
