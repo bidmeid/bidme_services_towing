@@ -47,7 +47,7 @@ class AuthMitraController extends Controller
             return response()->json(['message' => 'Login Faileds!'], 401);
         }
         $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token', ['mitra'])->plainTextToken;
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }
 	
