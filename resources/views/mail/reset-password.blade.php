@@ -377,7 +377,7 @@
                                                 Kami telah menerima permintaan Anda untuk reset password. Silakan klik link di bawah ini untuk melakukan reset password Anda.
                                             </p>
 											<p>
-                                                <a href="{{ $data['to_url']}}/reset?email={{ $data['email'] }}&token={{ $data['token'] }}">http://127.0.0.1:8000/reset?email={{ $data['email'] }}&token={{ $data['token'] }}</a>
+                                                <a href="{{ $data['to_url']}}/reset?email={{ $data['email'] }}&token={{ $data['token'] }}">{{ $data['to_url']}}/reset?email={{ $data['email'] }}&token={{ $data['token'] }}</a>
 											</p>
                                             <p>Atau klik tombol di bawah ini.</p>
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0"
@@ -389,7 +389,7 @@
                                                                 cellspacing="0">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td> <a href="http://127.0.0.1:8000/reset?email={{ $data['email'] }}&token={{ $data['token'] }}"
+                                                                        <td> <a href="{{ $data['to_url']}}/reset?email={{ $data['email'] }}&token={{ $data['token'] }}"
                                                                                 target="_blank">Reset Password</a> </td>
                                                                     </tr>
                                                                 </tbody>
