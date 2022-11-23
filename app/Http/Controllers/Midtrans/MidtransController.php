@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_order;
+use App\Http\Controllers\Api as Controller;
 
 class MidtransController extends Controller
 {
@@ -40,7 +41,9 @@ class MidtransController extends Controller
 		
 		$order = Tbl_invoice::where('noInvoice', $json->order_id)->first();
 		Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $json->transaction_status]);
-        return $order->update(['paymentStatus' => $json->transaction_status]);
+        $order->update(['paymentStatus' => $json->transaction_status]);
+		
+		return $this->sendResponseOk(null);
         
     }
 }

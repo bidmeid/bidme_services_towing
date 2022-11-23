@@ -45,6 +45,7 @@ class Report extends Controller
 					'tbl_invoice.mitraId',
 					'tbl_invoice.biddingId',
 					'tbl_invoice.driverId',
+					'tbl_invoice.paymentStatus',
 					'tbl_invoice.paymentToMitra',
 
 					'tbl_order.id',
