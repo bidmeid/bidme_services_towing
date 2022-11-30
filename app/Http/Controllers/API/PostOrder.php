@@ -74,7 +74,7 @@ class PostOrder extends Controller
 			'latLongTujuan'  => $request->latLongTujuan,
 			'alamatTujuan'  => $request->alamatTujuan,
 			'telp'  => $request->noTelp,
-			'orderCost'  => $orderCost,
+			//'orderCost'  => $orderCost,
 			'orderDate'  => $request->orderDate,
 			'orderTime'  => $request->orderTime,
 			'orderStatus'  => 'process',

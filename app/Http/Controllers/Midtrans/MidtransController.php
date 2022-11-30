@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Midtrans;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api as Controller;
 
 use Illuminate\Http\Request;
 
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_order;
-use App\Http\Controllers\Api as Controller;
+
 
 class MidtransController extends Controller
 {

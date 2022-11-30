@@ -28,14 +28,18 @@ class Bidding extends Controller
 		
 		$order =  Tbl_order::where('id', $request->input('orderId'))->first();
 		
-		 
-		if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+		if($order->orderStatus == 'process'){ 
+			if($this->checkingBid($order->orderDate, $order->orderTime) == false){
+				
+				
+				
+				Tbl_order::where('id', $request->orderId)
+						->where('orderStatus', 'process')
+						->update(['orderStatus'  => 'failed']);
 			
-			Tbl_order::where('id', $request->orderId)
-					->update(['orderStatus'  => 'failed']);
-		
-			$message 	= 'Kami tidak dapat menemukan mitra towing untuk anda, silahkan lakukan order kembali';
-			return $this->sendResponseError($message, '',203);
+				$message 	= 'Kami tidak dapat menemukan mitra towing untuk anda, silahkan lakukan order kembali';
+				return $this->sendResponseError($message, '',203);
+			}
 		}
 		
         $bidding = Tbl_bidding::whereRaw('orderId ='. $request->input('orderId'))
