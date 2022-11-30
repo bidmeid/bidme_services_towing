@@ -13,7 +13,7 @@ use App\Models\Tbl_postCode;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_tracking;
 use App\Models\Tbl_bidding;
-use \App\Models\Tbl_user_driver
+use \App\Models\Tbl_user_driver;
 
 use Validator;
 use Illuminate\Http\Request;
