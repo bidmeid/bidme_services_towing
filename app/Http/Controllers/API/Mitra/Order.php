@@ -13,6 +13,7 @@ use App\Models\Tbl_postCode;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_tracking;
 use App\Models\Tbl_bidding;
+use \App\Models\Tbl_user_driver
 
 use Validator;
 use Illuminate\Http\Request;
@@ -102,7 +103,15 @@ class Order extends Controller
 			
 			//$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
 			$rute = Tbl_rute_pricelist::findOrFail($val->ruteId);
+			
+			$tracking = Tbl_tracking::where('orderId', $val->orderId)->first();
 			$result[$key] = $val;
+			
+			if($driver){
+				$result[$key]['tracking'] = true; 
+			}else{
+				$result[$key]['tracking'] = false;
+			}
 			
 			$result[$key]['customer'] = Tbl_customer::find($val->customerId);
 			if($rute){
