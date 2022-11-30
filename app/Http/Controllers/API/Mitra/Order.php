@@ -211,7 +211,8 @@ class Order extends Controller
 					'tbl_invoice.billing',
 					'tbl_invoice.paymentMethod',
 					'tbl_invoice.paymentStatus',
-					//'tbl_invoice.paymentToMitra',
+					'tbl_invoice.paymentDate',
+					'tbl_invoice.paymentToMitra',
 
 					'tbl_order.id',
 					'tbl_order.ruteId',
