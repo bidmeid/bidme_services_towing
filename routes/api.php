@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::get('/tracking', [Api\Tracking::class, 'index']);
 		Route::get('/driverInfo', [Api\Tracking::class, 'driverInfo']);
 		Route::post('/finishOrder', [Api\PostOrder::class, 'finishOrder']);
-		Route::post('/payment-handler', [\App\Http\Controllers\Midtrans\MidtransController::class, 'payment_handler']);
+		
 	});
 	
 	Route::group(['middleware' => ['auth:sanctum','role:mitra']], function() {
@@ -128,6 +128,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
     Route::post('/auth/logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
+Route::post('/payment-handler', [\App\Http\Controllers\Midtrans\MidtransController::class, 'payment_handler']);
 Route::post('/requestCost', [Api\RequestCost::class, 'index']);
 
 
