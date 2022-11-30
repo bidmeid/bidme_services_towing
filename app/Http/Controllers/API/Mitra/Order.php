@@ -107,7 +107,7 @@ class Order extends Controller
 			$tracking = Tbl_tracking::where('orderId', $val->orderId)->first();
 			$result[$key] = $val;
 			
-			if($driver){
+			if($tracking){
 				$result[$key]['tracking'] = true; 
 			}else{
 				$result[$key]['tracking'] = false;
