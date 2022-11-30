@@ -103,13 +103,15 @@ class PostOrder extends Controller
 			
 			$result[$key] = $val;
 			
+			
 			$result[$key]['jenisKendaraan'] = Tbl_jenis_kendaraan::find($val->JenisKendaraanId);
 			$result[$key]['typeKendaraan'] = Tbl_type_kendaraan::find($val->typeKendaraanId);	
 			if($rute){		
+				$result[$key]['standarHarga'] = $rute->standarHarga;
 				$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 				$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
 			}else{
-				$result[$key]['rute'] = 'Tidak Ditemukan';
+				$result[$key]['standarHarga'] = 'Tidak Tersedia';
 				$result[$key]['regionAsal'] = ['distric' => substr($val->alamatAsal, 0, 16).'..'];
 				$result[$key]['regionTujuan']= ['distric' => substr($val->alamatTujuan, 0, 16).'..'];
 			}		

@@ -25,6 +25,7 @@ class Invoice extends Controller
 		
 		$validator = Validator::make($request->all(), [
 			'orderId' => 'required',
+			'bidId' => 'required',
 			'paymentMethod'  => 'required',
 
         ]);
