@@ -57,7 +57,7 @@ class Tracking extends Controller
 			}
 			
 			$result->driver = Tbl_user_driver::find($result->driverId);
-			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($invoice->mitraId);
+			$result->order = $order;
 			
 		
 		return $this->sendResponseOk($result);
