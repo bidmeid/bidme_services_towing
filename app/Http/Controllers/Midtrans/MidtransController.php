@@ -43,7 +43,7 @@ class MidtransController extends Controller
 		Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $json->transaction_status]);
         $order->update(['paymentStatus' => $json->transaction_status]);
 		
-		return $this->sendResponseOk(null);
+		return $this->sendResponseOk($json);
         
     }
 }
