@@ -177,7 +177,7 @@ class Invoice extends Controller
 		
 		$invoices = Tbl_invoice::where('orderId', $request->orderId)->first();
 		
-		if(empty($result)){
+		if(empty($invoices)){
 			return $this->sendResponseError(null);
 		}
 		
