@@ -62,6 +62,8 @@ class Invoice extends Controller
 			'paymentStatus'  => 'pending',
 			'billing'  	=> $billing,
 		]);
+		$order->update(['orderCost' => $billing, 'orderStatus' => 'pending']);
+		
 		}else{
 			$input['invoice'] = $invoices;
 		}
@@ -250,8 +252,9 @@ class Invoice extends Controller
 				 
 			}
 				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
-				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
+				
 				$order->update(['paymentStatus' => $status->transaction_status, 'paymentDate' => $status->settlement_time]);
+				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
 			
 			$return['data']  = $status;
 			return $return;
