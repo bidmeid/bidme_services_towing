@@ -162,4 +162,72 @@ class Invoice extends Controller
 		return true;
 
 	}
+	
+	public function snaptoken(request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'orderId' => 'required',
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors()); 
+        }
+		
+		$invoices = Tbl_invoice::where('orderId', $request->orderId)->first();
+		
+		if(empty($result)){
+			return $this->sendResponseError(null);
+		}
+		
+		$order  = Tbl_order::find($request->orderId);
+		$customer = Tbl_customer::find($order->customerId);
+		
+		// Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+		
+        \Midtrans\Config::$appendNotifUrl = url('api/payment-handler');
+		
+		$params = array(
+            'transaction_details' => array(
+                'order_id' => $invoices->noInvoice,
+                'gross_amount' => $invoices->billing,
+                'date' => $invoices->created_at,
+            ),
+            "item_details" =>  array(
+                [
+                    "id" => $invoices->orderId,
+                    "price" => $invoices->billing,
+                    "quantity" => 1,
+                    "name" => $invoices->noInvoice
+                ]
+            ),
+            'customer_details'  => array(
+                'first_name'    =>  $customer->name,
+                'email'         => $customer->email,
+                'phone'         => $customer->no_telp,
+            ),
+        );
+		
+		try {
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+        } catch (Exception) {
+
+            throw new Exception("API Request Error unable to json_decode API response");
+        }
+		
+		$input['item'] = $params;
+		$input['snapToken'] = $snapToken;
+		
+		return $this->sendResponseOk($input);
+		
+	}
 }
