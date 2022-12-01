@@ -227,7 +227,7 @@ class Invoice extends Controller
 		$input['item'] = $params;
 		$input['snapToken'] = $snapToken;
 		
-		return $this->sendResponseOk($input);
+		return $this->sendResponseCreate($input);
 		
 	}
 }
