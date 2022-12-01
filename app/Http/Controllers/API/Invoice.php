@@ -119,8 +119,6 @@ class Invoice extends Controller
 	}
 	
 	
-
-	
 	private function created($uniqid) {
 		$ticket = rand(100, 999).str_pad(substr($uniqid,2), 2, STR_PAD_LEFT);
 		
@@ -215,11 +213,17 @@ class Invoice extends Controller
                 'phone'         => $customer->no_telp,
             ),
         );
+		$return = $this->CheckPaymentStatus($invoices->noInvoice);
+		
+		if($return['check'] == true){
+			return $this->sendResponseOk($return);
+		};
 		
 		try {
 
             $snapToken = \Midtrans\Snap::getSnapToken($params);
-        } catch (Exception) {
+			
+        } catch (Exception $e) {
 
             throw new Exception("API Request Error unable to json_decode API response");
         }
@@ -228,6 +232,34 @@ class Invoice extends Controller
 		$input['snapToken'] = $snapToken;
 		
 		return $this->sendResponseCreate($input);
+		
+	}
+	
+	public function CheckPaymentStatus($noInvoice) {
+		
+		$status = \Midtrans\Transaction::status($noInvoice);
+		if($status){
+			$invoice = Tbl_invoice::where('noInvoice', $noInvoice)->first();
+			$return['check'] = true;
+			if($status->transaction_status == $invoice->paymentStatus){
+				
+				$return['msg']  = 'nomor invoice di temukan';
+			}else{
+				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
+				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
+				$order->update(['paymentStatus' => $status->transaction_status, 'paymentDate' => $status->settlement_time]);
+				
+				$return['msg']  = 'status pembayaran berhasil diperbaharui';
+				 
+			}
+			
+			$return['data']  = $status;
+			return $return;
+		    
+		}else{
+			$return['check'] = false;
+			return $return;
+		}
 		
 	}
 }
