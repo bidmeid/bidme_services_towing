@@ -62,7 +62,8 @@ class Invoice extends Controller
 			'paymentStatus'  => 'pending',
 			'billing'  	=> $billing,
 		]);
-		$order->update(['orderCost' => $billing, 'orderStatus' => 'pending']);
+		
+		Tbl_order::where('id', $request->orderId)->update(['orderCost' => $billing, 'orderStatus' => 'pending']);
 		
 		}else{
 			$input['invoice'] = $invoices;
