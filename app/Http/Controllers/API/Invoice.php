@@ -120,8 +120,8 @@ class Invoice extends Controller
 	
 	
 	private function created($uniqid) {
-		$ticket = rand(100, 999).str_pad(substr($uniqid,2), 2, STR_PAD_LEFT);
-		
+		$ticket = rand(10, 99).str_pad(substr($uniqid,4), 4, STR_PAD_LEFT);
+		$ticket = 'BID-'.strtoupper($ticket);
 		return $ticket;
 	}
 	
@@ -238,20 +238,20 @@ class Invoice extends Controller
 	public function CheckPaymentStatus($noInvoice) {
 		
 		$status = \Midtrans\Transaction::status($noInvoice);
-		if($status){
+		if($status != false){
 			$invoice = Tbl_invoice::where('noInvoice', $noInvoice)->first();
 			$return['check'] = true;
 			if($status->transaction_status == $invoice->paymentStatus){
 				
 				$return['msg']  = 'nomor invoice di temukan';
 			}else{
-				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
-				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
-				$order->update(['paymentStatus' => $status->transaction_status, 'paymentDate' => $status->settlement_time]);
 				
 				$return['msg']  = 'status pembayaran berhasil diperbaharui';
 				 
 			}
+				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
+				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
+				$order->update(['paymentStatus' => $status->transaction_status, 'paymentDate' => $status->settlement_time]);
 			
 			$return['data']  = $status;
 			return $return;
