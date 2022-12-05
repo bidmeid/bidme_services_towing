@@ -73,15 +73,15 @@ class Invoice extends Controller
 			'orderStatus'  => 'payment'
 		]);
 		 */
-	/* 	Tbl_bidding::where('orderId', $request->orderId)->update([
-			'bidStatus'  => 1 
-		]); */
+		Tbl_bidding::where('orderId', $request->orderId)->update([
+			'bidStatus'  => 2 // tidk terpilih
+		]); 
 		
 		Tbl_bidding::where('id', $request->bidId)->update([
 			'bidStatus'  => 1 //terpilih
 		]);
 		
-		//$message = $this->sendEmail($request->orderId);
+		$message = $this->sendEmail($request->orderId);
 		
 		$input['user'] = Auth::user();
 		return $this->sendResponseCreate($input);

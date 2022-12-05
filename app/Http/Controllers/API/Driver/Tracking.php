@@ -106,12 +106,13 @@ class Tracking extends Controller
 			$message 	= 'Your request couldn`t be done';
 			return $this->sendResponseError($message, null, 202);
 		}else{
-			
+		$finishDriver = 0;	
 		if($request->trackPoint == 1){
 			$msg = 'Unit kendaraan sedang dalam pengiriman ke lokasi tujuan';
 			 
 		}else if($request->trackPoint == 2){
 			$msg = 'Unit kendaraan anda telah sampai di lokasi tujuan';
+			$finishDriver = 1;
 			/* Tbl_order::where('id', $request->orderId)->update([
 			'orderStatus'  => 'complete'
 			]); */
@@ -119,6 +120,7 @@ class Tracking extends Controller
 		
 			Tbl_tracking::where('orderId', $request->orderId)->update([
 			//'status'  => 'close',
+			'finishDriver'  => $finishDriver,
 			'trackPoint'  => $request->trackPoint,
 			'msg'  => $msg
 			]);
