@@ -258,10 +258,12 @@ class Invoice extends Controller
 				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
 			
 			$return['data']  = $status;
+			$return['order']  = $order;
 			return $return;
 		    
 		}else{
 			$return['check'] = false;
+			$return['msg']  = 'nomor invoice tidak di temukan';
 			return $return;
 		}
 		

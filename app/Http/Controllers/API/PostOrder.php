@@ -39,8 +39,8 @@ class PostOrder extends Controller
 			'typeKendaraanId'  => 'required',
 			//'orderCost'  => 'required',
 			'noTelp'  => 'required',
-			'orderDate'  => 'required',
-			'orderTime'  => 'required',
+			//'orderDate'  => 'required',
+			//'orderTime'  => 'required',
         ]);
 		
 		if($validator->fails()){
@@ -60,6 +60,16 @@ class PostOrder extends Controller
 		}else{
 			$orderCost = 0;
 		};
+		if(!$request->orderDate){
+            $orderDate = date('Y-m-d');       
+		}else{
+			$orderDate = $request->orderDate;
+		}
+		if(!$request->orderTime){
+            $orderTime = date('h:i:s');       
+        }else{
+			$orderTime = $request->orderTime;
+		}
 		
 		$input = Tbl_order::create([
 			'ticket' => $ticket,
@@ -75,8 +85,8 @@ class PostOrder extends Controller
 			'alamatTujuan'  => $request->alamatTujuan,
 			'telp'  => $request->noTelp,
 			//'orderCost'  => $orderCost,
-			'orderDate'  => $request->orderDate,
-			'orderTime'  => $request->orderTime,
+			'orderDate'  => $orderDate,
+			'orderTime'  => $orderTime,
 			'orderStatus'  => 'process',
 		]);
 		
