@@ -66,7 +66,7 @@ class PostOrder extends Controller
 			$orderDate = $request->orderDate;
 		}
 		if(!$request->orderTime){
-            $orderTime = date('h:i:s');       
+            $orderTime = date('H:i:s');       
         }else{
 			$orderTime = $request->orderTime;
 		}
