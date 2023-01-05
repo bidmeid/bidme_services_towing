@@ -42,7 +42,7 @@ class Invoice extends Controller
 		$bid = Tbl_bidding::find($request->bidId);
 		
 		$bidMitra = $bid->bidding;
-		$biayaApp = $this->biayaApp;
+		$biayaApp = $this->biayaApp();
 		$billing = $bidMitra + $biayaApp;
 		
 		$invoiceGen = $this->created(uniqid());

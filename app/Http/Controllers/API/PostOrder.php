@@ -208,7 +208,7 @@ class PostOrder extends Controller
 			'bidId' => $request->bidId, 
 			]); */
 		$result->mitra = Tbl_user_mitra::find($result->bid->mitraId);
-		$result->biayaApp = $this->biayaApp;
+		$result->biayaApp = $this->biayaApp();
 		
 		return $this->sendResponseOk($result);
 
