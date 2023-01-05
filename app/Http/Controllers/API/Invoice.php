@@ -68,6 +68,15 @@ class Invoice extends Controller
 		Tbl_order::where('id', $request->orderId)->update(['orderCost' => $billing, 'orderStatus' => 'pending']);
 		
 		}else{
+			$input['invoice'] = Tbl_invoice::where('id', $invoices->id)->update([
+			'orderId' => $request->orderId,
+			'biddingId' => $request->bidId,
+			'mitraId' => $bid->mitraId,
+			'noInvoice' => $invoice,
+			'paymentMethod'  => $request->paymentMethod,
+			'paymentStatus'  => 'pending',
+			'billing'  	=> $billing,
+		]);
 			$input['invoice'] = $invoices;
 		}
 		
