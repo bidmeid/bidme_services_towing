@@ -102,7 +102,7 @@ class Order extends Controller
 		foreach($order as $key=>$val){
 			
 			//$order = Tbl_order::with('Tbl_customer')->find($val->orderId);
-			$rute = Tbl_rute_pricelist::findOrFail($val->ruteId);
+			$rute = Tbl_rute_pricelist::find($val->ruteId);
 			
 			$tracking = Tbl_tracking::where('orderId', $val->orderId)->first();
 			$result[$key] = $val;
