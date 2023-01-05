@@ -72,7 +72,7 @@ class Invoice extends Controller
 			'orderId' => $request->orderId,
 			'biddingId' => $request->bidId,
 			'mitraId' => $bid->mitraId,
-			'noInvoice' => $invoice,
+			
 			'paymentMethod'  => $request->paymentMethod,
 			'paymentStatus'  => 'pending',
 			'billing'  	=> $billing,
