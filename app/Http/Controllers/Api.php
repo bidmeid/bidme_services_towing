@@ -87,6 +87,12 @@ class Api extends Controller
         return response()->json($response, $code);
     }
 	
+	public function biayaApp()
+    {
+        
+        return 20000;
+    }
+	
 	public function checkingBid($orderDate, $orderTime){
 		
 		$dateOrder = $orderDate;
