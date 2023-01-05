@@ -84,14 +84,14 @@ class PostBidding extends Controller
 	    $result = array();
 		foreach($biding as $key=>$val){
 			$order			= Tbl_order::with('Tbl_customer')->find($val->orderId);
-			
-			$rute = Tbl_rute_pricelist::find($order->ruteId);
-			
 			$result[$key] 	= $val;
 			$result[$key]['order'] = $order;
-			if($rute){
+			
+			if($order->ruteId != null){
+			$rute = Tbl_rute_pricelist::find($order->ruteId);
 			$result[$key]['regionAsal'] = Tbl_postCode::where('postcode', $rute->asalPostcode)->first();
 			$result[$key]['regionTujuan'] = Tbl_postCode::where('postcode', $rute->tujuanPostcode)->first();
+			
 			}else{
 				$result[$key]['rute'] = 'Tidak Ditemukan';
 				$result[$key]['regionAsal'] = ['distric' => substr($order->alamatAsal,0, 16).'..'];
