@@ -46,5 +46,31 @@ class UsersCustomer extends Controller
 		}
 	}
 
-	
+	public function update_password(request $request){
+		
+		$validator = Validator::make($request->all(), [
+             
+            'password' => 'required|confirmed',
+           
+            
+		]);
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors(), 202);       
+		}
+		
+		$result = M_Users::where([['id', Auth::user()->id]])->first();
+		if(empty($result)){
+			$message 	= 'Your password is wrong';
+			return $this->sendResponseError($message, '',202);
+		}
+
+		$input = M_Users::where('id', Auth::user()->id)->update([
+			
+			'password'   	=> $request->password,
+		]);
+
+		if($input){
+			return $this->sendResponseCreate(null);
+		}
+	}
 }
