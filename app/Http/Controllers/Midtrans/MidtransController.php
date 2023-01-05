@@ -42,7 +42,7 @@ class MidtransController extends Controller
 		$order = Tbl_invoice::where('noInvoice', $json->order_id)->first();
 		
 		
-        $order->update(['paymentStatus' => $json->transaction_status, 'paymentDate' => $json->settlement_time]);
+        $order->update(['paymentStatus' => $json->transaction_status, 'paymentDate' => $json->transaction_time]);
 		Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $json->transaction_status]);
 		
 		return $this->sendResponseOk($json);
