@@ -54,30 +54,40 @@ class SocialiteController extends Controller
 				//$authUser = $this->findOrCreateUserMitra($user, $provider);
 				$authUser = $this->findUserMitra($user, $provider);
 				if($authUser == FALSE){
+					$userData = [
+						'provider' => $provider,
+						'id' => $user->id,
+						'email' => $user->email,
+						'name'  => $user->name,
+						'avatar'  => $user->avatar,
+					];
+					$param = http_build_query($userData);
 					
-				$userData = [
-					'provider' => $provider,
-                    'id' => $user->id,
-                    'email' => $user->email,
-                    'name'  => $user->name,
-                    'avatar'  => $user->avatar,
-                ];
-				$param = http_build_query($userData);
-				
-				 return redirect()->intended('http://mitra.bidme.id/register?' . $param);
-				 
+					 return redirect()->intended('http://mitra.bidme.id/register?' . $param);
+					 
 				}
-				
-				Auth::login($authUser, true);
+				if($authUser->banned == 0 ){
+					$userData = [
+						 
+						'message' => 'Akun anda belum diaktifkan',
+					];
+					
+					$param = http_build_query($userData);
+					
+					return redirect()->intended('http://mitra.bidme.id?' . $param);
+				}
+				$check = Auth::login($authUser, true);
+				 
 				$token = $authUser->createToken('auth_token', ['mitra'])->plainTextToken;
-				$response = [
-					'name' => $user->name,
-					'message' => 'Your request has been saved',
-				];
+				
 				
 				return redirect()->intended('http://mitra.bidme.id/set_cookie?token=' . $token)->with('token', $token);
 				//return redirect()->intended('http://localhost/mitraBidme/public/set_cookie?token=' . $token)->with('token', $token);
 			}else{
+				$response = [
+					 
+					'message' => 'Your request can`t be done',
+				];
 				return response()->json(401);
 			};
     }
