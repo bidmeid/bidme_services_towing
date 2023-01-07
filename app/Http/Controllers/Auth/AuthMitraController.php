@@ -75,6 +75,9 @@ class AuthMitraController extends Controller
             'token' => $token,
 			'to_url' => 'http://mitra.bidme.id/password-reset',
         ];
+		if($user->banned == 0 ){
+			return response()->json(['message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.'], 203);
+		}
 
         if (!empty($user)) {
             
