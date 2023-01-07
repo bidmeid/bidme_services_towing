@@ -51,7 +51,14 @@ class SocialiteController extends Controller
 				return redirect()->intended('http://bidme.id/set_cookie?token=' . $token)->with('token', $token);
 				
 			}elseif($guest == 'mitra'){
-				$authUser = $this->findOrCreateUserMitra($user, $provider);
+				//$authUser = $this->findOrCreateUserMitra($user, $provider);
+				$authUser = $this->findUserMitra($user, $provider);
+				if($authUser == FALSE){
+				$param = http_build_query($user);
+				
+				 return redirect()->intended('http://mitra.bidme.id/register?' . $param);
+				 
+				}
 				
 				Auth::login($authUser, true);
 				$token = $authUser->createToken('auth_token', ['mitra'])->plainTextToken;
@@ -90,6 +97,17 @@ class SocialiteController extends Controller
                 'provider_name' => $provider,
             ]);
             return $user;
+        }
+    }
+	public function findUserMitra($userProvider, $provider)
+    {
+        $account = SosialAccountMitra::where(['provider_name' => $provider, 'provider_id' => $userProvider->id])->first();
+        if ($account) {
+			 
+            return $account->user;
+        } else {
+             
+            return FALSE;
         }
     }
 	
