@@ -58,6 +58,9 @@ class AuthMitraController extends Controller
             return response()->json(['message' => 'Login Faileds!'], 401);
         }
         $user = User::where('email', $request->email)->first();
+		if($user->banned == 0 ){
+			return response()->json(['message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.']);
+		}
         $token = $user->createToken('auth_token', ['mitra'])->plainTextToken;
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }

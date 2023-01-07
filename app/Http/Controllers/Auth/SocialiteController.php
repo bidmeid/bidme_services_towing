@@ -69,7 +69,7 @@ class SocialiteController extends Controller
 				if($authUser->banned == 0 ){
 					$userData = [
 						 
-						'message' => 'Akun anda belum diaktifkan',
+						'message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.',
 					];
 					
 					$param = http_build_query($userData);
