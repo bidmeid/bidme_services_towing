@@ -25,14 +25,25 @@ class AuthMitraController extends Controller
         if ($validator->fails()) {
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
         }
-
+		if(isset($request->avatar)){
+			$avatar = $request->avatar
+		}else{
+			$avatar = NULL;
+		};
         $user = User::create([
             'name'      => $request->name,
             'no_telp'   => $request->no_telp,
             'email'     => $request->email,
-            'password'  => Hash::make($request->password)
+            'password'  => Hash::make($request->password),
+            'avatar'  	=> $avatar
         ]);
-
+		if(isset($request->provider_id)){
+			$user->SosialAccountCustomer()->create([
+                'provider_id'   => $request->provider_id,
+                'provider_name' => $request->provider_id,
+            ]);
+		}
+		
         $data['access_token'] = $user->createToken('auth_token', ['mitra'])->plainTextToken;
         return $this->sendResponseCreate($data);
     }

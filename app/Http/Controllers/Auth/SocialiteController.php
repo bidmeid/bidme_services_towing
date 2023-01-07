@@ -54,7 +54,15 @@ class SocialiteController extends Controller
 				//$authUser = $this->findOrCreateUserMitra($user, $provider);
 				$authUser = $this->findUserMitra($user, $provider);
 				if($authUser == FALSE){
-				$param = http_build_query($user);
+					
+				$userData = [
+					'provider' => $provider,
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'name'  => $user->name,
+                    'avatar'  => $user->avatar,
+                ];
+				$param = http_build_query($userData);
 				
 				 return redirect()->intended('http://mitra.bidme.id/register?' . $param);
 				 
