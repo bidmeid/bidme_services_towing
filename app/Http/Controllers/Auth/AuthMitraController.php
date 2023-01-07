@@ -40,7 +40,7 @@ class AuthMitraController extends Controller
 		if(isset($request->provider_id)){
 			$user->SosialAccountMitra()->create([
                 'provider_id'   => $request->provider_id,
-                'provider_name' => $request->provider_id,
+                'provider_name' => $request->provider_name,
             ]);
 		}
 		
