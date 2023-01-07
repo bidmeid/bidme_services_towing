@@ -26,7 +26,7 @@ class AuthMitraController extends Controller
             return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
         }
 		if(isset($request->avatar)){
-			$avatar = $request->avatar
+			$avatar = $request->avatar;
 		}else{
 			$avatar = NULL;
 		};
