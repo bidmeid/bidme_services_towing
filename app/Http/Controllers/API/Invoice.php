@@ -61,7 +61,7 @@ class Invoice extends Controller
 			'mitraId' => $bid->mitraId,
 			'noInvoice' => $invoice,
 			'paymentMethod'  => $request->paymentMethod,
-			'paymentStatus'  => 'pending',
+			'paymentStatus'  => 'waiting',
 			'billing'  	=> $billing,
 		]);
 		
@@ -74,7 +74,7 @@ class Invoice extends Controller
 			'mitraId' => $bid->mitraId,
 			
 			'paymentMethod'  => $request->paymentMethod,
-			'paymentStatus'  => 'pending',
+			//'paymentStatus'  => 'pending',
 			'billing'  	=> $billing,
 		]);
 			$input['invoice'] = $invoices;
