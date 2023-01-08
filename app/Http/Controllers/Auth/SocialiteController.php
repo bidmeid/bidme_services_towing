@@ -41,7 +41,8 @@ class SocialiteController extends Controller
 			if($guest == 'customer'){
 				
 				$authUser = $this->findOrCreateUserCustomer($user, $provider);
-				 
+				//$authUser = $this->findUserCustomer($user, $provider);
+				
 				Auth::login($authUser, true);
 				$token = $authUser->createToken('auth_token', ['customer'])->plainTextToken;
 				$response = [
