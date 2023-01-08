@@ -176,7 +176,7 @@ class PostOrder extends Controller
 			
 		if((!empty($invoice)) OR ($invoice != null)){
 			
-			$result->paymentStatus;
+			$result->paymentStatus = $invoice->paymentStatus;
 			$result->mitra = Tbl_user_mitra::find($invoice->mitraId);
 		}
 		
