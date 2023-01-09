@@ -146,9 +146,9 @@ class Api extends Controller
         $data = [
             "registration_ids" => $firebaseToken,
             "notification" => [
-                "title" => $details->title,
-                "body" => $details->body,
-                "url" => $details->url,
+                "title" => $details['title'],
+                "body" => $details['body'],
+                "url" => $details['url'],
                 "icon" => 'https://cdn.pixabay.com/photo/2016/05/24/16/48/mountains-1412683_960_720.png',
                 "content_available" => true,
                 "priority" => "high",
