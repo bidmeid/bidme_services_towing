@@ -149,7 +149,7 @@ class Api extends Controller
                 "title" => $details['title'],
                 "body" => $details['body'],
                 "url" => $details['url'],
-                "icon" => 'https://cdn.pixabay.com/photo/2016/05/24/16/48/mountains-1412683_960_720.png',
+                "icon" => 'https://mitra.bidme.id/backend/lc_icon.png',
                 "content_available" => true,
                 "priority" => "high",
             ]
