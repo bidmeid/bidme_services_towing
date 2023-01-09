@@ -339,9 +339,9 @@ class PostOrder extends Controller
 			 
 			];
 			
-		$this->sendNotification($users, $details);
+		$return = $this->sendNotification($users, $details);
 		
-		return true;
+		return $return;
 
 	}
 	
