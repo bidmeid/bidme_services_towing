@@ -139,7 +139,7 @@ class Api extends Controller
         //jika kalian ingin mengirim notif ke user tertentu batasi query dibawah ini, bisa berdasarkan id atau kondisi tertentu
 	
         //$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
-        $firebaseToken = $users->device_token;
+        $firebaseToken = $users;
 
         $SERVER_API_KEY = 'AAAAWRP69yA:APA91bEe2uoSYF_w2i3e1aUf0cb30HlQerVyBsd41hNkLaMwchoK9Rlx2e_N5Af347zwmRBCqlrzqsVNHtdbUZVm5_HxSdyuIqgq5sc1HCBZRShtgvnx81SHqBDgpmj_vKyTAwObkOku';
 
@@ -149,7 +149,7 @@ class Api extends Controller
                 "title" => $details['title'],
                 "body" => $details['body'],
                 "url" => $details['url'],
-                "icon" => 'https://mitra.bidme.id/backend/lc_icon.png',
+                "icon" => $details['icon'],
                 "content_available" => true,
                 "priority" => "high",
             ]

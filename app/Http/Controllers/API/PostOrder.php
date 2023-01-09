@@ -321,5 +321,28 @@ class PostOrder extends Controller
 
 	}
 	
+	private function sendNotif($orderId)
+	{
+		$users = Tbl_user_mitra::whereNotNull('device_token')->pluck('device_token')->all();
+		$order  = Tbl_order::find($orderId);
+		
+		
+		$details = [
+			'title' => 'Order Towing',
+			'body' => 'Pemberitahuan Order Towing Tersedia Untuk Anda Bidding',
+			'url' => 'http://mitra.bidme.id',
+			"icon" => 'https://mitra.bidme.id/backend/lc_icon.png',
+			'name' => $items->name,
+			'alamatAsal' => $order->alamatAsal,
+			'alamatTujuan' => $order->alamatTujuan,
+			 
+			];
+			
+		$this->sendNotification($users, $details);
+		
+		return true;
+
+	}
+	
 	
 }
