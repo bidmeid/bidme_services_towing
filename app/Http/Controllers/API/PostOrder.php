@@ -301,15 +301,18 @@ class PostOrder extends Controller
 		$result = Tbl_user_mitra::get();
 		$order  = Tbl_order::find($orderId);
 		
-		foreach($result as $items){
+		foreach($result as $items){		
+		
 		$details = [
 			'title' => 'Order Towing',
+			'body' => 'Pemberitahuan Order Towing Tersedia Untuk Anda Bidding',
+			'url' => 'http://mitra.bidme.id',
 			'name' => $items->name,
 			'alamatAsal' => $order->alamatAsal,
 			'alamatTujuan' => $order->alamatTujuan,
 			 
 			];
-			
+		$this->sendNotification($items, $details);
 		 dispatch(new BroadcastOrder($details));	
 		 //BroadcastOrder::dispatch($details);
 		 //$catch = Mail::to($items->email)->queue(new Email($details));

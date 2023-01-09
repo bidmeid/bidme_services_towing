@@ -132,4 +132,47 @@ class Api extends Controller
 		return $diffInMinutes;
 		
 	} 
+	
+	public function sendNotification($users, $details)
+    {
+        //firebaseToken berisi seluruh user yang memiliki device_token. jadi notifnya akan dikirmkan ke semua user
+        //jika kalian ingin mengirim notif ke user tertentu batasi query dibawah ini, bisa berdasarkan id atau kondisi tertentu
+	
+        //$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+        $firebaseToken = $users->device_token;
+
+        $SERVER_API_KEY = 'AAAAWRP69yA:APA91bEe2uoSYF_w2i3e1aUf0cb30HlQerVyBsd41hNkLaMwchoK9Rlx2e_N5Af347zwmRBCqlrzqsVNHtdbUZVm5_HxSdyuIqgq5sc1HCBZRShtgvnx81SHqBDgpmj_vKyTAwObkOku';
+
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "title" => $details->title,
+                "body" => $details->body,
+                "url" => $details->url,
+                "icon" => 'https://cdn.pixabay.com/photo/2016/05/24/16/48/mountains-1412683_960_720.png',
+                "content_available" => true,
+                "priority" => "high",
+            ]
+        ];
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+        return $response;
+       
+    }
 }

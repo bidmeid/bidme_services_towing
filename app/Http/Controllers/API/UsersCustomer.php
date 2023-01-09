@@ -73,4 +73,5 @@ class UsersCustomer extends Controller
 			return $this->sendResponseCreate(null);
 		}
 	}
+	
 }

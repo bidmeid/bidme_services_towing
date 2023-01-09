@@ -102,6 +102,8 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 		Route::get('/mitra/mitraNotif', [Api\Mitra\MitraNotif::class, 'index']);
 		Route::post('/mitra/report', [Api\Mitra\Report::class, 'index']);
 		Route::get('/mitra/tracking', [Api\Mitra\Tracking::class, 'index']);
+		Route::get('/mitra/saveToken', [Api\Mitra\UserMitra::class, 'saveToken']);
+		
 		
 		//DRIVER		
 		Route::post('/mitra/listDriver', [Api\Mitra\Driver::class, 'index']);		
