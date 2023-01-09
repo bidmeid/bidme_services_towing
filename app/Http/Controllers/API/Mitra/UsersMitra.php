@@ -101,7 +101,7 @@ class UsersMitra extends Controller
 	public function saveToken(Request $request)
     {
         
-        $user = M_Users::where('id', $request->mitraId)->update(['device_token' => $request->token]);
+        $input = M_Users::where('id', $request->mitraId)->update(['device_token' => $request->token]);
         
 		if($input){
 			return $this->sendResponseCreate(null);
