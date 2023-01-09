@@ -91,6 +91,7 @@ class PostOrder extends Controller
 		]);
 		
 		$message = $this->sendEmail($input->id);
+		$input->notif = $this->sendNotif($input->id);
 		
 		return $this->sendResponseCreate($input);
 	}
@@ -312,7 +313,7 @@ class PostOrder extends Controller
 			'alamatTujuan' => $order->alamatTujuan,
 			 
 			];
-		$this->sendNotification($items, $details);
+		//$this->sendNotification($items, $details);
 		 dispatch(new BroadcastOrder($details));	
 		 //BroadcastOrder::dispatch($details);
 		 //$catch = Mail::to($items->email)->queue(new Email($details));
