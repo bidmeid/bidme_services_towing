@@ -33,6 +33,7 @@ class Tbl_user_mitra extends Authenticatable
         'email',
         'avatar',
         'password',
+        'device_token',
         'token_reset',
     ];
 	
