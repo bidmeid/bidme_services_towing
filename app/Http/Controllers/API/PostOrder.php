@@ -298,7 +298,7 @@ class PostOrder extends Controller
 	
 	private function sendEmail($orderId)
 	{
-		$result = Tbl_user_mitra::get();
+		$result = Tbl_user_mitra::whereNotNull('device_token')->get();
 		$order  = Tbl_order::find($orderId);
 		
 		foreach($result as $items){		
