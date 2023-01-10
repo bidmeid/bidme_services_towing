@@ -70,17 +70,17 @@ class AuthMitraController extends Controller
         $user = User::where('email', $request->email)->first();
         $token = sha1(rand());
 
-        $data = [
-            'email' => $user->email,
-            'token' => $token,
-			'to_url' => 'http://mitra.bidme.id/password-reset',
-        ];
-		if($user->banned == 0 ){
-			return response()->json(['message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.'], 203);
-		}
+        
 
         if (!empty($user)) {
-            
+            $data = [
+				'email' => $user->email,
+				'token' => $token,
+				'to_url' => 'http://mitra.bidme.id/password-reset',
+			];
+			if($user->banned == 0 ){
+				return response()->json(['message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.'], 203);
+			}
 			if(Mail::to($user->email)->send(new ResetPasswordMail($data))){
 			$user->update([
                 'token_reset'    => $token

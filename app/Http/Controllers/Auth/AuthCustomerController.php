@@ -56,14 +56,15 @@ class AuthCustomerController extends Controller
         $user = User::where('email', $request->email)->first();
         $token = sha1(rand());
 
-        $data = [
-            'email' => $user->email,
-            'token' => $token,
-            'to_url' => 'http://bidme.id/password-reset',
-        ];
+        
 
         if (!empty($user)) {
-			
+			$data = [
+				'email' => $user->email,
+				'token' => $token,
+				'to_url' => 'http://bidme.id/password-reset',
+			];
+		
             if(Mail::to($user->email)->send(new ResetPasswordMail($data))){
 			$user->update([
                 'token_reset'    => $token
