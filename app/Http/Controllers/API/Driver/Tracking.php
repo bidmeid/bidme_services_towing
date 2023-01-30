@@ -16,7 +16,7 @@ class Tracking extends Controller
 
 	public function index(){
 		
-		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('status', 0)->first();
+		$result = Tbl_tracking::where('driverId', Auth::user()->id)->where('status', 0)->where('finishDriver', 0)->where('status', 0)->first();
 		
 		if(empty($result)){
 			$message 	= 'Your request couldn`t be found';

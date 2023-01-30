@@ -41,10 +41,27 @@ class AuthDriverController extends Controller
 
     public function sigin(Request $request)
     {
-        $credentials = $request->validate([
-            'email'     => 'required',
-            'password'  => 'required'
+        $validator = Validator::make($request->all(), [
+            'email'     => 'required|string|max:255',
+            'password'  => 'required|min:6'
         ]);
+		
+		if ($validator->fails()) {
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
+        }
+		
+		if(is_numeric($request->email)){
+			$credentials = [
+            'noTlpDriver'     => $request->email,
+            'password'  => $request->password
+			];
+		}else{
+			$credentials = [
+            'email'     => $request->email,
+            'password'  => $request->password
+			];
+		}
+		
         if (!Auth::guard('driver')->attempt($credentials)) {
             return response()->json(['message' => 'Login Faileds!'], 401);
         }
