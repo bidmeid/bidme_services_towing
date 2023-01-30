@@ -55,17 +55,23 @@ class AuthDriverController extends Controller
             'noTlpDriver'     => $request->email,
             'password'  => $request->password
 			];
+			if (!Auth::guard('driver')->attempt($credentials)) {
+            return response()->json(['message' => 'Login Faileds!'], 401);
+			}
+			$user = User::where('noTlpDriver', $request->email)->first();
 		}else{
 			$credentials = [
             'email'     => $request->email,
             'password'  => $request->password
 			];
+			if (!Auth::guard('driver')->attempt($credentials)) {
+            return response()->json(['message' => 'Login Faileds!'], 401);
+			}
+			$user = User::where('email', $request->email)->first();
 		}
 		
-        if (!Auth::guard('driver')->attempt($credentials)) {
-            return response()->json(['message' => 'Login Faileds!'], 401);
-        }
-        $user = User::where('email', $request->email)->first();
+        
+        
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['message' => 'Hi ' . $user->name, 'Wellcome back', 'access_token' => $token, 'token_type' => 'Bearer']);
     }
