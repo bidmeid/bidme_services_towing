@@ -50,17 +50,39 @@ class AuthMitraController extends Controller
 
     public function sigin(Request $request)
     {
-        $credentials = $request->validate([
-            'email'     => 'required',
-            'password'  => 'required'
+        $validator = Validator::make($request->all(), [
+            'email'     => 'required|string|max:255',
+            'password'  => 'required|min:6'
         ]);
-        if (!Auth::guard('mitra')->attempt($credentials)) {
-            return response()->json(['message' => 'Login Faileds!'], 401);
+		
+		if ($validator->fails()) {
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());
         }
-        $user = User::where('email', $request->email)->first();
+		
+		if(is_numeric($request->email)){
+			$credentials = [
+            'no_telp'     => $request->email,
+            'password'  => $request->password
+			];
+			if (!Auth::guard('mitra')->attempt($credentials)) {
+            return response()->json(['message' => 'Login Faileds!'], 401);
+			}
+			$user = User::where('no_telp', $request->email)->first();
+		}else{
+			$credentials = [
+            'email'     => $request->email,
+            'password'  => $request->password
+			];
+			if (!Auth::guard('mitra')->attempt($credentials)) {
+            return response()->json(['message' => 'Login Faileds!'], 401);
+			}
+			$user = User::where('email', $request->email)->first();
+		}
+         
 		if($user->banned == 0 ){
 			return response()->json(['message' => 'Akun anda belum diaktifkan, hubungi kami di support@bidme.id terkait masalah ini.'], 203);
 		}
+		
         $token = $user->createToken('auth_token', ['mitra'])->plainTextToken;
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }
