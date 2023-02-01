@@ -31,9 +31,9 @@ class PostOrder extends Controller
 		
 		$validator = Validator::make($request->all(), [
 			'ruteId'  => 'nullable',
-			'orderType'  => 'required',
-			'asalPostcode'  => 'required',
-			'tujuanPostcode'  => 'required',
+			'orderType'  => 'nullable',
+			'asalPostcode'  => 'nullable',
+			'tujuanPostcode'  => 'nullable',
 			'kondisiKendaraanId'  => 'required',
 			'jenisKendaraanId'  => 'required',
 			'typeKendaraanId'  => 'required',
