@@ -333,7 +333,7 @@ class PostOrder extends Controller
 			'body' => 'Pemberitahuan Order Towing Tersedia Untuk Anda Bidding',
 			'url' => 'http://mitra.bidme.id',
 			"icon" => 'https://mitra.bidme.id/backend/lc_icon.png',
-			'name' => $items->name,
+			//'name' => $items->name,
 			'alamatAsal' => $order->alamatAsal,
 			'alamatTujuan' => $order->alamatTujuan,
 			 
