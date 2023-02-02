@@ -182,7 +182,7 @@ class PostOrder extends Controller
 			
 			}
 			$return = $this->CheckPaymentStatus($invoice->noInvoice);
-			dd($return)
+			dd($return);
 			$result->invoice = $invoice;
 			$result->paymentStatus = $invoice->paymentStatus;
 			$result->mitra = Tbl_user_mitra::find($invoice->mitraId);
