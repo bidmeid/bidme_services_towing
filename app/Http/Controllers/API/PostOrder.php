@@ -181,8 +181,8 @@ class PostOrder extends Controller
 			
 			
 			}
-			$return = $this->CheckPaymentStatus($invoice->noInvoice);
-			dd($return);
+			$result->returns = $this->CheckPaymentStatus($invoice->noInvoice);
+			 
 			$result->invoice = $invoice;
 			$result->paymentStatus = $invoice->paymentStatus;
 			$result->mitra = Tbl_user_mitra::find($invoice->mitraId);
@@ -359,8 +359,7 @@ class PostOrder extends Controller
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
-		
-        \Midtrans\Config::$appendNotifUrl = url('api/payment-handler');
+		 
 		$status = \Midtrans\Transaction::status($noInvoice);
 		//$statuss = '';
 		$bank_acc = '';
@@ -381,11 +380,12 @@ class PostOrder extends Controller
 				$bank_acc = $status->va_numbers[0]->bank;
 				$va_number = $status->va_numbers[0]->va_number;
 				$expiry_time = $status->expiry_time;
+				$payment_type = $status->payment_type;
 				
 				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
 				
 				$order->update(['paymentStatus' => $status->transaction_status, 
-								//'paymentDate' => $statuss,
+								'payment_type' => $payment_type,
 								'bank_acc' => $bank_acc,
 								'va_number' => $va_number,
 								'expiry_time' => $expiry_time

@@ -271,6 +271,7 @@ class Invoice extends Controller
 				$bank_acc = $status->va_numbers[0]->bank;
 				$va_number = $status->va_numbers[0]->va_number;
 				$expiry_time = $status->expiry_time;
+				$payment_type = $status->payment_type;
 				
 				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
 				
@@ -279,6 +280,7 @@ class Invoice extends Controller
 								'bank_acc' => $bank_acc,
 								'va_number' => $va_number,
 								'expiry_time' => $expiry_time
+								'payment_type' => $payment_type
 								]);
 								
 				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
