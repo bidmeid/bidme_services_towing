@@ -252,6 +252,10 @@ class Invoice extends Controller
 	public function CheckPaymentStatus($noInvoice) {
 		
 		$status = \Midtrans\Transaction::status($noInvoice);
+		//$statuss = '';
+		$bank_acc = '';
+		$va_number = '';
+		$expiry_time = '';
 		if($status != false){
 			$invoice = Tbl_invoice::where('noInvoice', $noInvoice)->first();
 			$return['check'] = true;
@@ -261,12 +265,24 @@ class Invoice extends Controller
 			}else{
 				
 				$return['msg']  = 'status pembayaran berhasil diperbaharui';
-				 
+				
 			}
+				//$statuss = $status->settlement_time;
+				$bank_acc = $status->va_numbers[0]->bank;
+				$va_number = $status->va_numbers[0]->va_number;
+				$expiry_time = $status->expiry_time;
+				
 				$order = Tbl_invoice::where('noInvoice', $status->order_id)->first();
 				
-				$order->update(['paymentStatus' => $status->transaction_status, 'paymentDate' => $status->settlement_time]);
+				$order->update(['paymentStatus' => $status->transaction_status, 
+								//'paymentDate' => $statuss,
+								'bank_acc' => $bank_acc,
+								'va_number' => $va_number,
+								'expiry_time' => $expiry_time
+								]);
+								
 				Tbl_order::where('id', $order->orderId)->update(['orderStatus'  => $status->transaction_status]);
+				
 			
 			$return['data']  = $status;
 			$return['order']  = $order;

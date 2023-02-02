@@ -152,7 +152,7 @@ class PostOrder extends Controller
 		$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
 		
 		
-		
+		$result->invoice = '';
 		if(empty($result)){
 			$message 	= 'Your request couldn`t be found';
 			return $this->sendResponseError($message, '',202);
@@ -178,6 +178,8 @@ class PostOrder extends Controller
 		if((!empty($invoice)) OR ($invoice != null)){
 			if($invoice->paymentStatus == 'settlement'){
 			$result->status = 'paid';
+			$result->invoice = $invoice;
+			
 			}
 			$result->paymentStatus = $invoice->paymentStatus;
 			$result->mitra = Tbl_user_mitra::find($invoice->mitraId);
