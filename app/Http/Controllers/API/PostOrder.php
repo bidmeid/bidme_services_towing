@@ -178,9 +178,10 @@ class PostOrder extends Controller
 		if((!empty($invoice)) OR ($invoice != null)){
 			if($invoice->paymentStatus == 'settlement'){
 			$result->status = 'paid';
-			$result->invoice = $invoice;
+			
 			
 			}
+			$result->invoice = $invoice;
 			$result->paymentStatus = $invoice->paymentStatus;
 			$result->mitra = Tbl_user_mitra::find($invoice->mitraId);
 		}
