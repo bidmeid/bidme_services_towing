@@ -300,7 +300,7 @@ class PostOrder extends Controller
 	public function reviewOrder(Request $request){
 		
 		$validator = Validator::make($request->all(), [
-			'orderId'  => 'required'
+			'orderId'  => 'required',
 			'rating'  => 'required'
         ]);
 		
