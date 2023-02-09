@@ -58,7 +58,7 @@ class Tracking extends Controller
 			
 			$result->driver = Tbl_user_driver::find($result->driverId);
 			$result->mitra = Tbl_user_mitra::select('id', 'namaUsaha')->find($invoice->mitraId);
-			$result->unitTowing = Tbl_unit_towing::select('id', 'mitraId', 'jenisTowing', 'noTnkbTowing')->find($result->unitTowingId);
+			$result->unitTowing = Tbl_unit_towing::select('id', 'mitra_id', 'jenisTowing', 'noTnkbTowing')->find($result->unitTowingId);
 			
 		
 		return $this->sendResponseOk($result);
