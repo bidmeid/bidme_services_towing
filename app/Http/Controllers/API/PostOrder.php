@@ -319,6 +319,7 @@ class PostOrder extends Controller
 				$input = Tbl_feedback::create([
 					'orderId' => $request->orderId,
 					'userId' => Auth::user()->id,
+					'userName' => Auth::user()->name,
 					'rating' => $request->rating,
 					'review' => $request->review,
 				 
