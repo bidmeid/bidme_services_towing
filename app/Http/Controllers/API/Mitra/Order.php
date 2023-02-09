@@ -301,6 +301,7 @@ class Order extends Controller
 		$input = Tbl_tracking::create([
 			'orderId' => $request->orderId,
 			'driverId' => $request->driverId,
+			'unitTowingId' => $request->noTnkbTowing,
 			'note' => $request->note,
 			'trackPoint' => 0,
 			'status'  => 0,
