@@ -286,7 +286,7 @@ class PostOrder extends Controller
 			//$orders = Tbl_order::where('id', $request->orderId)->update([
 			//'orderStatus'  => 'complete'
 			//]);
-			$tracking = Tbl_tracking::where('orderId', $request->orderId)->first()
+			$tracking = Tbl_tracking::where('orderId', $request->orderId)->first();
 			$tracking->update([
 			'finishCust'  => '1'
 			]);
