@@ -61,5 +61,9 @@ class Bidding extends Controller
 		return $this->sendResponseOk($result);
 	}
 	
+	public function UserRating($mitraId){
+		
+	}
+	
 	
 }

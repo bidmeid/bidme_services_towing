@@ -322,9 +322,12 @@ class PostOrder extends Controller
 				$message 	= 'Your request couldn`t be done';
 				return $this->sendResponseError($message, null, 202);
 			}else{
+				$mitraId = Tbl_invoice::select('mitraId')->where('orderId', $request->orderId)->first()->mitraId;
+				
 				$input = Tbl_feedback::create([
 					'orderId' => $request->orderId,
 					'userId' => Auth::user()->id,
+					'mitraId' => $mitraId,
 					'userName' => Auth::user()->name,
 					'rating' => $request->rating,
 					'review' => $request->review,
