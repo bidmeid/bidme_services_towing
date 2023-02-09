@@ -292,7 +292,7 @@ class PostOrder extends Controller
 			]);
 			
 			if($tracking->finishDriver == 1){
-				$tracking->update([
+				$result->update([
 				'orderStatus'  => 'complete'
 				]);
 			}
