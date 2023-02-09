@@ -13,6 +13,7 @@ use App\Models\Tbl_jenis_kendaraan;
 use App\Models\Tbl_type_kendaraan;
 use App\Models\Tbl_invoice;
 use App\Models\Tbl_tracking;
+use App\Models\Tbl_feedback;
 use App\Jobs\BroadcastOrder;
 
 use Validator;
@@ -282,15 +283,48 @@ class PostOrder extends Controller
 			$message 	= 'Your request couldn`t be done';
 			return $this->sendResponseError($message, null, 202);
 		}else{
-			$orders = Tbl_order::where('id', $request->orderId)->update([
-			'orderStatus'  => 'complete'
-			]);
+			//$orders = Tbl_order::where('id', $request->orderId)->update([
+			//'orderStatus'  => 'complete'
+			//]);
 			
 			Tbl_tracking::where('orderId', $request->orderId)->update([
-			'status'  => 'close'
+			'finishDriver'  => '1'
 			]);
 		}
 	   
+		
+		return $this->sendResponseCreate(null);
+
+	}
+	
+	public function reviewOrder(Request $request){
+		
+		$validator = Validator::make($request->all(), [
+			'orderId'  => 'required'
+			'rating'  => 'required'
+        ]);
+		
+		if($validator->fails()){
+            return $this->sendResponseError(json_encode($validator->errors()), $validator->errors());       
+        }
+		
+		if($request->rating !=0){
+			
+			$result = Tbl_order::where('customerId', Auth::user()->id)->find($request->orderId);
+			
+			if((is_null($result)) OR ($result->count() == 0)){
+				$message 	= 'Your request couldn`t be done';
+				return $this->sendResponseError($message, null, 202);
+			}else{
+				$input = Tbl_feedback::create([
+					'orderId' => $request->orderId,
+					'userId' => Auth::user()->id,
+					'rating' => $request->rating,
+					'review' => $request->review,
+				 
+				]);
+			}
+	    }
 		
 		return $this->sendResponseCreate(null);
 
