@@ -409,6 +409,7 @@ class PostOrder extends Controller
 		$bank_acc = '';
 		$va_number = '';
 		$expiry_time = '';
+		$payment_type = '';
 		if($status != false){
 			$invoice = Tbl_invoice::where('noInvoice', $noInvoice)->first();
 			$return['check'] = true;
