@@ -281,7 +281,7 @@ class Invoice extends Controller
 								//'paymentDate' => $statuss,
 								'bank_acc' => $bank_acc,
 								'va_number' => $va_number,
-								'expiry_time' => $expiry_time
+								'expiry_time' => $expiry_time,
 								'payment_type' => $payment_type
 								]);
 								

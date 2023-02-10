@@ -13,6 +13,6 @@ class SosialAccountMitra extends Model
 
     public function user()
     {
-        return $this->belongsTo(Tbl_user_mitra::class, 'id');
+        return $this->belongsTo(Tbl_user_mitra::class, 'tbl_user_mitra_id');
     }
 }
