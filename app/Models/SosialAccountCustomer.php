@@ -13,6 +13,6 @@ class SosialAccountCustomer extends Model
 
     public function user()
     {
-        return $this->belongsTo(Tbl_customer::class, 'tbl_customer_id');
+        return $this->belongsTo(Tbl_customer::class, 'tbl_user_customer_id');
     }
 }
