@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['verify' => true]);
 Route::get('/', function () {
-    return view('welcome');
+    return abort(404);
 });
 Route::get('/email', function () {
     return view('email-template');
